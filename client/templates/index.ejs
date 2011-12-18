@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <script type="text/javascript" src="/lib/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/ejs.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="/scripts/index.js"></script>
+  <link href="css/style.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+  <h1>Run a Test</h1>
+
+  <form>
+    <label for="url">Test URL</label>
+    <input type="text" id="url" name="url" placeholder="Test URL" />
+    <button>Start Test</button>
+  </form>
+
+
+  <h2>Results</h2>
+
+  <ol id="results">
+  </ol>
+
+</body>
+</html>
