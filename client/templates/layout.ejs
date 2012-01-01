@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TestMob <% if(typeof title !== "undefined") { %> - <%= title %><% } %></title>
+  <script type="text/javascript" src="/lib/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/ejs.js"></script>
+  <script type="text/javascript" src="/lib/winchan.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script src="https://browserid.org/include.js"></script>
+  <script type="text/javascript" src="/scripts/authentication.js"></script>
+  <link href="css/style.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+  <div id="wrapper">
+    <header>
+      <% if (typeof email !== "undefined") { %>
+        <span class="right">
+          Hi <%= email %>,
+          <a href="#" id="signout">Sign Out</a>
+        </span>
+      <% } else { %>
+        <a href="#" id="signin" class="right">Sign In</a>
+      <% } %>
+      <hgroup>
+        <h1><a href="/">TestMob</a></h1>
+        <h2> - Javascript Unit Testing, Mob Style</h2>
+      </hgroup>
+    </header>
+
+    <% if(typeof title !== "undefined") { %>
+      <h3><% title %></h3>
+    <% } %>
+
+
+    <%- body %>
+
+    <footer>
+      <a href="http://www.shanetomlinson.com">Shane Tomlinson</a> &copy; 2012
+    </footer>
+  </div>
+</body>
+</html>
+

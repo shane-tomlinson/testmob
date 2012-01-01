@@ -1,16 +1,18 @@
 {
-    "name": "testswarm"
+    "name": "testmob"
   , "version": "0.0.1"
   , "private": true
   , "dependencies": {
       "ejs": "0.4.3"
+    , "connect": "1.8.5"
     , "express": "2.5.0"
     , "socket.io": "0.8.7"
+    , "urlparse": "0.0.1"
    }
   , "scripts": {
     "start": "./server/start.js"
   },
   "engines": {
-    "node": ">= 0.6.2"
+    "node": ">= 0.4.7"
   }
 }

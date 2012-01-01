@@ -1,27 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= title %></title>
-  <script type="text/javascript" src="/lib/jquery.min.js"></script>
-  <script type="text/javascript" src="/lib/ejs.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="/scripts/index.js"></script>
-  <link href="css/style.css" type="text/css" rel="stylesheet">
-</head>
-<body>
-  <h1>Run a Test</h1>
 
-  <form>
-    <label for="url">Test URL</label>
-    <input type="text" id="url" name="url" placeholder="Test URL" />
-    <button>Start Test</button>
-  </form>
+TestMob is a distributed unit test system loosely based on <a href="http://ejohn.org">John Resig&apos;s</a> project <a href="http://testswarm.com">TestSwarm</a>.  Manual unit testing Javascript across a variety of OS&apos;s, browsers and devices is a very time consuming process.  TestMob allows many clients to join the mob. As soon as a request to kick off a test comes in, all available clients begin to run the tests.  When a client completes the suite the results are sent back to the initiator.
 
+<ul id="client_type_menu">
+  <li><a href="/initiator" class="button">Be a boss</a></li>
+  <li><a href="/test_runner" class="button">Part of the crew</a></li>
+</ul>
 
-  <h2>Results</h2>
-
-  <ol id="results">
-  </ol>
-
-</body>
-</html>

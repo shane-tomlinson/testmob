@@ -80,7 +80,7 @@
       open: function(url, relay_url, winopts, arg, cb) {
         if (!cb) throw "missing required callback argument";
 
-        // sanity check, are url and relay_url the same origin? 
+        // sanity check, are url and relay_url the same origin?
         var origin = extractOrigin(url);
         if (origin !== extractOrigin(relay_url)) {
           setTimeout(function() {
@@ -99,7 +99,7 @@
         iframe.setAttribute('name', IFRAME_NAME);
         document.body.appendChild(iframe);
 
-        var w = window.open(url, null, winopts); 
+        var w = window.open(url, null, winopts);
         var req = JSON.stringify({a: 'request', d: arg});
 
         // cleanup on unload
@@ -181,7 +181,7 @@
       open: function(url, relay_url, winopts, arg, cb) {
         if (!cb) throw "missing required callback argument";
 
-        // sanity check, are url and relay_url the same origin? 
+        // sanity check, are url and relay_url the same origin?
         var origin = extractOrigin(url);
         if (origin !== extractOrigin(relay_url)) {
           setTimeout(function() {
