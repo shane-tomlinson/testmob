@@ -72,6 +72,11 @@ var runner_id = 0,
     initiators = {};
 
 io.configure(function() {
+  // required for Heroku.
+  // http://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+
   io.set("authorization", function(data, accept) {
     if(data.headers.cookie) {
       data.cookie = parseCookie(data.headers.cookie);
