@@ -234,12 +234,15 @@
   })();
 
   QUnit.done = function(info) {
+    /*
     if(callback)
       callback(info);
-
     results = info;
+*/
+    window.parent.postMessage(JSON.stringify(info), "*");
   };
 
+  /*
   var channel = WinChan.onOpen(function(origin, args, cb) {
     if(results) {
       console.log(results);
@@ -249,5 +252,6 @@
       callback = cb;
     }
   });
+  */
 }());
 
