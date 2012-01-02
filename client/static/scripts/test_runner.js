@@ -5,7 +5,7 @@ $(function() {
       email,
       url,
       resultTemplate = new EJS({ url: "/templates/testrunner_results.ejs" }),
-      socket = io.connect('http://192.168.1.88:3000'),
+      socket = io.connect('http://testmob.org'),
       currTestID = 0;
 
   socket.on('start_test', function (data, fn) {

@@ -2,7 +2,7 @@ $(function() {
   "use strict";
 
   var socket;
-  socket = io.connect('http://192.168.1.88:3000');
+  socket = io.connect('testmob.org');
 
   document.location.hash="";
 
