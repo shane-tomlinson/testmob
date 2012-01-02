@@ -143,7 +143,7 @@ io.sockets.on('connection', function (socket) {
 function doVerify(data, fn) {
   verify({
     assertion: data.assertion,
-    audience: "http://localhost"  + ":" + PORT
+    audience: "http://testmob.org"
   }, function(err, email) {
     console.log(err);
     if(err) {
