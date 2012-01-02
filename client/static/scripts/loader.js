@@ -10,7 +10,7 @@ TestSwarm.Loader = (function() {
 
   function load(data, callback) {
     var relay = extractOrigin(data.url) + "/relay";
-    var testWindow = WinChan.open(data.url, relay, "", {}, function(err, data) {
+    var testWindow = WinChan.open(data.url, relay, "width=800,height=500", {}, function(err, data) {
       testWindow.close();
       callback(err, data);
     });
