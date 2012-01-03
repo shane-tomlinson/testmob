@@ -239,7 +239,10 @@
       callback(info);
     results = info;
 */
-    window.parent.postMessage(JSON.stringify(info), "*");
+    try {
+      //window.parent.postMessage(JSON.stringify(info), "*");
+      window.top.postMessage(JSON.stringify(info), "*");
+    } catch(e) {}
   };
 
   /*
