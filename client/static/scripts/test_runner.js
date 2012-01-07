@@ -2,54 +2,86 @@ $(function() {
   "use strict";
 
   var testWindow,
-      email,
-      url,
       resultTemplate = new EJS({ url: "/templates/testrunner_results.ejs" }),
       socket = io.connect('http://testmob.org'),
-      currTestID = 0;
+      currTestID = 0,
+      last_send;
 
-  socket.on('start_test', function (data, fn) {
-    var initiator_id = data.initiator_id,
-        email = data.email,
-        url = data.url,
-        testID = currTestID;
+  function printResults(data) {
+    try {
+      var html = resultTemplate.render(data);
 
-        currTestID++;
-
-    data.complete = false;
-    data.test_id = testID;
-    data.email = data.email || "";
-
-    var html = resultTemplate.render(data);
-    $(html).appendTo("#results");
-
-    socket.emit("test_start", {
-      initiator_id: initiator_id,
-      userAgent: navigator.userAgent
-    });
-
-    TestSwarm.Loader.load(data, function(err, data) {
-      $.extend(data, {
-        email: email || "",
-        complete: true,
-        initiator_id: initiator_id,
-        url: url,
-        test_id: testID
-      });
-
-      try {
-        var html = resultTemplate.render(data);
-      } catch(e) {
-        console.log(e);
+      if($("#results").find("#" + data.test_id).length) {
+        $("#" + data.test_id).replaceWith(html);
       }
-      $("#" + testID).replaceWith(html);
+      else {
+        $(html).appendTo("#results");
+      }
+    } catch(e) {
+      console.log("template error(" + data.msg + "): " + e);
+    }
+  }
 
-      data.userAgent = navigator.userAgent;
-      data.initiator_id = initiator_id;
-      socket.emit("test_complete", data);
-    });
-  });
 
+  function start_suite(data, fn) {
+    data = $.extend({
+      msg: "start_suite",
+      test_id: currTestID,
+      email: data.email || "",
+      passed: 0,
+      failed: 0,
+      total: 0,
+      runtime: 0,
+      start_time: (new Date()).getTime(),
+      userAgent: navigator.userAgent
+    }, data);
+    currTestID++;
 
+    printResults(data);
+
+    last_send = null;
+    socket.emit("suite_start", data);
+
+    TestSwarm.Loader.load(data, loader_result.bind(null, data));
+  }
+
+  function loader_result(start_data, err, info) {
+    if(err) {
+      console.log(err);
+      return;
+    }
+
+    var data = info.data,
+        msg = info.msg,
+        now = (new Date()).getTime();
+
+    if(msg === "test_done") {
+      start_data = $.extend(start_data, {
+        total: start_data.total + data.total,
+        passed: start_data.passed + data.passed,
+        failed: start_data.failed + data.failed,
+        runtime: now - start_data.start_time,
+        msg: msg
+      });
+    }
+    else {
+      start_data = $.extend(start_data, data, {
+        msg: msg
+      });
+    }
+
+    printResults(start_data);
+
+    if(shouldSendMessage(msg, now)) {
+      socket.emit(msg, start_data);
+      last_send = now;
+    }
+  }
+
+  function shouldSendMessage(msg, now) {
+    return (msg === "suite_complete" || !last_send || ((now - last_send) > 5000));
+  }
+
+  socket.on('start_suite', start_suite);
 });
 

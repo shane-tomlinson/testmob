@@ -1,6 +1,7 @@
 
-<li id="<%= id %>" class="<%= complete ? (failed ? 'failed' : 'passed') : 'incomplete' %>">
-  <a href="#<%= id %>">(<%= email || "anonymous"%>) - <%= userAgent %></a> <% if(complete) { %> (<%= passed %>/<%= failed %>/<%= total %>/<%= runtime %>ms) <% } %>
+<li id="<%= id %>" class="<%= failed ? 'failed' : complete ? 'passed' : 'incomplete' %>">
+  <a href="#<%= id %>">(<%= email || "anonymous"%>) - <%= userAgent %></a> <%
+  if(total) { %> (<%= passed %>/<%= failed %>/<%= total %>/<%= runtime %>ms) <% } %>
   <% if (complete) { %>
   <ul>
     <li>Passed: <%= passed %></li>

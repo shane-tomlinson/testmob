@@ -1,13 +1,14 @@
-
-<li id="<%= test_id %>" class="<%= complete ? (failed ? 'failed' : 'passed') : 'incomplete' %>">
-  <a href="#<%= test_id %>">(<%= email || "anonymous" %>) - <%= url %></a> <% if(complete) { %> (<%= passed %>/<%= failed %>/<%= total %>/<%= runtime %>ms) <% } %>
-  <% if (complete) { %>
-  <ul>
-    <li>Passed: <%= passed %></li>
-    <li>Failed: <%= failed %></li>
-    <li>Total: <%= total %></li>
-    <li>Runtime: <%= runtime %></li>
-  </ul>
-  <% } %>
-</li>
-
+  <li id="<%= test_id %>" class="<%= msg === 'suite_complete' ? (failed ? 'failed' : 'passed') : 'incomplete' %>">
+    <a href="#<%= test_id %>">(<%= email || "anonymous" %>) - <%= url %></a> <%
+    if(typeof passed !== "undefined") { %> (<%= passed %>/<%= failed %>/<%=
+      total %><% if(typeof runtime !== "undefined") { %>/<%= runtime %>ms<% }
+      %>) <% } %>
+    <% if (msg === "suite_complete") { %>
+    <ul>
+      <li>Passed: <%= passed %></li>
+      <li>Failed: <%= failed %></li>
+      <li>Total: <%= total %></li>
+      <li>Runtime: <%= runtime %></li>
+    </ul>
+    <% } %>
+  </li>

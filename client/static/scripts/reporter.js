@@ -3,16 +3,28 @@
   var results,
       callback;
 
-  QUnit.done = function(info) {
-    /*
-    if(callback)
-      callback(info);
-    results = info;
-*/
+  function sendMessage(msg, data) {
+    var packet = {
+      msg: msg,
+      data: data
+    };
+
     try {
-      window.parent.postMessage(JSON.stringify(info), "*");
-      //window.top.postMessage(JSON.stringify(info), "*");
+      window.parent.postMessage(JSON.stringify(packet), "http://testmob.org");
     } catch(e) {}
+  }
+
+  /*
+  QUnit.testStart = function(info) {
+    sendMessage("test_start", info);
+  };
+*/
+  QUnit.testDone = function(info) {
+    sendMessage("test_done", info);
+  };
+
+  QUnit.done = function(info) {
+    sendMessage("suite_complete", info);
   };
 
 }());

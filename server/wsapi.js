@@ -41,7 +41,7 @@ function init(config) {
     var type = parts[0].toLowerCase();
     var url = "/wsapi/" + parts[1];
 
-    app[type](key, ROUTES[key]);
+    app[type](url, ROUTES[key]);
   }
 }
 

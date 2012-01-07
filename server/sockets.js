@@ -59,7 +59,7 @@ function socket_connection(socket) {
     });
   });
 
-  socket.on('request_start_test', function (data) {
+  socket.on('request_start_suite', function (data) {
     socket.get("id", function(err, id) {
       // XXX this will have to be torn down.
       initiators[id] = socket;
@@ -67,28 +67,38 @@ function socket_connection(socket) {
       socket.get("email", function(err, email) {
         data.initiator_id = id;
         data.email = hs.email;
-        socket.broadcast.emit("start_test", data);
+        socket.broadcast.emit("start_suite", data);
       });
     });
   });
 
-  socket.on("test_start", function(data) {
+  socket.on("suite_start", function(data) {
     socket.set("runner_id", runner_id);
     data.email = hs.email || "";
     data.runner_id = runner_id;
     runner_id++;
 
     var initiator = initiators[data.initiator_id];
-    initiator.emit("test_start", data);
+    initiator.emit("suite_start", data);
   });
 
-  socket.on("test_complete", function(data) {
+  socket.on("test_done", function(data) {
     socket.get("runner_id", function(err, runner_id) {
       data.email = hs.email || "";
       data.runner_id = runner_id;
 
       var initiator = initiators[data.initiator_id];
-      initiator.emit("test_complete", data);
+      initiator.emit("test_done", data);
+    });
+  });
+
+  socket.on("suite_complete", function(data) {
+    socket.get("runner_id", function(err, runner_id) {
+      data.email = hs.email || "";
+      data.runner_id = runner_id;
+
+      var initiator = initiators[data.initiator_id];
+      initiator.emit("suite_complete", data);
     });
   });
 }

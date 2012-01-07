@@ -14,14 +14,14 @@ $(function() {
     var url = $("#url").val().trim();
     if(url) {
       localStorage.url = url;
-      socket.emit('request_start_test', { url: url });
+      socket.emit('request_start_suite', { url: url });
     }
   });
 
   var resultTemplate = new EJS({ url: "/templates/results.ejs" });
   var result = 1;
 
-  socket.on("test_start", function(data) {
+  socket.on("suite_start", function(data) {
     data.id = "runner" + data.runner_id;
     data.complete = false;
     data.email = data.email || "";
@@ -29,7 +29,15 @@ $(function() {
     $(html).appendTo("#results");
   });
 
-  socket.on("test_complete", function(data) {
+  socket.on("test_done", function(data) {
+    data.id = "runner" + data.runner_id;
+    data.complete = false;
+    data.email = data.email || "";
+    var html = resultTemplate.render(data);
+    $("#" + data.id).replaceWith(html);
+  });
+
+  socket.on("suite_complete", function(data) {
     data.id = "runner" + data.runner_id;
     data.complete = true;
     data.email = data.email || "";

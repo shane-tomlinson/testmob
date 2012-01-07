@@ -13,14 +13,6 @@ TestSwarm.Loader = (function() {
   }
 
   function load(data, callback) {
-    /*
-    var relay = extractOrigin(data.url) + "/relay";
-    var testWindow = WinChan.open(data.url, relay, "width=800,height=500", {}, function(err, data) {
-      testWindow.close();
-      callback(err, data);
-    });
-    */
-
     loadData = data;
     cb = callback;
 
@@ -36,9 +28,15 @@ TestSwarm.Loader = (function() {
       return;
     }
 
-    iframe.parentNode.removeChild(iframe);
-    var data = JSON.parse(event.originalEvent.data);
-    cb(null, data);
+    try {
+      var data = JSON.parse(event.originalEvent.data);
+      if(data.msg === "suite_complete") {
+        iframe.parentNode.removeChild(iframe);
+      }
+      cb(null, data);
+    } catch(e) {
+      cb(e, null);
+    }
   });
 
   return {

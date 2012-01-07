@@ -15,7 +15,7 @@ const PORT=process.env['PORT'] || 5000;
 var URL = "testmob.org";
 
 if(IP_ADDRESS) {
-  URL = IP_ADDRESS;
+  URL = IP_ADDRESS + ":" + PORT;
 }
 
 app.configure(function(){
