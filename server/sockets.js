@@ -1,0 +1,95 @@
+const socket = require("socket.io"),
+      Session = require("connect").middleware.session.Session,
+      parseCookie = require("connect").utils.parseCookie;
+
+exports.init = function(config) {
+  var app = config.app;
+  if(!app) {
+    throw "missing config option: app";
+  }
+
+  var io = socket.listen(app);
+  io.configure(function() {
+    // required for Heroku.
+    // http://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
+    io.set("transports", ["xhr-polling"]);
+    io.set("polling duration", 10);
+
+    io.set("authorization", socket_authorization);
+  });
+
+  io.sockets.on('connection', socket_connection);
+};
+
+
+var runner_id = 0,
+    socket_id = 0,
+    initiators = {};
+
+function socket_authorization(data, accept) {
+  if(data.headers.cookie) {
+    data.cookie = parseCookie(data.headers.cookie);
+    data.sessionID = data.cookie["express.sid"];
+    sessionStore.get(data.sessionID, function(err, session) {
+      if(err || !session) {
+        accept("Error", false);
+      }
+      else {
+        data.email = session.email;
+        data.session = new Session(data, session);
+        accept(null, true);
+      }
+    });
+  }
+  else {
+    return accept("no cookie transmitted.", false);
+  }
+}
+
+function socket_connection(socket) {
+  var hs = socket.handshake;
+
+  socket.set("id", socket_id);
+  socket_id++;
+
+  socket.on('login', function(data, fn) {
+    verifier.verify(data, function(err, resp) {
+      socket.set("email", email);
+      fn(data);
+    });
+  });
+
+  socket.on('request_start_test', function (data) {
+    socket.get("id", function(err, id) {
+      // XXX this will have to be torn down.
+      initiators[id] = socket;
+
+      socket.get("email", function(err, email) {
+        data.initiator_id = id;
+        data.email = hs.email;
+        socket.broadcast.emit("start_test", data);
+      });
+    });
+  });
+
+  socket.on("test_start", function(data) {
+    socket.set("runner_id", runner_id);
+    data.email = hs.email || "";
+    data.runner_id = runner_id;
+    runner_id++;
+
+    var initiator = initiators[data.initiator_id];
+    initiator.emit("test_start", data);
+  });
+
+  socket.on("test_complete", function(data) {
+    socket.get("runner_id", function(err, runner_id) {
+      data.email = hs.email || "";
+      data.runner_id = runner_id;
+
+      var initiator = initiators[data.initiator_id];
+      initiator.emit("test_complete", data);
+    });
+  });
+}
+

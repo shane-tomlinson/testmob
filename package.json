@@ -8,6 +8,7 @@
     , "express": "2.5.0"
     , "socket.io": "0.8.7"
     , "urlparse": "0.0.1"
+    , "postprocess": "0.0.3"
    }
   , "scripts": {
     "start": "./server/start.js"
