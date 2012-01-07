@@ -70,16 +70,15 @@ $(function() {
       });
     }
 
-    printResults(start_data);
-
-    if(shouldSendMessage(msg, now)) {
+    if(shouldUpdate(msg, now)) {
+      printResults(start_data);
       socket.emit(msg, start_data);
       last_send = now;
     }
   }
 
-  function shouldSendMessage(msg, now) {
-    return (msg === "suite_complete" || !last_send || ((now - last_send) > 5000));
+  function shouldUpdate(msg, now) {
+    return (msg === "suite_complete" || !last_send || ((now - last_send) > 2500));
   }
 
   socket.on('start_suite', start_suite);

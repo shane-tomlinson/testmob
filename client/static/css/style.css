@@ -170,6 +170,28 @@ button[disabled] {
   border-radius: 10px;
 }
 
+li.incomplete {
+  background-color: #cee74b;
+}
+
+li.passed {
+  background-color: #D2E0E6;
+  color: #528CE0;
+}
+
+li.failed {
+  background-color: #ee5757;
+  color: #710909;
+}
+
+#legend {
+  margin-bottom: 10px;
+}
+#legend > li {
+  display: inline;
+  padding: 5px;
+}
+
 #results > li {
   border-bottom: 1px solid #FFFFFF;
   padding: 0.4em 1em 0.4em 1.5em;
@@ -186,20 +208,6 @@ button[disabled] {
 
 #results > li > h3 {
   display: inline-block;
-}
-
-#results > li.incomplete {
-  background-color: #cee74b;
-}
-
-#results > li.passed {
-  background-color: #D2E0E6;
-  color: #528CE0;
-}
-
-#results > li.failed {
-  background-color: #ee5757;
-  color: #710909;
 }
 
 #results > li > ul {
