@@ -1,3 +1,5 @@
+const sockets = require("./sockets");
+
 const ROUTES = {
   'GET index.html': redirect_to_index,
   'GET ': index,
@@ -31,6 +33,7 @@ function join_family(req, res) {
 function family(req, res) {
   var family_name = req.params.family_name;
 
+  sockets.start_family(family_name);
   render(req, res, "family.ejs", { title: family_name + " Family" });
 }
 

@@ -2,13 +2,16 @@ const socket = require("socket.io"),
       Session = require("connect").middleware.session.Session,
       parseCookie = require("connect").utils.parseCookie;
 
+var io,
+    families;
+
 exports.init = function(config) {
   var app = config.app;
   if(!app) {
     throw "missing config option: app";
   }
 
-  var io = socket.listen(app);
+  io = socket.listen(app);
   io.configure(function() {
     // required for Heroku.
     // http://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
@@ -18,9 +21,15 @@ exports.init = function(config) {
     io.set("authorization", socket_authorization);
   });
 
-  io.sockets.on('connection', socket_connection);
+  families = {};
 };
 
+exports.start_family = function(family_name) {
+  if(!families[family_name]) {
+    io.of("/" + family_name).on('connection', socket_connection);
+    families[family_name] = true;
+  }
+};
 
 var runner_id = 0,
     socket_id = 0,

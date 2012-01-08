@@ -1,11 +1,16 @@
-$(function() {
+TestMob.JobRunner = (function() {
   "use strict";
 
   var testWindow,
       resultTemplate = new EJS({ url: "/templates/testrunner_results.ejs" }),
-      socket = io.connect('http://testmob.org'),
       currTestID = 0,
-      last_send;
+      last_send,
+      socket;
+
+  function init(config) {
+    socket = config.socket;
+    socket.on('start_suite', start_suite);
+  }
 
   function printResults(data) {
     try {
@@ -42,7 +47,7 @@ $(function() {
     last_send = null;
     socket.emit("suite_start", data);
 
-    TestSwarm.Loader.load(data, loader_result.bind(null, data));
+    TestMob.JobLoader.load(data, loader_result.bind(null, data));
   }
 
   function loader_result(start_data, err, info) {
@@ -81,6 +86,9 @@ $(function() {
     return (msg === "suite_complete" || !last_send || ((now - last_send) > 2500));
   }
 
-  socket.on('start_suite', start_suite);
-});
+
+  return {
+    init: init
+  };
+}());
 

@@ -1,4 +1,4 @@
-TestSwarm.Loader = (function() {
+TestMob.JobLoader = (function() {
   "use strict";
 
   var iframe,
