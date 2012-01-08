@@ -1,13 +1,16 @@
+<p>
+TestMob is a distributed Javascript unit test system. Manual unit testing
+Javascript across a variety of OS&apos;s, browsers and devices is painfully
+difficult and time consuming.  By starting or becoming a member of a family,
+TestMob makes this easy for you - all available members come to your aid.
+Whenever a family member asks for help, available family members do the
+neccessary job and report back. Easy, a distributed test syndicate.
+</p>
 
-TestMob is a distributed unit test system loosely based on <a href="http://ejohn.org">John Resig&apos;s</a> project <a href="http://testswarm.com">TestSwarm</a>.  Manual unit testing Javascript across a variety of OS&apos;s, browsers and devices is a very time consuming process.  TestMob allows many clients to join the mob. As soon as a request to kick off a test comes in, all available clients begin to run the tests.  When a client completes the suite the results are sent back to the initiator.
-
-<form method="post" action="/join_family">
+<form method="post" action="/join_family" id="join_family">
   <label for="family_name">Family Name</label>
   <input type="text" id="family_name" name="family_name" placeholder="Family Name" />
-
-  <ul id="client_type_menu">
-    <li><button class="button">Join the family</button></li>
-  </ul>
+  <button class="button">Join the family</button>
 </form>
 
 

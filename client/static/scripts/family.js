@@ -7,4 +7,14 @@ $(function() {
   TestMob.Boss.init({ socket: socket });
   TestMob.JobRunner.init({ socket: socket });
 
+
+  if(!localStorage.last_visit) {
+    $("#family_warning").slideDown();
+  }
+
+  localStorage.last_visit = new Date().getTime();
+  $("#hide_family_warning").click(function(event) {
+    event.preventDefault();
+    $("#family_warning").slideUp();
+  });
 });

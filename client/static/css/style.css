@@ -67,7 +67,6 @@ button,
     font-size: 14px;
     height: 28px;
     padding: 0 10px;
-    float: right;
     vertical-align: middle;
     border: 1px solid #37A6FF;
     font-family: 'Droid Serif', Georgia, serif;
@@ -153,21 +152,28 @@ button[disabled] {
   background-image: url("/img/sign_in_blue.png");
 }
 
-#client_type_menu {
-  text-align: center;
+form#join_family {
   margin-top: 20px;
 }
 
-#client_type_menu > li {
-  display: inline-block;
+#family_name {
+  width: 50%;
+  margin-right: 10px;
 }
 
-#client_type_menu > li > a {
-  height: auto;
-  padding: 25px;
-  font-size: 2em;
-  text-decoration: none;
+#family_warning {
+  border: 1px solid #777;
   border-radius: 10px;
+  box-shadow: 3px 3px 3px 3px red;
+  padding: 20px 30px;
+  margin-bottom: 25px;
+  display: none;
+}
+
+#hide_family_warning {
+  float: right;
+  margin-top: -15px;
+  margin-right: -20px;
 }
 
 li.incomplete {
