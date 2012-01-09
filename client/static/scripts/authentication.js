@@ -41,7 +41,9 @@ $(function() {
       type: "POST",
       url: "/wsapi/logout",
       success: function(resp) {
-        window.location.reload();
+        navigator.id.logout(function() {
+          window.location.reload();
+        });
       },
       error: function(resp) {
 
