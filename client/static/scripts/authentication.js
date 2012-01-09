@@ -1,10 +1,15 @@
 $(function() {
   "use strict";
 
-  $("#signin").click(function(event) {
-    event.preventDefault();
+  if($("#signout").length === 0) {
+    // try a silent assertion if there is no signout button.
+    navigator.id.get(on_receive_assertion, {
+      silent: true
+    });
+  }
 
-    navigator.id.getVerifiedEmail(function(assertion) {
+  function on_receive_assertion(assertion) {
+    if(assertion !== null) {
       $.ajax({
         type: "POST",
         url: "/wsapi/login",
@@ -18,6 +23,14 @@ $(function() {
           console.log(resp);
         }
       });
+    }
+  }
+
+  $("#signin").click(function(event) {
+    event.preventDefault();
+
+    navigator.id.get(on_receive_assertion, {
+      allowPersistent: true
     });
   });
 
