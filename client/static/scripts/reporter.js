@@ -10,7 +10,9 @@
     };
 
     try {
-      window.parent.postMessage(JSON.stringify(packet), "http://testmob.org");
+      if(window.parent !== window) {
+        window.parent.postMessage(JSON.stringify(packet), "http://testmob.org");
+      }
     } catch(e) {}
   }
 
