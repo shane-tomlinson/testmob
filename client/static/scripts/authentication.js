@@ -6,7 +6,12 @@ $(function() {
     navigator.id.get(on_receive_assertion, {
       silent: true
     });
+    $("#signin").click(signin);
   }
+  else {
+    $("#signout").click(signout);
+  }
+
 
   function on_receive_assertion(assertion) {
     if(assertion !== null) {
@@ -17,7 +22,11 @@ $(function() {
           assertion: assertion
         },
         success: function(resp) {
-          window.location.reload();
+          if(resp.success) {
+            var text = $("<span class='right' id='authentication'>Hi " + resp.email + ", <a href='#' id='signout'>Sign Out</a></span>");
+            $("#authentication").replaceWith(text);
+            $("#signout").click(signout);
+          }
         },
         error: function(resp) {
           console.log(resp);
@@ -26,15 +35,15 @@ $(function() {
     }
   }
 
-  $("#signin").click(function(event) {
+  function signin(event) {
     event.preventDefault();
 
     navigator.id.get(on_receive_assertion, {
       allowPersistent: true
     });
-  });
+  }
 
-  $("#signout").click(function(event) {
+  function signout(event) {
     event.preventDefault();
 
     $.ajax({
@@ -42,14 +51,16 @@ $(function() {
       url: "/wsapi/logout",
       success: function(resp) {
         navigator.id.logout(function() {
-          window.location.reload();
+          var text = $("<a href='#' id='signin'>Sign In</a>");
+          $("#authentication").html(text);
+          $("#signin").click(signin);
         });
       },
       error: function(resp) {
 
       }
     });
-  });
+  }
 
 
 });

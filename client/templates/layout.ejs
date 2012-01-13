@@ -14,14 +14,14 @@
 <body>
   <div id="wrapper">
     <header>
-      <% if (typeof email !== "undefined") { %>
-        <span class="right">
+      <span class="right" id="authentication">
+        <% if (typeof email !== "undefined") { %>
           Hi <%= email %>,
           <a href="#" id="signout">Sign Out</a>
-        </span>
-      <% } else { %>
-        <a href="#" id="signin" class="right">Sign In</a>
-      <% } %>
+        <% } else { %>
+          <a href="#" id="signin">Sign In</a>
+        <% } %>
+      </span>
       <hgroup>
         <h1><a href="/">TestMob</a></h1>
         <h2> - Javascript Unit Testing, Mob Style</h2>

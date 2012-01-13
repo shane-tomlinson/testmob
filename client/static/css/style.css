@@ -148,6 +148,7 @@ button[disabled] {
 #signin {
   width: 79px;
   height: 22px;
+  display: inline-block;
   text-indent: -9999px;
   background-image: url("/img/sign_in_blue.png");
 }
