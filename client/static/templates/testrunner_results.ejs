@@ -1,5 +1,7 @@
   <li id="<%= test_id %>" class="<%= msg === 'suite_complete' ? (failed ? 'failed' : 'passed') : 'incomplete' %>">
-    <a href="#<%= test_id %>">(<%= email || "anonymous" %>) - <%= url %></a> <%
+    <a href="#<%= test_id %>">(<%= email || "anonymous" %>)</a> - <a
+    target="_blank" href="<%= url
+    %>"><%= url %></a> <%
     if(typeof passed !== "undefined") { %> (<%= passed %>/<%= failed %>/<%=
       total %><% if(typeof runtime !== "undefined") { %>/<%= runtime %>ms<% }
       %>) <% } %>
