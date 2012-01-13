@@ -3,10 +3,16 @@ const ROUTES = {
   "POST logout": logout
 };
 
-var verifier;
+var verifier,
+    audience;
 
 function login(req, res) {
-  verifier.verify(req.body, function(err, resp) {
+  var data = {
+    audience: audience,
+    assertion: req.body.assertion
+  };
+
+  verifier.verify(data, function(err, resp) {
     if(err) {
       res.json({
         success: false
@@ -35,6 +41,7 @@ function init(config) {
     throw "missing config option: app";
   }
 
+  audience = config.audience;
 
   for(var key in ROUTES) {
     var parts = key.split(" ");

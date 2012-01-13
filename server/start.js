@@ -39,7 +39,7 @@ app.configure(function(){
 });
 
 views.init({ app: app });
-wsapi.init({ app: app, verifier: verifier });
+wsapi.init({ app: app, verifier: verifier, audience: "http://" + URL });
 sockets.init({ app: app, sessionStore: sessionStore });
 
 app.listen(PORT, IP_ADDRESS);
