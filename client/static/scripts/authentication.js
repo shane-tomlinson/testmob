@@ -6,12 +6,22 @@ $(function() {
     navigator.id.get(on_receive_assertion, {
       silent: true
     });
-    $("#signin").click(signin);
-  }
-  else {
-    $("#signout").click(signout);
   }
 
+  attachEvents();
+
+  var authenticationTemplate = new EJS({ url: "/templates/authentication.ejs" });
+  function updateDisplay(data) {
+    data = data || {};
+    var html = authenticationTemplate.render(data);
+    $("#authentication").html(html);
+    attachEvents();
+  }
+
+  function attachEvents() {
+    $("#signin").click(signin);
+    $("#signout").click(signout);
+  }
 
   function on_receive_assertion(assertion) {
     if(assertion !== null) {
@@ -22,11 +32,7 @@ $(function() {
           assertion: assertion
         },
         success: function(resp) {
-          if(resp.success) {
-            var text = $("<span class='right' id='authentication'>Hi " + resp.email + ", <a href='#' id='signout'>Sign Out</a></span>");
-            $("#authentication").replaceWith(text);
-            $("#signout").click(signout);
-          }
+          updateDisplay(resp);
         },
         error: function(resp) {
           console.log(resp);
@@ -51,9 +57,7 @@ $(function() {
       url: "/wsapi/logout",
       success: function(resp) {
         navigator.id.logout(function() {
-          var text = $("<a href='#' id='signin'>Sign In</a>");
-          $("#authentication").html(text);
-          $("#signin").click(signin);
+          updateDisplay();
         });
       },
       error: function(resp) {
