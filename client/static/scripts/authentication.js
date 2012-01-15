@@ -1,16 +1,18 @@
-$(function() {
+TestMob.Modules.Authentication = (function() {
   "use strict";
 
-  if($("#signout").length === 0) {
-    // try a silent assertion if there is no signout button.
-    navigator.id.get(on_receive_assertion, {
-      silent: true
-    });
-  }
+  var tm = TestMob,
+      dom = tm.dom,
+      helpers = tm.Helpers,
+      ajax = tm.Ajax,
+      cancelEvent = helpers.cancelEvent,
+      complete = helpers.complete,
+      browserid,
+      sc;
 
-  attachEvents();
-
+  /*
   var authenticationTemplate = new EJS({ url: "/templates/authentication.ejs" });
+  */
   function updateDisplay(data) {
     data = data || {};
     var html = authenticationTemplate.render(data);
@@ -19,53 +21,81 @@ $(function() {
   }
 
   function attachEvents() {
-    $("#signin").click(signin);
-    $("#signout").click(signout);
+    var self=this;
+    self.bind("#signin", "click", cancelEvent(signin));
+    self.bind("#signout", "click", cancelEvent(signout));
   }
 
   function on_receive_assertion(assertion) {
     if(assertion !== null) {
-      $.ajax({
-        type: "POST",
-        url: "/wsapi/login",
-        data: {
-          assertion: assertion
-        },
-        success: function(resp) {
+      ajax.post("/wsapi/login", { assertion: assertion }, function(err, resp) {
+        if(err) {
+
+        }
+        else {
           updateDisplay(resp);
-        },
-        error: function(resp) {
-          console.log(resp);
         }
       });
     }
   }
 
-  function signin(event) {
-    event.preventDefault();
-
-    navigator.id.get(on_receive_assertion, {
+  function signin(callback) {
+    browserid.get(on_receive_assertion, {
       allowPersistent: true
     });
+    complete(callback);
   }
 
-  function signout(event) {
-    event.preventDefault();
+  function signout(callback) {
+    ajax.post("/wsapi/logout", {}, function(err, resp) {
+      if(err) {
 
-    $.ajax({
-      type: "POST",
-      url: "/wsapi/logout",
-      success: function(resp) {
-        navigator.id.logout(function() {
+      }
+      else {
+        browserid.logout(function() {
           updateDisplay();
+          complete(callback);
         });
-      },
-      error: function(resp) {
-
       }
     });
   }
 
+  function checkAuthentication() {
+    if($("#signout").length === 0) {
+      // try a silent assertion if there is no signout button.
+      browserid.get(on_receive_assertion, {
+        silent: true
+      });
+    }
+  }
 
-});
+  var Module = TestMob.Module.extend({
+    start: function(options, callback) {
+      var self=this;
+
+      self.checkRequired(options, "browserid");
+      browserid = options.browserid;
+
+      sc.start.call(self, options);
+
+      checkAuthentication.call(self);
+      attachEvents.call(self);
+
+      complete(callback);
+    }
+
+    // BEGIN TESTING API
+    ,
+    signin: signin,
+    signout: signout
+
+    // END TESTING API
+  });
+
+  sc = Module.sc;
+
+  return Module;
+
+
+}());
 
