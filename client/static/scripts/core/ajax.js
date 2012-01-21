@@ -1,7 +1,7 @@
 TestMob.Ajax = (function() {
   "use strict";
 
-  var xhr = $.ajax,
+  var xhr = $,
       complete = TestMob.Helpers.complete;
 
   function init(options) {

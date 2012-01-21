@@ -8,7 +8,8 @@
 TestMob.Class = (function() {
   function create(constr, config) {
     var inst = new constr;
-    inst.init(config);
+    var args = [].slice.call(arguments, 1);
+    inst.init.apply(inst, args);
     return inst;
   }
 

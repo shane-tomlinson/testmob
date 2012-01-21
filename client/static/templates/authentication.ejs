@@ -1,5 +1,5 @@
-  <% if (typeof email !== "undefined") { %>
-    Hi <%= email %>,
+  <% if (authenticated) { %>
+    Hi <span id="user_email"><%= email %></span>,
     <a href="#" id="signout">Sign Out</a>
   <% } else { %>
     <a href="#" id="signin">Sign In</a>

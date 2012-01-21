@@ -24,7 +24,7 @@ TestMob.Renderer = (function() {
     else {
       // TODO - be able to set the directory
       config = {
-        url: "/dialog/views/" + templateName + ".ejs"
+        url: "/templates/" + templateName + ".ejs"
       };
     }
 

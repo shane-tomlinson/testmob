@@ -1,18 +1,65 @@
 TestMob.Models.Authentication = (function() {
   "use strict";
 
-  var authenticated,
-      email;
+  var tm = TestMob,
+      ajax = tm.Ajax,
+      complete = tm.Helpers.complete,
+      sc,
+      browserid;
 
-  function login(assertion, callback) {
-    ajax.post("/wsapi/login", { assertion: assertion }, callback);
+  function authenticate(assertion, callback) {
+    var self=this;
+    ajax.post("/wsapi/login", { assertion: assertion }, function(err, resp) {
+      if(err) {
+        // XXX handle error;
+      }
+      else {
+        self.set("authenticated", resp.success);
+        self.set("email", resp.success ? resp.email : "");
+        complete(callback, null, resp.success);
+      }
+    });
   }
 
-  function logout(callback) {
-    ajax.post("/wsapi/logout", {}, callback);
+  function signin(callback) {
+    var self=this;
+    browserid.get(function(assertion) {
+      if(assertion) {
+        authenticate.call(self, assertion, callback);
+      }
+      else {
+        // XXX handle error;
+      }
+    });
   }
 
-  var Model;
+  function signout(callback) {
+    var self=this;
+    ajax.post("/wsapi/logout", {}, function(err, resp) {
+      if(err) {
+        // XXX handle error;
+      }
+      else {
+        browserid.logout(function() {
+          self.set("authenticated", !resp.success);
+          complete(callback, null, resp.success);
+        });
+      }
+    });
+  }
+
+  var Model = TestMob.Model.extend({
+    init: function(config) {
+      browserid = config.browserid || navigator.id;
+
+      sc.init.call(this, config);
+    },
+
+    signin: signin,
+    signout: signout
+  });
+
+  sc = Model.sc;
 
   return Model;
 

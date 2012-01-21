@@ -1,0 +1,3 @@
+
+TestMob.DOM = AFrame.DOM;
+

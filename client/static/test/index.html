@@ -6,24 +6,41 @@
 	<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
 	<script type="text/javascript" src="qunit/qunit.js"></script>
 
-  <script type="text/javascript" src="/scripts/test_mob.js"></script>
+  <script type="text/javascript" src="/scripts/core/test_mob.js"></script>
 
   <script type="text/javascript" src="/lib/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/aframe-0.0.71-jquery.js"></script>
   <script type="text/javascript" src="/lib/extensions.js"></script>
-  <script type="text/javascript" src="/lib/dom_jquery.js"></script>
-  <script type="text/javascript" src="/lib/class.js"></script>
-  <script type="text/javascript" src="/lib/module.js"></script>
+  <script type="text/javascript" src="/lib/ejs.js"></script>
 
   <script type="text/javascript" src="/scripts/helpers.js"></script>
-  <script type="text/javascript" src="/scripts/ajax.js"></script>
-  <script type="text/javascript" src="/scripts/authentication.js"></script>
+
+  <script type="text/javascript" src="/scripts/core/dom.js"></script>
+  <script type="text/javascript" src="/scripts/core/ajax.js"></script>
+  <script type="text/javascript" src="/scripts/core/class.js"></script>
+  <script type="text/javascript" src="/scripts/core/module.js"></script>
+  <script type="text/javascript" src="/scripts/core/model.js"></script>
+  <script type="text/javascript" src="/scripts/core/templates.js"></script>
+  <script type="text/javascript" src="/scripts/core/renderer.js"></script>
+
+
+  <script type="text/javascript" src="/scripts/models/authentication.js"></script>
+
+  <script type="text/javascript" src="/scripts/views/authentication.js"></script>
 
   <script type="text/javascript" src="mocks/mocks.js"></script>
   <script type="text/javascript" src="mocks/browserid.js"></script>
   <script type="text/javascript" src="mocks/xhr.js"></script>
 
-	<script type="text/javascript" src="cases/ajax.js"></script>
-	<script type="text/javascript" src="cases/authentication.js"></script>
+  <script type="text/javascript" src="helpers/helpers.js"></script>
+
+	<script type="text/javascript" src="cases/core/ajax.js"></script>
+	<script type="text/javascript" src="cases/core/model.js"></script>
+
+	<script type="text/javascript" src="cases/models/authentication.js"></script>
+
+	<script type="text/javascript" src="cases/views/authentication.js"></script>
+
 </head>
 <body>
 	<h1 id="qunit-header">TestMob Test Suite</h1>
@@ -31,6 +48,8 @@
 	<div id="qunit-testrunner-toolbar"></div>
 	<h2 id="qunit-userAgent"></h2>
 	<ol id="qunit-tests"></ol>
-	<div id="qunit-fixture">test markup</div>
+	<div id="qunit-fixture">
+    <div id="authentication"></div>
+  </div>
 </body>
 </html>
