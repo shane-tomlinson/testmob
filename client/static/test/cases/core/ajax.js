@@ -5,7 +5,7 @@
       ajax = tm.Ajax,
       xhr = tm.Mocks.xhr;
 
-  module("ajax", {
+  module("core/ajax", {
     setup: function() {
       xhr.useResult("success");
 

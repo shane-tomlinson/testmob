@@ -6,7 +6,7 @@ TestMob.Model = (function() {
   var tm = TestMob,
       sc;
 
-  var Model = AFrame.DataContainer.extend({
+  var Model = AFrame.Model.extend({
     toObject: function() {
       return this.toJSON();
     }

@@ -3,7 +3,7 @@
 
   var model;
 
-  module("model/model", {
+  module("core/model", {
     setup: function() {
       model = createModel();
     },
@@ -15,6 +15,9 @@
 
   function createModel() {
     var mod = TestMob.Model.create({
+      schema: {
+        field: { type: "text" }
+      },
       data: {
         field: "value"
       }

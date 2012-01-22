@@ -10,7 +10,6 @@ $(function() {
 
 
   var authModel = AuthModel.create({});
-  authModel.set("authenticated", false);
 
   moduleManager.register("authentication", AuthView);
   moduleManager.start("authentication", { model: authModel });
