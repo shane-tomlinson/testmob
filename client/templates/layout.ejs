@@ -5,7 +5,6 @@
   <script type="text/javascript" src="/lib/jquery.min.js"></script>
   <script type="text/javascript" src="/lib/ejs.js"></script>
   <script type="text/javascript" src="/lib/javascript-extensions.js"></script>
-  <!--script type="text/javascript" src="/lib/winchan.js"></script-->
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script src="https://browserid.org/include.js"></script>
   <script type="text/javascript" src="/scripts/authentication.js"></script>
@@ -26,12 +25,18 @@
         <h1><a href="/">TestMob</a></h1>
         <h2> - Javascript Unit Testing, Mob Style</h2>
       </hgroup>
+
+      <ul id="menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/use">How to use</a></li>
+        <li><a href="https://github.com/stomlinson/testmob" target="_blank">Source</a></li>
+      </ul>
     </header>
 
     <% if(typeof title !== "undefined") { %>
-      <h3><% title %></h3>
+      <h3><%= title %></h3>
     <% } %>
-
 
     <%- body %>
 
