@@ -31,7 +31,7 @@
     <header>
       <span class="right" id="authentication">
         <% if (typeof email !== "undefined") { %>
-          Hi <%= email %>,
+          Hi <span id="email"><%= email %></span>,
           <a href="#" id="signout">Sign Out</a>
         <% } else { %>
           <a href="#" id="signin">Sign In</a>

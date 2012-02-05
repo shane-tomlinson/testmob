@@ -9,7 +9,13 @@ $(function() {
       AuthView = modules.Authentication;
 
 
-  var authModel = AuthModel.create({});
+  var email = $("#email").text();
+  var authModel = AuthModel.create({
+    data: {
+      authenticated: !!email,
+      email: email
+    }
+  });
 
   moduleManager.register("authentication", AuthView);
   moduleManager.start("authentication", { model: authModel });

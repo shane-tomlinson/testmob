@@ -50,7 +50,8 @@ TestMob.Models.Authentication = (function() {
 
   var Model = TestMob.Model.extend({
     schema: {
-      authenticated: { type: "boolean", def: false }
+      authenticated: { type: "boolean", def: false },
+      email: { type: "string", def: undefined }
     },
     init: function(config) {
       browserid = config.browserid || navigator.id;
