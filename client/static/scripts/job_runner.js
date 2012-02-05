@@ -5,44 +5,33 @@ TestMob.JobRunner = (function() {
       resultTemplate = new EJS({ url: "/templates/testrunner_results.ejs" }),
       currTestID = 0,
       last_send,
-      socket;
+      socket,
+      model,
+      view;
 
   function init(config) {
     socket = config.socket;
     socket.on('start_suite', start_suite);
   }
 
-  function printResults(data) {
-    try {
-      var html = resultTemplate.render(data);
-
-      if($("#results").find("#" + data.test_id).length) {
-        $("#" + data.test_id).replaceWith(html);
-      }
-      else {
-        $(html).appendTo("#results");
-      }
-    } catch(e) {
-      console.log("template error(" + data.msg + "): " + e);
-    }
-  }
-
-
   function start_suite(data, fn) {
     data = $.extend({
       msg: "start_suite",
       test_id: currTestID,
-      email: data.email || "",
-      passed: 0,
-      failed: 0,
-      total: 0,
-      runtime: 0,
       start_time: (new Date()).getTime(),
       userAgent: navigator.userAgent
     }, data);
-    currTestID++;
 
-    printResults(data);
+    model = TestMob.Models.Test.create({
+      data: data
+    });
+
+    view = TestMob.Modules.Test.create();
+    view.start({
+      model: model
+    });
+
+    currTestID++;
 
     last_send = null;
     socket.emit("suite_start", data);
@@ -76,7 +65,7 @@ TestMob.JobRunner = (function() {
     }
 
     if(shouldUpdate(msg, now)) {
-      printResults(start_data);
+      model.set(start_data);
       socket.emit(msg, start_data);
       last_send = now;
     }

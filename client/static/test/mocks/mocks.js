@@ -1,0 +1,2 @@
+TestMob.Mocks = {};
+
