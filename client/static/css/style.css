@@ -17,13 +17,24 @@ header, footer {
 header {
   border-bottom: 1px solid #ddd;
   margin-bottom: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 footer {
   border-top: 1px solid #ddd;
   margin-top: 20px;
   padding-top: 20px;
+}
+
+a {
+  color: #549FDC;
+  text-decoration: 1px 1px 0 rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+
+hgroup {
+  line-height: 22px;
+  text-align: baseline;
 }
 
 h1, h2, h3 {
@@ -47,11 +58,14 @@ h2 {
   margin: 10px 0;
 }
 
-ul, li, ol {
-  list-style-type: none;
+ul, ol {
   font-size: small;
   margin: 0;
   padding: 0;
+}
+
+ul {
+  list-style-type: none;
 }
 
 input[type=text] {
@@ -93,7 +107,7 @@ button,
 button:hover,
 button:focus,
 .button:hover,
-.button:focus{
+.button:focus {
     background-color: #76c2ff;
     background-image: -moz-linear-gradient(center top , #76C2FF 50%, #37A6FF 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, #76C2FF), color-stop(100%, #37A6FF));
@@ -126,6 +140,12 @@ button[disabled] {
     opacity: .5;
 }
 
+code {
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  color: #77c877;
+  padding: 10px 20px;
+}
 
 
 .right {
@@ -151,6 +171,11 @@ button[disabled] {
   display: inline-block;
   text-indent: -9999px;
   background-image: url("/img/sign_in_blue.png");
+}
+
+#menu > li {
+  display: inline-block;
+  margin-right: 20px;
 }
 
 form#join_family {
@@ -194,6 +219,7 @@ li.failed {
 #legend {
   margin-bottom: 10px;
 }
+
 #legend > li {
   display: inline;
   padding: 5px;
@@ -249,5 +275,16 @@ li.failed {
   top: -2000px;
   width: 100%;
   height: 500px;
+}
+
+#steps > li {
+  margin-bottom: 20px;
+}
+
+#steps > li > a > img {
+  margin-top: 20px;
+  width: 638px;
+  border-radius: 3px;
+  display: block;
 }
 
