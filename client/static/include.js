@@ -16,17 +16,16 @@
     } catch(e) {}
   }
 
-  /*
-  QUnit.testStart = function(info) {
-    sendMessage("test_start", info);
-  };
-*/
+  var origTestDone = QUnit.testDone;
   QUnit.testDone = function(info) {
     sendMessage("test_done", info);
+    if(origTestDone) origTestDone(info);
   };
 
+  var origDone = QUnit.done;
   QUnit.done = function(info) {
     sendMessage("suite_complete", info);
+    if(origDone) origDone(info);
   };
 
 }());
