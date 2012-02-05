@@ -23,17 +23,19 @@ TestMob is a distributed unit test system loosely based on [John Resig's] (http:
 * npm run - By default, the server listens on 0.0.0.0:5000. These can be changed by specifying the IP_ADDRESS and PORT environment variables.
 
 ## Libraries/parts of libraries Used:
-* node.js
-* jQuery 1.7.1 (jquery.com)
-* AFrameJS (aframejs.com)
-* Socket.io (socket.io)
-* BrowserID (browserid.org)
+* node.js (http://nodejs.org)
+* jQuery 1.7.1 (http://jquery.com)
+* AFrameJS (http://aframejs.com)
+* Socket.io (http://socket.io)
+* BrowserID (http://browserid.org)
 
 ## Author:
-Shane Tomlinson
-set117@yahoo.com
-www.shanetomlinson.com
-@shane_tomlinson
+* Shane Tomlinson
+* set117@yahoo.com
+* http://www.shanetomlinson.com
+* http://github.com/stomlinson
+* http://github.com/shane-tomlinson
+* @shane_tomlinson
 
 ## Getting involved:
 I am happy to review submissions!
