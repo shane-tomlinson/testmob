@@ -13,6 +13,8 @@ TestMob.Models.Test = (function() {
       total:      { type: "integer", def: 0 },
       runtime:    { type: "integer", def: 0 },
       start_time: { type: "integer", def: 0 },
+      msg:        { type: "string", def: undefined },
+      url:        { type: "string", def: undefined },
       user_agent: { type: "string", def: navigator.userAgent }
     },
 

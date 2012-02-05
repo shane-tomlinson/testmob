@@ -4,44 +4,48 @@
 	<meta charset="UTF-8" />
 	<title>TestMob Test Suite</title>
 	<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
-	<script type="text/javascript" src="qunit/qunit.js"></script>
+	<script src="qunit/qunit.js"></script>
 
-  <script type="text/javascript" src="/scripts/core/test_mob.js"></script>
+  <script src="/scripts/core/test_mob.js"></script>
 
-  <script type="text/javascript" src="/lib/jquery.min.js"></script>
-  <script type="text/javascript" src="/lib/aframe-0.0.71-jquery.js"></script>
-  <script type="text/javascript" src="/lib/extensions.js"></script>
-  <script type="text/javascript" src="/lib/ejs.js"></script>
+  <script src="/lib/jquery.min.js"></script>
+  <script src="/lib/aframe-0.0.71-jquery.js"></script>
+  <script src="/lib/extensions.js"></script>
+  <script src="/lib/ejs.js"></script>
 
-  <script type="text/javascript" src="/scripts/core/helpers.js"></script>
+  <script src="/scripts/core/helpers.js"></script>
 
-  <script type="text/javascript" src="/scripts/core/dom.js"></script>
-  <script type="text/javascript" src="/scripts/core/ajax.js"></script>
-  <script type="text/javascript" src="/scripts/core/class.js"></script>
-  <script type="text/javascript" src="/scripts/core/module.js"></script>
-  <script type="text/javascript" src="/scripts/core/model.js"></script>
-  <script type="text/javascript" src="/scripts/core/templates.js"></script>
-  <script type="text/javascript" src="/scripts/core/renderer.js"></script>
+  <script src="/scripts/core/dom.js"></script>
+  <script src="/scripts/core/ajax.js"></script>
+  <script src="/scripts/core/class.js"></script>
+  <script src="/scripts/core/module.js"></script>
+  <script src="/scripts/core/model.js"></script>
+  <script src="/scripts/core/templates.js"></script>
+  <script src="/scripts/core/renderer.js"></script>
 
 
-  <script type="text/javascript" src="/scripts/models/authentication.js"></script>
-  <script type="text/javascript" src="/scripts/models/test.js"></script>
+  <script src="/scripts/models/authentication.js"></script>
+  <script src="/scripts/models/test.js"></script>
 
-  <script type="text/javascript" src="/scripts/views/authentication.js"></script>
+  <script src="/scripts/views/authentication.js"></script>
+  <script src="/scripts/views/test.js"></script>
 
-  <script type="text/javascript" src="mocks/mocks.js"></script>
-  <script type="text/javascript" src="mocks/browserid.js"></script>
-  <script type="text/javascript" src="mocks/xhr.js"></script>
+  <script src="mocks/mocks.js"></script>
+  <script src="mocks/browserid.js"></script>
+  <script src="mocks/xhr.js"></script>
 
-  <script type="text/javascript" src="helpers/helpers.js"></script>
+  <script src="helpers/helpers.js"></script>
 
-	<script type="text/javascript" src="cases/core/ajax.js"></script>
-	<script type="text/javascript" src="cases/core/model.js"></script>
+	<script src="cases/core/ajax.js"></script>
+	<script src="cases/core/model.js"></script>
 
-	<script type="text/javascript" src="cases/models/authentication.js"></script>
-	<script type="text/javascript" src="cases/models/test.js"></script>
+	<script src="cases/models/authentication.js"></script>
+	<script src="cases/models/test.js"></script>
 
-	<script type="text/javascript" src="cases/views/authentication.js"></script>
+	<script src="cases/views/authentication.js"></script>
+	<script src="cases/views/test.js"></script>
+
+	<script src="/include.js"></script>
 
 </head>
 <body>
@@ -52,6 +56,7 @@
 	<ol id="qunit-tests"></ol>
 	<div id="qunit-fixture">
     <div id="authentication"></div>
+    <ul id="results"></ul>
   </div>
 </body>
 </html>
