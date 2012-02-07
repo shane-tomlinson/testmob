@@ -6,7 +6,6 @@ TestMob.JobRunner = (function() {
   "use strict";
 
   var testWindow,
-      resultTemplate = new EJS({ url: "/templates/testrunner_results.ejs" }),
       currTestID = 0,
       last_send,
       socket,
