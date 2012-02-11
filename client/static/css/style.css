@@ -244,26 +244,12 @@ li.failed {
 }
 
 #results > li > ul {
-  opacity: 0;
-  -webkit-transition-property: opacity, height;
-  -webkit-transition-duration: 1s, 1s;
-  -moz-transition-property: opacity, height;
-  -moz-transition-duration: 1s, 1s;
-  -ms-transition-property: opacity, height;
-  -ms-transition-duration: 1s, 1s;
   background: #ccc;
   border-radius: 5px;
   border: 1px solid #ccc;
   box-shadow: inset 0 0 5px 5px #ccc;
-  height: 0;
   overflow: hidden;
   margin-top: 0.5em;
-}
-
-#results > li:target > ul {
-  padding: 1em;
-  opacity: 1;
-  height: 5.5em;
 }
 
 #results > li > ul > li {

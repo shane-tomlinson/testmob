@@ -6,7 +6,7 @@ TestMob.Boss = (function() {
   var socket,
       tm = TestMob,
       models = {},
-      BossTest = tm.Models.Test;
+      Test = tm.Models.Test;
 
   function init(config) {
     socket = config.socket;
@@ -29,7 +29,7 @@ TestMob.Boss = (function() {
 
     socket.on("suite_start", function(data) {
       data.id = modelID(data);
-      var model = BossTest.create({
+      var model = Test.create({
         data: data
       });
 

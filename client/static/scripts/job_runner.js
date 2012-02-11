@@ -6,7 +6,6 @@ TestMob.JobRunner = (function() {
   "use strict";
 
   var testWindow,
-      currTestID = 0,
       last_send,
       socket,
       model,
@@ -19,8 +18,7 @@ TestMob.JobRunner = (function() {
 
   function start_suite(data, fn) {
     data = $.extend({
-      msg: "start_suite",
-      test_id: currTestID
+      msg: "start_suite"
     }, data);
 
     model = TestMob.Models.ClientTest.create({
@@ -31,8 +29,6 @@ TestMob.JobRunner = (function() {
     view.start({
       model: model
     });
-
-    currTestID++;
 
     last_send = null;
     socket.emit("suite_start", model.toObject());

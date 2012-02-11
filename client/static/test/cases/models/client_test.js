@@ -19,11 +19,18 @@
     }
   });
 
-  test("init - sets the start time and userAgent", function() {
+  test("init - sets start_time, test_id", function() {
     model = ClientTest.create({});
     var now = new Date().getTime();
     ok(now - model.get("start_time") < 5, "start time set correctly");
-    equal(model.get("userAgent"), navigator.userAgent, "correct userAgent");
+    ok(model.get("test_id"), "test_id is set");
+  });
+
+  test("all models have different test_id's", function() {
+    model = ClientTest.create({});
+    var model2 = ClientTest.create({});
+
+    notEqual(model.get("test_id"), model2.get("test_id"), "test_ids are not the same");
   });
 
   asyncTest("update - adds to total, passed and failed, update runtime", function() {
@@ -32,16 +39,18 @@
     model.set({ total: 1, passed: 1, failed: 1 });
 
     setTimeout(function() {
-      model.update({ total: 2, passed: 3, failed: 4 });
+      model.update({ total: 2, passed: 3, failed: 4, name: "Failing Test Name" });
 
       equal(model.get("total"), 3, "total updated");
       equal(model.get("passed"), 4, "passed updated");
       equal(model.get("failed"), 5, "failed updated");
+      equal(model.get("failed_tests")[0], "Failing Test Name", "failing test name added to list");
 
       ok(model.get("runtime") > 0, "runtime set");
       start();
     }, 1);
   });
+
 
 }());
 
