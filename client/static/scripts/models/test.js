@@ -12,6 +12,7 @@ TestMob.Models.Test = (function() {
     schema: {
       test_id:    { type: "text" },
       email:      { type: "text" },
+      complete:   { type: "boolean", def: false },
       passed:     { type: "integer", def: 0 },
       failed:     { type: "integer", def: 0 },
       total:      { type: "integer", def: 0 },
@@ -29,6 +30,10 @@ TestMob.Models.Test = (function() {
       if(!(data && data.start_time)) {
         this.set("start_time", new Date().getTime());
       }
+    },
+
+    complete: function() {
+      this.set({complete: true});
     }
   });
 

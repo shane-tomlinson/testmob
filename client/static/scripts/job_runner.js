@@ -35,7 +35,7 @@ TestMob.JobRunner = (function() {
     currTestID++;
 
     last_send = null;
-    socket.emit("suite_start", data);
+    socket.emit("suite_start", model.toObject());
 
     TestMob.JobLoader.load(data, loader_result);
   }
@@ -52,6 +52,9 @@ TestMob.JobRunner = (function() {
 
     if(msg === "test_done") {
       model.update(data);
+    }
+    else if(msg === "suite_complete") {
+      model.complete();
     }
 
     if(shouldUpdate(msg, now)) {
