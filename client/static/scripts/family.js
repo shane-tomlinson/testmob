@@ -5,6 +5,9 @@
 $(function() {
   "use strict";
 
+  // Only start the family related stuff if the user is at the /family URL.
+  if(document.location.href.indexOf("family") == -1) return;
+
   var family_name = document.location.href.replace("http://testmob.org/family/", "");
   var socket = io.connect('http://testmob.org/' + family_name);
 
