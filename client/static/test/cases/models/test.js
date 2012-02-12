@@ -29,6 +29,16 @@
     var diff = now - startTime;
 
     ok(diff <= 5, "start_time is within 5 ms of now: " + diff);
+
+  });
+
+  asyncTest("complete - sets the complete flag and triggers set_complete",
+  function() {
+    model.bindEvent("set_complete", function() {
+      equal(model.get("complete"), true, "complete set to true");
+      start();
+    });
+    model.complete();
   });
 }());
 

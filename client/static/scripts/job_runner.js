@@ -6,8 +6,6 @@ TestMob.JobRunner = (function() {
   "use strict";
 
   var testWindow,
-      resultTemplate = new EJS({ url: "/templates/testrunner_results.ejs" }),
-      currTestID = 0,
       last_send,
       socket,
       model,
@@ -20,13 +18,10 @@ TestMob.JobRunner = (function() {
 
   function start_suite(data, fn) {
     data = $.extend({
-      msg: "start_suite",
-      test_id: currTestID,
-      start_time: (new Date()).getTime(),
-      userAgent: navigator.userAgent
+      msg: "start_suite"
     }, data);
 
-    model = TestMob.Models.Test.create({
+    model = TestMob.Models.ClientTest.create({
       data: data
     });
 
@@ -35,15 +30,13 @@ TestMob.JobRunner = (function() {
       model: model
     });
 
-    currTestID++;
-
     last_send = null;
-    socket.emit("suite_start", data);
+    socket.emit("suite_start", model.toObject());
 
-    TestMob.JobLoader.load(data, loader_result.bind(null, data));
+    TestMob.JobLoader.load(data, loader_result);
   }
 
-  function loader_result(start_data, err, info) {
+  function loader_result(err, info) {
     if(err) {
       console.log(err);
       return;
@@ -54,23 +47,14 @@ TestMob.JobRunner = (function() {
         now = (new Date()).getTime();
 
     if(msg === "test_done") {
-      start_data = $.extend(start_data, {
-        total: start_data.total + data.total,
-        passed: start_data.passed + data.passed,
-        failed: start_data.failed + data.failed,
-        runtime: now - start_data.start_time,
-        msg: msg
-      });
+      model.update(data);
     }
-    else {
-      start_data = $.extend(start_data, data, {
-        msg: msg
-      });
+    else if(msg === "suite_complete") {
+      model.complete();
     }
 
     if(shouldUpdate(msg, now)) {
-      model.set(start_data);
-      socket.emit(msg, start_data);
+      socket.emit(msg, model.toObject());
       last_send = now;
     }
   }

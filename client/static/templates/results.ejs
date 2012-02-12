@@ -1,14 +1,18 @@
 
-<li id="<%= id %>" class="<%= failed ? 'failed' : complete ? 'passed' : 'incomplete' %>">
-  <a href="#<%= id %>">(<%= email || "anonymous"%>) - <%= userAgent %></a> <%
+<li id="<%= test_id %>" class="<%= failed ? 'failed' : complete ? 'passed' : 'incomplete' %>">
+  (<%= email || "anonymous"%>) - <%= user_agent %> <%
   if(total) { %> (<%= passed %>/<%= failed %>/<%= total %>/<%= runtime %>ms) <% } %>
-  <% if (complete) { %>
-  <ul>
-    <li>Passed: <%= passed %></li>
-    <li>Failed: <%= failed %></li>
-    <li>Total: <%= total %></li>
-    <li>Runtime: <%= runtime %></li>
-  </ul>
+
+  <% if (complete && failed_tests.length) { %>
+    <h5>Failed Tests</h5>
+
+    <ul>
+      <% failed_tests.forEach(function(name, index) { %>
+        <li>
+          <%= name %>
+        </li>
+      <% }); %>
+    </ul>
   <% } %>
 </li>
 

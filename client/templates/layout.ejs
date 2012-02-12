@@ -4,31 +4,7 @@
   <title>TestMob <% if(typeof title !== "undefined") { %> - <%= title %><% } %></title>
   <script src="https://browserid.org/include.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/lib/jquery.min.js"></script>
-  <script src="/lib/ejs.js"></script>
-  <script src="/lib/extensions.js"></script>
-  <script src="/lib/aframe-0.0.71-jquery.js"></script>
-  <script src="/lib/hub.js"></script>
-  <script src="/scripts/core/test_mob.js"></script>
-  <script src="/scripts/core/class.js"></script>
-  <script src="/scripts/core/dom.js"></script>
-  <script src="/scripts/core/helpers.js"></script>
-  <script src="/scripts/core/ajax.js"></script>
-  <script src="/scripts/core/mediator.js"></script>
-  <script src="/scripts/core/model.js"></script>
-  <script src="/scripts/core/module.js"></script>
-  <script src="/scripts/core/module_manager.js"></script>
-  <script src="/scripts/core/renderer.js"></script>
-  <script src="/scripts/core/templates.js"></script>
-  <script src="/scripts/core/tooltip.js"></script>
-
-  <script src="/scripts/models/authentication.js"></script>
-  <script src="/scripts/models/test.js"></script>
-
-  <script src="/scripts/views/authentication.js"></script>
-  <script src="/scripts/views/test.js"></script>
-
-  <script src="/scripts/start.js"></script>
+  <%- cachify_js('/production/main.min.js') %>
   <link href="/css/style.css" type="text/css" rel="stylesheet">
 </head>
 <body>

@@ -35,7 +35,7 @@ TestMob.Modules.Test = (function() {
     target = dom.createElement("div");
     dom.appendTo(target, "body");
 
-    renderer.render(target, "testrunner_results", data);
+    renderer.render(target, self.template, data);
 
     dom.appendTo(selector, "#results");
     dom.removeElement(target);
@@ -53,6 +53,7 @@ TestMob.Modules.Test = (function() {
 
       self.checkRequired(options, "model");
       self.model = options.model;
+      self.template = options.template || "testrunner_results";
 
       sc.start.call(self, options);
       updateDisplay.call(self);

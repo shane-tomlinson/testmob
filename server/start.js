@@ -8,11 +8,13 @@ const express = require("express")
       postprocess = require("postprocess"),
       MemoryStore = express.session.MemoryStore,
       sessionStore = new MemoryStore(),
+      cachify = require("connect-cachify"),
       app = express.createServer(),
       views = require("./views"),
       wsapi = require("./wsapi"),
       verifier = require("./verifier"),
-      sockets = require("./sockets");
+      sockets = require("./sockets"),
+      assets = require("./assets");
 
 const IP_ADDRESS=process.env['IP_ADDRESS'] || undefined;
 const PORT=process.env['PORT'] || 5000;
@@ -38,6 +40,11 @@ app.configure(function(){
   }
 
   var root = __dirname + '/../client/';
+  app.use(cachify.setup(assets, {
+      root: root,
+      production: true
+  }));
+  app.helpers(cachify.helpers);
   app.use(express.static(root + "static/"));
   app.set('views', root + 'templates/');
 });

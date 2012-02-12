@@ -3,7 +3,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 TestMob.Boss = (function() {
-  var socket;
+  var socket,
+      tm = TestMob,
+      models = {},
+      Test = tm.Models.Test;
 
   function init(config) {
     socket = config.socket;
@@ -19,32 +22,35 @@ TestMob.Boss = (function() {
       }
     });
 
-    var resultTemplate = new EJS({ url: "/templates/results.ejs" });
-    var result = 1;
+    function modelID(data) {
+      return "runner" + data.runner_id;
+    }
+
 
     socket.on("suite_start", function(data) {
-      data.id = "runner" + data.runner_id;
-      data.complete = false;
-      data.email = data.email || "";
-      var html = resultTemplate.render(data);
-      $(html).appendTo("#results");
+      data.id = modelID(data);
+      var model = Test.create({
+        data: data
+      });
+
+      models[data.id] = model;
+
+      var view = TestMob.Modules.Test.create();
+      view.start({
+        model: model,
+        template: "results"
+      });
     });
 
     socket.on("test_done", function(data) {
-      data.id = "runner" + data.runner_id;
-      data.complete = false;
-      data.email = data.email || "";
-      var html = resultTemplate.render(data);
-      $("#" + data.id).replaceWith(html);
+      var model = models[modelID(data)];
+      model.set(data);
     });
 
     socket.on("suite_complete", function(data) {
-      data.id = "runner" + data.runner_id;
       data.complete = true;
-      data.email = data.email || "";
-      var html = resultTemplate.render(data);
-      $("#" + data.id).replaceWith(html);
-      result++;
+      var model = models[modelID(data)];
+      model.set(data);
     });
   }
 

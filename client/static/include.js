@@ -16,8 +16,17 @@
     } catch(e) {}
   }
 
+  var moduleName;
+
+  var origModuleStart = QUnit.moduleStart;
+  QUnit.moduleStart = function(info) {
+    moduleName = info.name;
+    if(origModuleStart) origModuleStart(info);
+  };
+
   var origTestDone = QUnit.testDone;
   QUnit.testDone = function(info) {
+    info.name = moduleName + ": " + info.name;
     sendMessage("test_done", info);
     if(origTestDone) origTestDone(info);
   };
