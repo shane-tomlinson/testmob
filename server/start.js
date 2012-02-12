@@ -14,7 +14,7 @@ const express = require("express")
       wsapi = require("./wsapi"),
       verifier = require("./verifier"),
       sockets = require("./sockets"),
-      assets = require("./assets");
+      assets = require("./assets").assets;
 
 const IP_ADDRESS=process.env['IP_ADDRESS'] || undefined;
 const PORT=process.env['PORT'] || 5000;
@@ -40,11 +40,13 @@ app.configure(function(){
   }
 
   var root = __dirname + '/../client/';
+
   app.use(cachify.setup(assets, {
-      root: root,
+      root: root + "static/",
       production: true
   }));
   app.helpers(cachify.helpers);
+
   app.use(express.static(root + "static/"));
   app.set('views', root + 'templates/');
 });
