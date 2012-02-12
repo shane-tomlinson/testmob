@@ -14,15 +14,14 @@ const express = require("express")
       wsapi = require("./wsapi"),
       verifier = require("./verifier"),
       sockets = require("./sockets"),
-      assets = require("./assets").assets;
+      assets = require("./assets").assets,
+      config = require("./config").config;
 
-const IP_ADDRESS=process.env['IP_ADDRESS'] || undefined;
-const PORT=process.env['PORT'] || 5000;
-var URL = "testmob.org";
+const IP_ADDRESS=config.ip_address;
+const PORT=config.port;
+const URL = config.url;
 
-if(IP_ADDRESS) {
-  URL = IP_ADDRESS + ":" + PORT;
-}
+const root = __dirname + '/../client/';
 
 app.configure(function(){
   app.use(express.cookieParser());
@@ -39,11 +38,9 @@ app.configure(function(){
     }));
   }
 
-  var root = __dirname + '/../client/';
-
   app.use(cachify.setup(assets, {
       root: root + "static/",
-      production: true
+      production: config.use_minified_resources
   }));
   app.helpers(cachify.helpers);
 
