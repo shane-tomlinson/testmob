@@ -39,7 +39,12 @@ function use(req, res) {
 }
 
 function join_family(req, res) {
-  var family_name = req.body.family_name;
+  var family_name = req.body.family_name,
+
+  // replace any spaces or %20s in the family name
+  family_name = family_name.replace(/ /g, '_');
+  family_name = family_name.replace(/%20/g, '_');
+
   req.session.family_name = family_name;
   res.redirect("/family/" + family_name);
 }
