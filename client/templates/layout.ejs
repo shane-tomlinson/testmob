@@ -4,7 +4,7 @@
   <title>TestMob <% if(typeof title !== "undefined") { %> - <%= title %><% } %></title>
   <script src="https://browserid.org/include.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <%- cachify_js('/production/main.min.js') %>
+  <script src="/production/main.min.js"></script>
   <link href="/css/style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
