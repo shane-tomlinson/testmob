@@ -1,3 +1,4 @@
+/*globals TestMob: true, AFrame: true */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -5,11 +6,17 @@
 TestMob.Boss = (function() {
   var socket,
       tm = TestMob,
-      models = {},
-      Test = tm.Models.Test;
+      models,
+      list;
 
   function init(config) {
     socket = config.socket;
+
+    models = tm.ModelsFactory.create({ constructor: tm.Models.Test });
+    list = tm.ViewsFactory.create({
+      template: "boss_results",
+      models: models
+    });
 
     $("#url").val(localStorage.url || "");
     $("form").bind("submit", function(event) {
@@ -26,30 +33,19 @@ TestMob.Boss = (function() {
       return "runner" + data.runner_id;
     }
 
-
     socket.on("suite_start", function(data) {
-      data.id = modelID(data);
-      var model = Test.create({
-        data: data
-      });
-
-      models[data.id] = model;
-
-      var view = TestMob.Modules.Test.create();
-      view.start({
-        model: model,
-        template: "results"
-      });
+      data.cid = data.id = modelID(data);
+      var cid = models.insert(data);
     });
 
     socket.on("test_done", function(data) {
-      var model = models[modelID(data)];
+      var model = models.get(modelID(data));
       model.set(data);
     });
 
     socket.on("suite_complete", function(data) {
       data.complete = true;
-      var model = models[modelID(data)];
+      var model = models.get(modelID(data));
       model.set(data);
     });
   }
