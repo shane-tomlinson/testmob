@@ -28,13 +28,15 @@ var assets = {
 
     "/scripts/models/authentication.js",
     "/scripts/models/test.js",
-    "/scripts/models/client_test.js",
+    "/scripts/models/associate_test.js",
+    "/scripts/models/models_factory.js",
 
     "/scripts/views/authentication.js",
     "/scripts/views/test.js",
+    "/scripts/views/views_factory.js",
 
-    "/scripts/job_runner.js",
     "/scripts/job_loader.js",
+    "/scripts/associate.js",
     "/scripts/boss.js",
     "/scripts/family.js",
 

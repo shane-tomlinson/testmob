@@ -6,49 +6,16 @@
 TestMob.Boss = (function() {
   var socket,
       tm = TestMob,
-      dom = tm.DOM,
-      Test = tm.Models.Test,
-      TestView = tm.Modules.Test,
-      renderer = tm.Renderer,
       models,
       list;
 
   function init(config) {
     socket = config.socket;
 
-    models = AFrame.CollectionHash.create({
-      plugins: [[AFrame.CollectionPluginModel, {
-        schema: Test
-      }]]
-    });
-
-    list = AFrame.List.create({
-      target: "#results",
-      renderItem: function(model, index) {
-        var data = model.toObject(),
-            selector = "#" + data.test_id,
-            createContainer = dom.createElement("div");
-
-        dom.appendTo(createContainer, "body");
-        renderer.render(createContainer, "results", data);
-
-        var el = $(selector);
-        dom.removeElement(createContainer);
-
-        return el;
-      },
-      plugins: [[AFrame.ListPluginBindToCollection, {
-        collection: models
-      }], [AFrame.ListPluginFormRow, {
-        formFactory: function(rowElement, data) {
-          var form = TestView.create({
-            target: rowElement,
-            data: data
-          });
-          return form;
-        }
-      }]
-      ]
+    models = tm.ModelsFactory.create({ constructor: tm.Models.Test });
+    list = tm.ViewsFactory.create({
+      template: "boss_results",
+      models: models
     });
 
     $("#url").val(localStorage.url || "");
@@ -65,7 +32,6 @@ TestMob.Boss = (function() {
     function modelID(data) {
       return "runner" + data.runner_id;
     }
-
 
     socket.on("suite_start", function(data) {
       data.cid = data.id = modelID(data);
