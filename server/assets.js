@@ -11,7 +11,7 @@ var assets = {
     "/lib/jquery.min.js",
     "/lib/ejs.js",
     "/lib/extensions.js",
-    "/lib/aframe-0.0.71-jquery.js",
+    "/lib/aframe-current-jquery.js",
     "/lib/hub.js",
     "/scripts/core/test_mob.js",
     "/scripts/core/class.js",

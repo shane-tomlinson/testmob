@@ -1,18 +1,15 @@
 
-<li id="<%= test_id %>" class="<%= failed ? 'failed' : complete ? 'passed' : 'incomplete' %>">
-  (<%= email || "anonymous"%>) - <%= user_agent %> <%
-  if(total) { %> (<%= passed %>/<%= failed %>/<%= total %>/<%= runtime %>ms) <% } %>
+<li id="<%= test_id %>">
+  (<%= email || "anonymous"%>) - <%= user_agent %>
+    (<span data-field name="passed"><%= passed %></span>/<span
+    data-field name="failed"><%= failed %></span>/<span data-field
+    name="total"><%= total %></span>/<span data-field name="runtime"><%=
+    runtime %></span>ms)
 
-  <% if (complete && failed_tests.length) { %>
-    <h5>Failed Tests</h5>
+    <aside class="failures">
+      <h5>Failed Tests</h5>
 
-    <ul>
-      <% failed_tests.forEach(function(name, index) { %>
-        <li>
-          <%= name %>
-        </li>
-      <% }); %>
-    </ul>
-  <% } %>
+      <ul></ul>
+    </aside>
 </li>
 

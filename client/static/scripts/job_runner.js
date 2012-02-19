@@ -25,10 +25,12 @@ TestMob.JobRunner = (function() {
       data: data
     });
 
+    /*
     view = TestMob.Modules.Test.create();
     view.start({
       model: model
     });
+    */
 
     last_send = null;
     socket.emit("suite_start", model.toObject());
