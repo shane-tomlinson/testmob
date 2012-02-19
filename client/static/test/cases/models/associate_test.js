@@ -6,10 +6,10 @@
   "use strict";
 
   var tm = TestMob,
-      ClientTest = tm.Models.ClientTest,
+      AssociateTest = tm.Models.AssociateTest,
       model;
 
-  module("model/client_test", {
+  module("model/associate_test", {
     setup: function() {
 
     },
@@ -20,21 +20,21 @@
   });
 
   test("init - sets start_time, test_id", function() {
-    model = ClientTest.create({});
+    model = AssociateTest.create({});
     var now = new Date().getTime();
     ok(now - model.get("start_time") < 5, "start time set correctly");
     ok(model.get("test_id"), "test_id is set");
   });
 
   test("all models have different test_id's", function() {
-    model = ClientTest.create({});
-    var model2 = ClientTest.create({});
+    model = AssociateTest.create({});
+    var model2 = AssociateTest.create({});
 
     notEqual(model.get("test_id"), model2.get("test_id"), "test_ids are not the same");
   });
 
   asyncTest("update - adds to total, passed and failed, update runtime", function() {
-    model = ClientTest.create({});
+    model = AssociateTest.create({});
 
     model.set({ total: 1, passed: 1, failed: 1 });
 

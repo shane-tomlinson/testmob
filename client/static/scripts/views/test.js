@@ -7,58 +7,37 @@ TestMob.Modules.Test = (function() {
 
   var tm = TestMob,
       dom = tm.DOM,
-      helpers = tm.Helpers,
-      ajax = tm.Ajax,
-      cancelEvent = helpers.cancelEvent,
-      complete = helpers.complete,
-      renderer = tm.Renderer,
+      complete = tm.Helpers.complete,
       sc;
+
+  function addClassIfTrue(test, className) {
+    dom[test ? "addClass" : "removeClass"](this.getTarget(), className);
+  }
 
   function updateDisplay() {
     var self = this,
-        data = self.model.toObject(),
-        selector = "#" + data.test_id,
-        target = dom.getElements(selector),
-        newTarget = !!target;
+        data = self.dataContainer.toObject();
 
-    self.unbindAll();
+    addClassIfTrue.call(self, !data.complete, "incomplete");
+    addClassIfTrue.call(self, data.complete && !data.failed, "passed");
+    addClassIfTrue.call(self, data.failed, "failed");
 
-    // sequence is:
-    //  remove original target
-    //  create new temporary element
-    //  write into temporary element
-    //  take first child of temporary element and attach it to list
-    //  remove temporary element
-    //  XXX An AFrame List could be used for this.
-    dom.removeElement(target);
-
-    target = dom.createElement("div");
-    dom.appendTo(target, "body");
-
-    renderer.render(target, self.template, data);
-
-    dom.appendTo(selector, "#results");
-    dom.removeElement(target);
-
-    attachEvents.call(self);
+    var target = dom.getElements(".failures ul", self.getTarget());
+    dom.setInner(target, "");
+    for(var failure, index = 0; failure = data.failed_tests[index]; index++) {
+      var el = dom.createElement("li", failure);
+      dom.appendTo(el, target);
+    }
   }
 
-  function attachEvents() {
-
-  }
-
-  var Module = TestMob.Module.extend({
-    start: function(options, callback) {
+  var Module = AFrame.DataForm.extend({
+    init: function(options, callback) {
       var self=this;
 
-      self.checkRequired(options, "model");
-      self.model = options.model;
-      self.template = options.template || "testrunner_results";
+      sc.init.call(self, options);
 
-      sc.start.call(self, options);
       updateDisplay.call(self);
-
-      self.model.bindEvent("set_complete", updateDisplay, self);
+      self.dataContainer.bindEvent("set_complete", updateDisplay, self);
 
       complete(callback, self);
     }

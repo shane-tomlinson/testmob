@@ -11,7 +11,7 @@ var assets = {
     "/lib/jquery.min.js",
     "/lib/ejs.js",
     "/lib/extensions.js",
-    "/lib/aframe-0.0.71-jquery.js",
+    "/lib/aframe-current-jquery.js",
     "/lib/hub.js",
     "/scripts/core/test_mob.js",
     "/scripts/core/class.js",
@@ -28,13 +28,15 @@ var assets = {
 
     "/scripts/models/authentication.js",
     "/scripts/models/test.js",
-    "/scripts/models/client_test.js",
+    "/scripts/models/associate_test.js",
+    "/scripts/models/models_factory.js",
 
     "/scripts/views/authentication.js",
     "/scripts/views/test.js",
+    "/scripts/views/views_factory.js",
 
-    "/scripts/job_runner.js",
     "/scripts/job_loader.js",
+    "/scripts/associate.js",
     "/scripts/boss.js",
     "/scripts/family.js",
 

@@ -1,0 +1,15 @@
+  <li id="<%= test_id %>">
+    (<%= email || "anonymous" %>) - <a target="_blank" href="<%= url %>"><%=
+    url %></a>
+
+    (<span data-field name="passed"><%= passed %></span>/<span
+    data-field name="failed"><%= failed %></span>/<span data-field
+    name="total"><%= total %></span>/<span data-field name="runtime"><%=
+    runtime %></span>ms)
+
+    <aside class="failures">
+      <h5>Failed Tests</h5>
+
+      <ul></ul>
+    </aside>
+  </li>

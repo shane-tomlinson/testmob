@@ -9,7 +9,7 @@
   <script src="/scripts/core/test_mob.js"></script>
 
   <script src="/lib/jquery.min.js"></script>
-  <script src="/lib/aframe-0.0.71-jquery.js"></script>
+  <script src="/lib/aframe-current-jquery.js"></script>
   <script src="/lib/extensions.js"></script>
   <script src="/lib/ejs.js"></script>
 
@@ -27,7 +27,7 @@
 
   <script src="/scripts/models/authentication.js"></script>
   <script src="/scripts/models/test.js"></script>
-  <script src="/scripts/models/client_test.js"></script>
+  <script src="/scripts/models/associate_test.js"></script>
 
   <script src="/scripts/views/authentication.js"></script>
   <script src="/scripts/views/test.js"></script>
@@ -43,7 +43,7 @@
 
 	<script src="cases/models/authentication.js"></script>
 	<script src="cases/models/test.js"></script>
-	<script src="cases/models/client_test.js"></script>
+	<script src="cases/models/associate_test.js"></script>
 
 	<script src="cases/views/authentication.js"></script>
 	<script src="cases/views/test.js"></script>
@@ -62,6 +62,11 @@
 	<div id="qunit-fixture">
     <div id="authentication"></div>
     <ul id="results"></ul>
+    <div id="test_result">
+        <aside class="failures">
+          <ul></ul>
+        </aside>
+    </div>
   </div>
 </body>
 </html>

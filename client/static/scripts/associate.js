@@ -8,12 +8,20 @@ TestMob.JobRunner = (function() {
   var testWindow,
       last_send,
       socket,
+      models,
+      list,
       model,
       view;
 
   function init(config) {
     socket = config.socket;
     socket.on('start_suite', start_suite);
+
+    models = TestMob.ModelsFactory.create({ constructor: TestMob.Models.AssociateTest });
+    list = TestMob.ViewsFactory.create({
+      template: "associate_results",
+      models: models
+    });
   }
 
   function start_suite(data, fn) {
@@ -21,14 +29,8 @@ TestMob.JobRunner = (function() {
       msg: "start_suite"
     }, data);
 
-    model = TestMob.Models.ClientTest.create({
-      data: data
-    });
-
-    view = TestMob.Modules.Test.create();
-    view.start({
-      model: model
-    });
+    var cid = models.insert(data);
+    model = models.get(cid);
 
     last_send = null;
     socket.emit("suite_start", model.toObject());

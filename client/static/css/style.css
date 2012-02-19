@@ -37,7 +37,7 @@ hgroup {
   text-align: baseline;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
   display: inline;
@@ -213,7 +213,6 @@ li.passed {
 
 li.failed {
   background-color: #ee5757;
-  color: #710909;
 }
 
 #legend {
@@ -243,16 +242,22 @@ li.failed {
   display: inline-block;
 }
 
-#results > li > ul {
+#results > li > .failures {
   background: #ccc;
   border-radius: 5px;
   border: 1px solid #ccc;
-  box-shadow: inset 0 0 5px 5px #ccc;
+  box-shadow: inset 3px 3px 10px 0 #555;
   overflow: hidden;
   margin-top: 0.5em;
+  display: none;
+  padding: 1em;
 }
 
-#results > li > ul > li {
+#results > li.failed > .failures {
+  display: block;
+}
+
+#results > li > .failures > ul > li {
   list-style-type: none;
 }
 
