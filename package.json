@@ -12,6 +12,7 @@
     , "connect-cachify": "0.0.3"
     , "uglify-js": "1.2.5"
     , "uglifycss": "0.0.5"
+    , "redis-url": "0.0.1"
    }
   , "scripts": {
     "start": "./server/start.js"
