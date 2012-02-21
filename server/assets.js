@@ -41,6 +41,12 @@ var assets = {
     "/scripts/family.js",
 
     "/scripts/start.js"
+  ],
+  "/production/main.min.css": [
+    "/css/common.css",
+    "/css/mobile.css",
+    "/css/tablet.css",
+    "/css/desktop.css"
   ]
 };
 

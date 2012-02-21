@@ -9,10 +9,7 @@
   <script src="https://browserid.org/include.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <%- cachify_js("/production/main.min.js") %>
-  <link href="/css/common.css" type="text/css" rel="stylesheet">
-  <link href="/css/desktop.css" type="text/css" rel="stylesheet">
-  <link href="/css/tablet.css" type="text/css" rel="stylesheet">
-  <link href="/css/m.css" type="text/css" rel="stylesheet">
+  <%- cachify_css("/production/main.min.css") %>
 </head>
 <body>
   <div id="wrapper">
