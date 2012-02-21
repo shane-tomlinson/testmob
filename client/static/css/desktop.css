@@ -1,0 +1,34 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@media screen and (min-width: 840px) {
+  h1, h2, h3, h4, h5, h6 {
+    display: inline-block;
+  }
+
+  header > hgroup > h2:before {
+    content: "-";
+    margin-right: 3px;
+  }
+
+  #wrapper {
+    margin-top: 50px;
+    width: 840px;
+    padding: 50px;
+  }
+
+  input[type=text] {
+    width: 500px;
+  }
+
+
+  #steps > li > a > img {
+    width: 638px;
+  }
+
+  #family_name {
+    width: 50%;
+    margin-right: 10px;
+  }
+}

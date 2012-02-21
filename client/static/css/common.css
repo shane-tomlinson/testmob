@@ -1,8 +1,14 @@
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   padding: 0;
-  line-height: 1;
-  font: 13px/1.5 Helvetica,Arial,"Liberation Sans",FreeSans,sans-serif;
+  line-height: 1.5;
+  font: 15px/1.5 Helvetica,Arial,"Liberation Sans",FreeSans,sans-serif;
 }
 
 body {
@@ -40,7 +46,6 @@ hgroup {
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
-  display: inline;
 }
 
 h1 {
@@ -70,7 +75,6 @@ ul {
 
 input[type=text] {
   border-radius: 4px;
-  width: 500px;
   padding: .5em;
   box-shadow: 0 0 1px 1px #ccc inset;
   border: 1px solid #aaa;
@@ -157,11 +161,9 @@ code {
 }
 
 #wrapper {
-  width: 840px;
   margin: 0 auto;
+  padding: 25px;
   background: #fff;
-  margin-top: 50px;
-  padding: 50px;
   box-shadow: 0pt 0pt 15px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -180,11 +182,6 @@ code {
 
 form#join_family {
   margin-top: 20px;
-}
-
-#family_name {
-  width: 50%;
-  margin-right: 10px;
 }
 
 #family_warning {
@@ -274,8 +271,8 @@ li.failed {
 
 #steps > li > a > img {
   margin-top: 20px;
-  width: 638px;
   border-radius: 3px;
   display: block;
 }
+
 
