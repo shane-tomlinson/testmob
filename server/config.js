@@ -9,19 +9,23 @@ var configs = {
   local: {
     ip_address: env['IP_ADDRESS'] || "0.0.0.0",
     port: env['PORT'] || 5000,
-    use_minified_resources: false
+    use_minified_resources: false,
+    redis_url: "http://192.168.1.86:6379"
   },
 
   production: {
-    ip_address: "0.0.0.0",
+    ip_address: env['IP_ADDRESS'] || "0.0.0.0",
     port: env['PORT'] || 5000,
     url: "testmob.org",
-    use_minified_resources: true
+    use_minified_resources: true,
+    redis_url: env['REDISTOGO_URL']
   }
 };
 
 configs.local.url = configs.local.ip_address + ":" + configs.local.port;
 
-var config = env['IP_ADDRESS'] ? 'local' : 'production';
-exports.config = configs[config];
+var environment = env['NODE_ENV'] || "local";
+exports.config = configs[environment];
+
+console.log("using environment: " + environment);
 

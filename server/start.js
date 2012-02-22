@@ -15,11 +15,13 @@ const express = require("express")
       verifier = require("./verifier"),
       sockets = require("./sockets"),
       assets = require("./assets").assets,
-      config = require("./config").config;
+      config = require("./config").config,
+      redis =  require('redis-url');
 
 const IP_ADDRESS=config.ip_address;
 const PORT=config.port;
 const URL = config.url;
+const REDIS_URL = config.redis_url;
 
 const root = __dirname + '/../client/';
 
@@ -48,9 +50,15 @@ app.configure(function(){
   app.set('views', root + 'templates/');
 });
 
-views.init({ app: app });
-wsapi.init({ app: app, verifier: verifier, audience: "http://" + URL });
-sockets.init({ app: app, sessionStore: sessionStore });
+for(var key in redis) {
+  console.log(key);
+}
+var db = redis.createClient(REDIS_URL);
+
+views.init({ app: app, db: db });
+wsapi.init({ app: app, verifier: verifier, audience: "http://" + URL});
+sockets.init({ app: app, sessionStore: sessionStore, db: db });
+
 
 app.listen(PORT, IP_ADDRESS);
 

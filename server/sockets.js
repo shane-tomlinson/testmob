@@ -8,7 +8,8 @@ const socket = require("socket.io"),
       parseCookie = require("connect").utils.parseCookie;
 
 var io,
-    families;
+    families,
+    db;
 
 exports.init = function(config) {
   var app = config.app;
@@ -27,6 +28,7 @@ exports.init = function(config) {
   });
 
   families = {};
+  db = config.db;
 };
 
 exports.start_family = function(family_name) {
@@ -75,13 +77,21 @@ function socket_connection(socket) {
 
   socket.on('request_start_suite', function (data) {
     socket.get("id", function(err, id) {
-      // XXX this will have to be torn down.
-      initiators[id] = socket;
+      db.get("tests_started", function(err, value) {
+        if(err) return;
 
-      socket.get("email", function(err, email) {
-        data.initiator_id = id;
-        data.email = hs.email;
-        socket.broadcast.emit("start_suite", data);
+        var tests_started = ~~value;
+        tests_started++;
+        db.set("tests_started", tests_started);
+
+        // XXX this will have to be torn down.
+        initiators[id] = socket;
+
+        socket.get("email", function(err, email) {
+          data.initiator_id = id;
+          data.email = hs.email;
+          socket.broadcast.emit("start_suite", data);
+        });
       });
     });
   });
