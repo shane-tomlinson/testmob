@@ -25,7 +25,7 @@ TestMob.Boss = (function() {
       var url = $("#url").val().trim();
       if(url) {
         localStorage.url = url;
-        socket.emit('request_start_suite', { url: url });
+        socket.emit('request_start_suite', { url: url, client_id: TestMob.client_id });
       }
     });
 

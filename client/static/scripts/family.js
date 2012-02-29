@@ -9,11 +9,14 @@ $(function() {
   if(document.location.href.indexOf("family") == -1) return;
 
   var family_name = document.location.href.replace("http://testmob.org/family/", "");
-  var socket = io.connect('http://testmob.org/' + family_name);
+  var socket = TestMob.XHREvents.create({});
+  socket.start({
+    io: io,
+    url: "http://testmob.org/" + family_name
+  });
 
   TestMob.Boss.init({ socket: socket });
   TestMob.JobRunner.init({ socket: socket });
-
 
   if(!localStorage.last_visit) {
     $("#family_warning").slideDown();

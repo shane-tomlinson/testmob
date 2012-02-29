@@ -13,9 +13,11 @@
     , "uglify-js": "1.2.5"
     , "uglifycss": "0.0.5"
     , "redis-url": "0.0.1"
+    , "mocha": "0.13.0"
    }
   , "scripts": {
-    "start": "./server/start.js"
+        "start": "./server/start.js"
+      , "test":  "./node_modules/.bin/mocha -G server/test/*"
   },
   "engines": {
     "node": ">= 0.4.7"

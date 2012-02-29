@@ -5,7 +5,8 @@
 
 const socket = require("socket.io"),
       Session = require("connect").middleware.session.Session,
-      parseCookie = require("connect").utils.parseCookie;
+      parseCookie = require("connect").utils.parseCookie,
+      request_start_suite = require("./commands/request_start_suite");
 
 var io,
     families,
@@ -29,10 +30,12 @@ exports.init = function(config) {
 
   families = {};
   db = config.db;
+  request_start_suite.init({ db: db });
 };
 
 exports.start_family = function(family_name) {
   if(!families[family_name]) {
+    console.log('family started: ' + family_name);
     io.of("/" + family_name).on('connection', socket_connection);
     families[family_name] = true;
   }
@@ -62,68 +65,48 @@ function socket_authorization(data, accept) {
   }
 }
 
-function socket_connection(socket) {
-  var hs = socket.handshake;
-
-  socket.set("id", socket_id);
+function getSocketID() {
+  var id=socket_id;
   socket_id++;
+  return id;
+}
 
-  socket.on('login', function(data, fn) {
-    verifier.verify(data, function(err, resp) {
-      socket.set("email", email);
-      fn(data);
-    });
-  });
+function socket_connection(socket) {
+  console.log("set client id");
+
+  var hs = socket.handshake,
+      socketID = getSocketID();
+
+  socket.emit("set_id", { client_id: socketID });
 
   socket.on('request_start_suite', function (data) {
-    socket.get("id", function(err, id) {
-      db.get("tests_started", function(err, value) {
-        if(err) return;
+    var id = data.client_id;
 
-        var tests_started = ~~value;
-        tests_started++;
-        db.set("tests_started", tests_started);
+    console.log("request_start_suite started");
+    // XXX this will have to be torn down.
+    initiators[id] = socket;
 
-        // XXX this will have to be torn down.
-        initiators[id] = socket;
+    var initiator_data = { id: id, email: hs.email };
+    request_start_suite.request_start_suite(initiator_data, data, function(err, resp) {
+      if(err) return;
 
-        socket.get("email", function(err, email) {
-          data.initiator_id = id;
-          data.email = hs.email;
-          socket.broadcast.emit("start_suite", data);
-        });
-      });
+      socket.broadcast.emit("start_suite", resp);
     });
   });
 
-  socket.on("suite_start", function(data) {
-    socket.set("runner_id", runner_id);
-    data.email = hs.email || "";
-    data.runner_id = runner_id;
-    runner_id++;
+  proxyCommand("suite_start");
+  proxyCommand("test_done");
+  proxyCommand("suite_complete");
 
-    var initiator = initiators[data.initiator_id];
-    initiator.emit("suite_start", data);
-  });
-
-  socket.on("test_done", function(data) {
-    socket.get("runner_id", function(err, runner_id) {
-      data.email = hs.email || "";
-      data.runner_id = runner_id;
-
+  function proxyCommand(message) {
+    socket.on(message, function(data) {
+      data.runner_id = data.client_id;
+      data.email = hs.email;
       var initiator = initiators[data.initiator_id];
-      initiator.emit("test_done", data);
+      if(initiator) {
+        initiator.emit(message, data);
+      }
     });
-  });
-
-  socket.on("suite_complete", function(data) {
-    socket.get("runner_id", function(err, runner_id) {
-      data.email = hs.email || "";
-      data.runner_id = runner_id;
-
-      var initiator = initiators[data.initiator_id];
-      initiator.emit("suite_complete", data);
-    });
-  });
+  }
 }
 
