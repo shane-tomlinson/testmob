@@ -25,12 +25,12 @@ TestMob.Boss = (function() {
       var url = $("#url").val().trim();
       if(url) {
         localStorage.url = url;
-        socket.emit('request_start_suite', { url: url, client_id: TestMob.client_id });
+        socket.emit('request_start_suite', { url: url });
       }
     });
 
     function modelID(data) {
-      return "runner" + data.runner_id;
+      return "runner:" + data.runner_id + "." + data.test_id;
     }
 
     socket.on("suite_start", function(data) {

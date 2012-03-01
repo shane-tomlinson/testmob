@@ -26,7 +26,7 @@ TestMob.XHREvents = (function() {
 
     emit: function(msg, data) {
       var self=this,
-          eventData = AFrame.mixin({ client_id: self.client_id, email: self.email || "" }, data);
+          eventData = AFrame.mixin({}, data, { client_id: self.client_id, email: self.email || "" });
 
       self.socket.emit(msg, eventData);
     },
