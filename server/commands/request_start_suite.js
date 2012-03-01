@@ -22,20 +22,6 @@ function getID() {
   return id;
 }
 
-function request_start_suite(initiator_data, test_data, cb) {
-  incrementTestCount(function(err, value) {
-    if(err) {
-      cb(err, null);
-    }
-    else {
-      test_data.test_id = getID();
-      test_data.initiator_id = initiator_data.id;
-
-      cb(null, test_data);
-    }
-  });
-};
-
 exports.init = function(config) {
   db = config.db;
   clients = config.clients;
@@ -47,13 +33,15 @@ exports.bind = function(config) {
 
   socket.on('request_start_suite', function (data) {
     var id = data.client_id;
-
     clients[id] = socket;
 
-    request_start_suite({ id: id }, data, function(err, resp) {
-      if(err) return;
+    incrementTestCount(function(err, value) {
+      if(!err) {
+        data.test_id = getID();
+        data.initiator_id = id;
 
-      socket.broadcast.emit("start_suite", resp);
+        socket.broadcast.emit("start_suite", data);
+      }
     });
   });
 };

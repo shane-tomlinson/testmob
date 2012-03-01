@@ -9,11 +9,8 @@ exports.init = function(config) {
 };
 
 exports.command_relay = function(socket, message) {
-  console.log("setting up relay: " + message);
   socket.on(message, function(data) {
     data.runner_id = data.client_id;
-
-    console.log("relaying: " + message);
 
     // We use the initiator_id instead of passing the initiator's socket
     // directly because each client could be running tests from

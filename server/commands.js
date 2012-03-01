@@ -19,11 +19,14 @@ exports.init = function(cb) {
     }
     else {
       for(var i = 0, fileName; fileName = files[i]; ++i) {
-        var filePath = path.join(root, fileName),
-            command = require(filePath),
-            commandName = fileName.replace(".js", "");
+        // only load js files.
+        if(fileName.search(/\.js$/) > -1) {
+          var filePath = path.join(root, fileName),
+              command = require(filePath),
+              commandName = fileName.replace(/\.js$/, "");
 
-        commands[commandName] = command;
+          commands[commandName] = command;
+        }
       }
 
       cb(err, files);

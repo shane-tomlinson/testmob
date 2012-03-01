@@ -25,6 +25,20 @@ Socket.prototype = {
    */
   bind: function(message, callback) {
     this.emit_handlers[message] = callback;
+  },
+
+  /**
+   * Messages broadcast for the entire namespace
+   */
+  broadcast: {
+    emit_handlers: {},
+    bind: function(message, callback) {
+      this.emit_handlers[message] = callback;
+    },
+
+    emit: function(message, data) {
+      this.emit_handlers[message](data);
+    }
   }
 
 };
