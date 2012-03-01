@@ -1,7 +1,8 @@
 
-var db;
+var db,
+    clients;
 
-function getTestID(cb) {
+function incrementTestCount(cb) {
   db.get("tests_started", function(err, value) {
     if(err) cb("increment_test_count", null);
 
@@ -12,24 +13,48 @@ function getTestID(cb) {
   });
 }
 
-exports.init = function(config) {
-  db = config.db;
-};
+function getID() {
+  var id = "",
+      alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-exports.request_start_suite = function(initiator_data, test_data, cb) {
-  console.log("requesting start suite");
-  getTestID(function(err, value) {
+  for(var i=0; i < 5; i++) id += alpha.charAt(Math.floor(Math.random() * alpha.length));
+
+  return id;
+}
+
+function request_start_suite(initiator_data, test_data, cb) {
+  incrementTestCount(function(err, value) {
     if(err) {
       cb(err, null);
     }
     else {
-      test_data.test_id = value;
+      test_data.test_id = getID();
       test_data.initiator_id = initiator_data.id;
-      test_data.email = initiator_data.email;
 
-      console.log("initiator: " + initiator_data.id);
       cb(null, test_data);
     }
+  });
+};
+
+exports.init = function(config) {
+  db = config.db;
+  clients = config.clients;
+};
+
+
+exports.bind = function(config) {
+  var socket = config.socket;
+
+  socket.on('request_start_suite', function (data) {
+    var id = data.client_id;
+
+    clients[id] = socket;
+
+    request_start_suite({ id: id }, data, function(err, resp) {
+      if(err) return;
+
+      socket.broadcast.emit("start_suite", resp);
+    });
   });
 };
 

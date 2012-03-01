@@ -17,7 +17,7 @@
    }
   , "scripts": {
         "start": "./server/start.js"
-      , "test":  "./node_modules/.bin/mocha -G server/test/*"
+      , "test":  "./node_modules/.bin/mocha -G server/test/cases/*"
   },
   "engines": {
     "node": ">= 0.4.7"

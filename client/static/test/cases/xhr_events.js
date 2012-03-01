@@ -68,11 +68,18 @@
     equal(this.events.socket.triggered.message.key, "value", "message triggered with correct data");
   });
 
-  test("emit after set_id triggered - emit a message with client_id", function() {
-    this.events.socket.trigger("set_id", { client_id: "id" });
+  test("emit after set_client_id triggered - emit a message with client_id", function() {
+    this.events.socket.trigger("set_client_id", { client_id: "id" });
     this.events.emit("message", { key: "value" });
 
     equal(this.events.socket.triggered.message.client_id, "id", "message triggered with correct client_id");
+  });
+
+  test("emit after setEmail - emit a message with an email", function() {
+    this.events.setEmail("client@client.com");
+    this.events.emit("message", { key: "value" });
+
+    equal(this.events.socket.triggered.message.email, "client@client.com", "message triggered with correct email");
   });
 
 }());

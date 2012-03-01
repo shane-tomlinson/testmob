@@ -15,7 +15,7 @@ TestMob.XHREvents = (function() {
       self.io = config.io;
       self.socket = self.io.connect(config.url);
 
-      self.socket.on("set_id", function(data) {
+      self.socket.on("set_client_id", function(data) {
         self.client_id = data.client_id;
       });
     },
@@ -26,9 +26,13 @@ TestMob.XHREvents = (function() {
 
     emit: function(msg, data) {
       var self=this,
-          eventData = AFrame.mixin({ client_id: self.client_id }, data);
+          eventData = AFrame.mixin({ client_id: self.client_id, email: self.email || "" }, data);
 
       self.socket.emit(msg, eventData);
+    },
+
+    setEmail: function(email) {
+      this.email = email;
     }
   });
 
