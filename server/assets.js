@@ -35,6 +35,7 @@ var assets = {
     "/scripts/views/test.js",
     "/scripts/views/views_factory.js",
 
+    "/scripts/xhr_events.js",
     "/scripts/job_loader.js",
     "/scripts/associate.js",
     "/scripts/boss.js",

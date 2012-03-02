@@ -10,7 +10,7 @@ var configs = {
     ip_address: env['IP_ADDRESS'] || "0.0.0.0",
     port: env['PORT'] || 5000,
     use_minified_resources: false,
-    redis_url: "http://192.168.1.86:6379"
+    redis_url: "http://" + (env['IP_ADDRESS'] || "0.0.0.0") + ":6379"
   },
 
   production: {

@@ -14,7 +14,7 @@ $(function() {
 
 
   var email = $("#email").text();
-  var authModel = AuthModel.create({
+  tm.authModel = AuthModel.create({
     data: {
       authenticated: !!email,
       email: email
@@ -22,6 +22,6 @@ $(function() {
   });
 
   moduleManager.register("authentication", AuthView);
-  moduleManager.start("authentication", { model: authModel });
+  moduleManager.start("authentication", { model: tm.authModel });
 });
 

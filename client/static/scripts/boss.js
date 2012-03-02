@@ -30,7 +30,7 @@ TestMob.Boss = (function() {
     });
 
     function modelID(data) {
-      return "runner" + data.runner_id;
+      return "runner:" + data.runner_id + "." + data.test_id;
     }
 
     socket.on("suite_start", function(data) {
