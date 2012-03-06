@@ -12,15 +12,23 @@ TestMob.ViewsFactory = (function() {
         dom = tm.DOM;
 
     function create(config) {
+      var listEl = renderer.append("body", config.list_template, config);
+      if(dom.getChildren("#results").length) {
+        dom.insertBefore(listEl, "#results > *:first-child");
+      }
+      else {
+        dom.appendTo(listEl, "#results");
+      }
+
       var list = AFrame.List.create({
-        target: "#results",
+        target: listEl,
         renderItem: function(model, index) {
           var data = model.toObject(),
               selector = "#" + data.test_id,
               createContainer = dom.createElement("div");
 
           dom.appendTo(createContainer, "body");
-          renderer.render(createContainer, config.template, data);
+          renderer.render(createContainer, config.result_template, data);
 
           var el = $(selector);
           dom.removeElement(createContainer);

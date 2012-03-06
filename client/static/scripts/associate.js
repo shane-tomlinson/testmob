@@ -14,6 +14,14 @@ TestMob.Modules.Associate = (function() {
       view;
 
   function start_suite(data, fn) {
+    models = tm.ModelsFactory.create({ constructor: TestMob.Models.AssociateTest });
+    list = tm.ViewsFactory.create({
+      list_template: "test_results",
+      result_template: "associate_result",
+      models: models,
+      url: data.url || ""
+    });
+
     data = $.extend({
       msg: "start_suite"
     }, data);
@@ -59,11 +67,6 @@ TestMob.Modules.Associate = (function() {
       socket = config.socket;
       socket.on('start_suite', start_suite);
 
-      models = tm.ModelsFactory.create({ constructor: TestMob.Models.AssociateTest });
-      list = tm.ViewsFactory.create({
-        template: "associate_results",
-        models: models
-      });
     }
   });
 

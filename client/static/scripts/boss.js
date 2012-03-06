@@ -13,18 +13,20 @@ TestMob.Modules.Boss = (function() {
     start: function(config) {
       socket = config.socket;
 
-      models = tm.ModelsFactory.create({ constructor: tm.Models.Test });
-      list = tm.ViewsFactory.create({
-        template: "boss_results",
-        models: models
-      });
-
       $("#url").val(localStorage.url || "");
       $("form").bind("submit", function(event) {
         event.preventDefault();
 
         var url = $("#url").val().trim();
         if(url) {
+          models = tm.ModelsFactory.create({ constructor: tm.Models.Test });
+          list = tm.ViewsFactory.create({
+            list_template: "test_results",
+            result_template: "boss_result",
+            models: models,
+            url: url
+          });
+
           localStorage.url = url;
           socket.emit('request_start_suite', { url: url });
         }
