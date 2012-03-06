@@ -6,6 +6,9 @@ TestMob.Modules.Associate = (function() {
   "use strict";
 
   var tm = TestMob,
+      ModelsFactory = tm.ModelsFactory,
+      ViewsFactory = tm.ViewsFactory,
+      JobLoader = tm.JobLoader,
       last_send,
       socket,
       models,
@@ -14,8 +17,8 @@ TestMob.Modules.Associate = (function() {
       view;
 
   function start_suite(data, fn) {
-    models = tm.ModelsFactory.create({ constructor: TestMob.Models.AssociateTest });
-    list = tm.ViewsFactory.create({
+    models = ModelsFactory.create({ constructor: TestMob.Models.AssociateTest });
+    list = ViewsFactory.create({
       list_template: "test_results",
       result_template: "associate_result",
       models: models,
@@ -32,7 +35,7 @@ TestMob.Modules.Associate = (function() {
     last_send = null;
     socket.emit("suite_start", model.toObject());
 
-    TestMob.JobLoader.load(data, loader_result);
+    JobLoader.load(data, loader_result);
   }
 
   function loader_result(err, info) {
@@ -66,7 +69,6 @@ TestMob.Modules.Associate = (function() {
     start: function(config) {
       socket = config.socket;
       socket.on('start_suite', start_suite);
-
     }
   });
 
