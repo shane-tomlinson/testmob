@@ -41,6 +41,10 @@ exports.init = function(config) {
       io.set("polling duration", 10);
 
       io.set("authorization", socket_authorization);
+      io.set("log level", 2);
+      io.set("browser client gzip", true);
+      io.set("browser client minification", true);
+      io.set("browser client etag", true);
     });
   });
 };
