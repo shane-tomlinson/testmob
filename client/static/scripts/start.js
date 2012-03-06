@@ -11,7 +11,9 @@ $(function() {
       modules = tm.Modules,
       moduleManager = tm.moduleManager,
       AuthView = modules.Authentication,
-      Family = modules.Family;
+      Family = modules.Family,
+      Associate = modules.Associate,
+      Boss = modules.Boss;
 
 
   var email = $("#email").text();
@@ -22,10 +24,14 @@ $(function() {
     }
   });
 
+  moduleManager.register("associate", Associate);
+  moduleManager.register("boss", Boss);
+
   moduleManager.register("authentication", AuthView);
   moduleManager.start("authentication", { model: tm.authModel });
 
   moduleManager.register("family", Family);
   moduleManager.start("family", { authModel: tm.authModel });
+
 });
 

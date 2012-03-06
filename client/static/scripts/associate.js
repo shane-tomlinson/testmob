@@ -2,27 +2,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-TestMob.JobRunner = (function() {
+TestMob.Modules.Associate = (function() {
   "use strict";
 
-  var testWindow,
+  var tm = TestMob,
       last_send,
       socket,
       models,
       list,
       model,
       view;
-
-  function init(config) {
-    socket = config.socket;
-    socket.on('start_suite', start_suite);
-
-    models = TestMob.ModelsFactory.create({ constructor: TestMob.Models.AssociateTest });
-    list = TestMob.ViewsFactory.create({
-      template: "associate_results",
-      models: models
-    });
-  }
 
   function start_suite(data, fn) {
     data = $.extend({
@@ -65,9 +54,19 @@ TestMob.JobRunner = (function() {
     return (msg === "suite_complete" || !last_send || ((now - last_send) > 2500));
   }
 
+  var Module = tm.Module.extend({
+    start: function(config) {
+      socket = config.socket;
+      socket.on('start_suite', start_suite);
 
-  return {
-    init: init
-  };
+      models = tm.ModelsFactory.create({ constructor: TestMob.Models.AssociateTest });
+      list = tm.ViewsFactory.create({
+        template: "associate_results",
+        models: models
+      });
+    }
+  });
+
+  return Module;
 }());
 

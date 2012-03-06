@@ -7,38 +7,16 @@
 
   var tm = TestMob,
       XHREvents = tm.XHREvents,
-      ioMock;
-
-  function IOMock() {}
-  IOMock.prototype = {
-    connect: function(url) {
-      this.url = url;
-
-      this.socket = {
-        listeners: {},
-        triggered: {},
-        emit: function(msg, data) {
-          this.triggered[msg] = data;
-        },
-        on: function(msg, cb) {
-          this.listeners[msg] = cb;
-        },
-        trigger: function(msg, data) {
-          this.listeners[msg](data);
-        }
-      };
-
-      return this.socket;
-    }
-  };
+      Socket = tm.Mocks.Socket,
+      socketMock;
 
   module("xhr_events", {
     setup: function() {
-      ioMock = new IOMock();
+      socketMock = new Socket();
 
       this.events = XHREvents.create();
       this.events.start({
-        io: ioMock,
+        io: socketMock,
         url: "http://testurl.org/endpoint"
       });
 
@@ -50,7 +28,7 @@
   });
 
   test("create/start - connects to endpoint", function() {
-    equal(ioMock.url, "http://testurl.org/endpoint", "connection established to endpoint");
+    equal(socketMock.url, "http://testurl.org/endpoint", "connection established to endpoint");
   });
 
   asyncTest("on - register a handler", function() {

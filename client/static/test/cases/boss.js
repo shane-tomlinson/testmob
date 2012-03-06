@@ -6,24 +6,28 @@
   "use strict";
 
   var tm = TestMob,
-      Family = tm.Modules.Family,
-      family;
+      Boss = tm.Modules.Boss,
+      boss,
+      Socket = tm.Mocks.Socket,
+      socket;
 
-  module("family", {
+  module("boss", {
     setup: function() {
+      socket = new Socket();
+      socket.connect("http://testmob.org");
     },
 
     teardown: function() {
     }
   });
 
-  test("can create family", function() {
-    family = Family.create({});
-    family.start({
-      authModel: new AFrame.DataContainer()
+  test("can create boss", function() {
+    boss = Boss.create({});
+    boss.start({
+      socket: socket.socket
     });
 
-    ok(family, "family created");
+    ok(boss, "boss created");
   });
 
 }());

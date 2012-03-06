@@ -5,7 +5,8 @@
 TestMob.Modules.Family = (function(){
   "use strict";
 
-  var tm = TestMob;
+  var tm = TestMob,
+      moduleManager = tm.moduleManager;
 
   var Module = tm.Module.extend({
     start: function(config) {
@@ -24,8 +25,8 @@ TestMob.Modules.Family = (function(){
         socket.setEmail(event.value);
       });
 
-      tm.Boss.init({ socket: socket });
-      tm.JobRunner.init({ socket: socket });
+      moduleManager.start("associate", { socket: socket });
+      moduleManager.start("boss", { socket: socket });
     }
   });
 
