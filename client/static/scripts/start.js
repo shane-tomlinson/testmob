@@ -13,25 +13,22 @@ $(function() {
       AuthView = modules.Authentication,
       Family = modules.Family,
       Associate = modules.Associate,
-      Boss = modules.Boss;
-
-
-  var email = $("#email").text();
-  tm.authModel = AuthModel.create({
-    data: {
-      authenticated: !!email,
-      email: email
-    }
-  });
+      Boss = modules.Boss,
+      email = $("#email").text(),
+      authModel = AuthModel.create({
+        data: {
+          authenticated: !!email,
+          email: email
+        }
+      });
 
   moduleManager.register("associate", Associate);
   moduleManager.register("boss", Boss);
 
   moduleManager.register("authentication", AuthView);
-  moduleManager.start("authentication", { model: tm.authModel });
+  moduleManager.start("authentication", { model: authModel });
 
   moduleManager.register("family", Family);
-  moduleManager.start("family", { authModel: tm.authModel });
-
+  moduleManager.start("family", { authModel: authModel });
 });
 
