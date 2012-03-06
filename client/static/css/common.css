@@ -221,25 +221,37 @@ li.failed {
   padding: 5px;
 }
 
-#results > li {
+#results > ol {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+#results > ol:last-child {
+  border-bottom: none;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+#results > ol > li {
   border-bottom: 1px solid #FFFFFF;
   padding: 0.4em 1em 0.4em 1.5em;
   list-style-position: inside;
 }
 
-#results > li:first-child {
+#results > ol > li:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-#results > li:last-child {
+#results > ol > li:last-child {
   border-radius: 0 0 5px 5px;
 }
 
-#results > li > h3 {
+#results > ol > li > h3 {
   display: inline-block;
 }
 
-#results > li > .failures {
+#results > ol > li > .failures {
   background: #ccc;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -250,11 +262,11 @@ li.failed {
   padding: 1em;
 }
 
-#results > li.failed > .failures {
+#results > ol > li.failed > .failures {
   display: block;
 }
 
-#results > li > .failures > ul > li {
+#results > ol > li > .failures > ul > li {
   list-style-type: none;
 }
 

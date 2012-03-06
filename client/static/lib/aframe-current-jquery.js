@@ -1,5 +1,5 @@
 /**
-* Note, this class does not really exist!  It is a placeholder for extensions to system prototypes like Function, Array, Date.  
+* Note, this class does not really exist!  It is a placeholder for extensions to system prototypes like Function, Array, Date.
 * @class SystemExtensions
 */
 
@@ -16,12 +16,12 @@ if ( !Function.prototype.bind ) {
 
   Function.prototype.bind = function( obj ) {
     var slice = [].slice,
-        args = slice.call(arguments, 1), 
-        self = this, 
-        nop = function () {}, 
+        args = slice.call(arguments, 1),
+        self = this,
+        nop = function () {},
         bound = function () {
-          return self.apply( this instanceof nop ? this : ( obj || {} ), 
-                              args.concat( slice.call(arguments) ) );    
+          return self.apply( this instanceof nop ? this : ( obj || {} ),
+                              args.concat( slice.call(arguments) ) );
         };
 
     nop.prototype = self.prototype;
@@ -31,7 +31,7 @@ if ( !Function.prototype.bind ) {
     return bound;
   };
 }
-  
+
 /**
 * Run a function over each element in the array.  Comes from http://userscripts.org/topics/2304?page=1#posts-9660
 * @method Array.prototype.forEach
@@ -887,7 +887,7 @@ AFrame.ObservablesMixin = (function() {
 
 }());
 /**
-* A collection of functions common to enumerable objects.  When mixing in 
+* A collection of functions common to enumerable objects.  When mixing in
 * this class, the class being mixed into must define a forEach function.
 *
 * @class AFrame.EnumerableMixin
@@ -895,7 +895,7 @@ AFrame.ObservablesMixin = (function() {
 */
 AFrame.EnumerableMixin = ( function() {
     "use strict";
-    
+
     var Mixin = {
         /**
         * Get a set of items in the collection using the search function.  The search function will
@@ -914,16 +914,16 @@ AFrame.EnumerableMixin = ( function() {
         */
         filter: function( search ) {
             var items = [];
-            
+
             this.forEach( function( item, id ) {
                 if( true === search( item, id, this ) ) {
                     items.push( item );
                 }
             }, this );
-            
+
             return items;
         },
-        
+
         /**
         * Search for the first item in the collection that matches the search function.
         *
@@ -951,15 +951,15 @@ AFrame.EnumerableMixin = ( function() {
         */
         getCount: function() {
             var count = 0;
-            
+
             this.forEach( function( item ) {
                 count++;
             } );
-            
+
             return count;
         }
     };
-    
+
     return Mixin;
 
 }() );/**
@@ -1258,7 +1258,7 @@ AFrame.AObject = (function(){
 /**
 * DataContainers are the basic atom of data within the AFrameJS ecosystem.
 * Used like a hash. They provide functionality allowing concerned parties
-* to be notified when the data mutates. They are the "Model" in 
+* to be notified when the data mutates. They are the "Model" in
 * Model-View-Controller.  DataContainer's make it possible to have multiple
 * Views bound to a particular field update automatically when the underlying
 * data is modified.
@@ -1288,8 +1288,8 @@ AFrame.AObject = (function(){
  *     var dataContainer = AFrame.DataContainer.create( { data: dataObject } );
  *
  * @method AFrame.DataContainer.create
- * @param {object || AFrame.DataContainer} data (optional) If given, creates a 
- * new AFrame.DataContainer for the data. If already an AFrame.DataContainer, 
+ * @param {object || AFrame.DataContainer} data (optional) If given, creates a
+ * new AFrame.DataContainer for the data. If already an AFrame.DataContainer,
  * returns self, if the data already has an AFrame.DataContainer associated with
  * it, then the original AFrame.DataContainer is used.
 */
@@ -1357,7 +1357,7 @@ AFrame.DataContainer = ( function() {
             /**
             * Triggered whenever any item on the object is set.
             * @event onSet
-            * @param {AFrame.Event} event - an event object. @see 
+            * @param {AFrame.Event} event - an event object. @see
             *   [Event](AFrame.Event.html)
             * @param {string} event.fieldName - name of field affected.
             * @param {variant} event.value - the current value of the field.
@@ -1371,10 +1371,10 @@ AFrame.DataContainer = ( function() {
                 type: 'onSet'
             } );
             /**
-            * Triggered whenever an item on the object is set.  This is useful 
+            * Triggered whenever an item on the object is set.  This is useful
             * to bind to whenever a particular field is being changed.
             * @event onSet-fieldName
-            * @param {AFrame.Event} event - an event object.  @see 
+            * @param {AFrame.Event} event - an event object.  @see
             *   [Event](AFrame.Event.html)
             * @param {string} event.fieldName - name of field affected.
             * @param {variant} event.value - the current value of the field.
@@ -1427,15 +1427,15 @@ AFrame.DataContainer = ( function() {
 
         /**
         * Bind a callback to a field.  Function is called once on initialization
-        * as well as any time the field changes. When function is called, it is 
+        * as well as any time the field changes. When function is called, it is
         * called with an event.
         *
         *    var onChange = function( event ) {
-        *        console.log( 'Name: "' + event.fieldName + '" + value: "' 
+        *        console.log( 'Name: "' + event.fieldName + '" + value: "'
         *           + event.value + '" oldValue: "' + event.oldValue + '"' );
         *    };
         *    var id = dataContainer.bindField( 'name', onChange );
-        *    // use id to unbind callback manually, otherwise callback will 
+        *    // use id to unbind callback manually, otherwise callback will
         *    / /be unbound automatically.
         *
         * @method bindField
@@ -1706,8 +1706,8 @@ AFrame.CollectionHash = ( function() {
         *    // remove by item itself
         *    hash.remove( googleItem );
         *
-        * An Example can be found on <a 
-        * href="http://jsfiddle.net/shane_tomlinson/Jkdy3/" 
+        * An Example can be found on <a
+        * href="http://jsfiddle.net/shane_tomlinson/Jkdy3/"
         * target="_blank">JSFiddle</a>
         *
         * @method remove
@@ -2541,14 +2541,14 @@ AFrame.Display = (function() {
 } )();
 /**
  * A generic HTML list class.  A list is any list of data.  A List shares the
- * majority of its interface with a 
- * <a href="AFrame.CollectionArray.html">CollectionArray</a> since lists are 
- * inherently ordered (even if they are ULs).  There are two methods for 
+ * majority of its interface with a
+ * <a href="AFrame.CollectionArray.html">CollectionArray</a> since lists are
+ * inherently ordered (even if they are ULs).  There are two methods for
  * inserting an item into the list, either passing an already created element to
- * [insertElement](#method_insertElement) or by passing data to 
- * [insert](#method_insert). If using insert, a factory function 
- * (renderItem) must be specified in the configuration. The factory 
- * function can either create an element directly or use some sort of 
+ * [insertElement](#method_insertElement) or by passing data to
+ * [insert](#method_insert). If using insert, a factory function
+ * (renderItem) must be specified in the configuration. The factory
+ * function can either create an element directly or use some sort of
  * prototyping system to create the element.  The factory function must return
  * the element to be inserted.
  *
@@ -2560,7 +2560,7 @@ AFrame.Display = (function() {
  *    // Set up a factory to create list elements.  This can create the elements
  *    // directly or use sort of templating system.
  *    var factory = function( data, index ) {
- *       var listItem = AFrame.DOM.createElement( 'li', data.name + ', ' 
+ *       var listItem = AFrame.DOM.createElement( 'li', data.name + ', '
  *          + data.employer );
  *       return listItem;
  *    };
@@ -2594,8 +2594,8 @@ AFrame.Display = (function() {
  * @constructor
  */
 /**
- * A function to call to create a list element.  function will be called with 
- * two parameters, an data and index. If not specified, then the internal 
+ * A function to call to create a list element.  function will be called with
+ * two parameters, an data and index. If not specified, then the internal
  * factory that returns an empty LI element will be used.  See
  *  [renderItem](#method_renderItem).
  * @config renderItem
@@ -2605,11 +2605,11 @@ AFrame.Display = (function() {
 AFrame.List = ( function() {
     "use strict";
 
-    var List = AFrame.Display.extend( AFrame.ArrayCommonFuncsMixin, 
+    var List = AFrame.Display.extend( AFrame.ArrayCommonFuncsMixin,
         AFrame.EnumerableMixin, {
         init: function( config ) {
             var me=this;
-            me.renderItem = config.renderItem 
+            me.renderItem = config.renderItem
                 || me.renderItem;
 
             List.sc.init.call( me, config );
@@ -2628,7 +2628,7 @@ AFrame.List = ( function() {
         *
         *    // overriden renderItem
         *    renderItem: function( data, index ) {
-        *       var listItem = AFrame.DOM.createElement( 'li', data.name 
+        *       var listItem = AFrame.DOM.createElement( 'li', data.name
         *           + ', ' + data.employer );
         *       return listItem;
         *    }
@@ -2779,9 +2779,9 @@ AFrame.List = ( function() {
             rowElement: rowElement,
             index: index,
             data: data,
-            type: message 
+            type: message
         } );
-    } 
+    }
 
     return List;
 } )();
@@ -2911,18 +2911,18 @@ AFrame.ListPluginBindToCollection = ( function() {
     return Plugin;
 }() );
 /**
- * A plugin to a collection to give the collection db ops.  This is part of 
- * what is usually called an Adapter when referring to collections with a 
- * hookup to a database.  The CollectionPluginPersistence is not the actual 
- * Adapter but binds a collection to an Adapter.  The 
- * CollectionPluginPersistence adds load, add, save, del functions to the 
+ * A plugin to a collection to give the collection db ops.  This is part of
+ * what is usually called an Adapter when referring to collections with a
+ * hookup to a database.  The CollectionPluginPersistence is not the actual
+ * Adapter but binds a collection to an Adapter.  The
+ * CollectionPluginPersistence adds load, add, save, del functions to the
  * collection, all four functions are assumed to operate asynchronously. When
- * configuring the plugin, 4 parameters can be specified, each are optional. 
- * The four paramters are addCallback, saveCallback, loadCallback, and 
+ * configuring the plugin, 4 parameters can be specified, each are optional.
+ * The four paramters are addCallback, saveCallback, loadCallback, and
  * deleteCallback.  When the callbacks are called, they will be called with two
- * parameters, item, options.  item is the item currently being operated on. 
+ * parameters, item, options.  item is the item currently being operated on.
  * options is options data that will contain at least two fields, collection and
- * onComplete. onComplte should be called by the adapter when the adapter 
+ * onComplete. onComplte should be called by the adapter when the adapter
  * function has completed.
  *
  *     // set up the adapter
@@ -3027,7 +3027,7 @@ AFrame.CollectionPluginPersistence = ( function() {
              * @config addCallback
              * @type function (optional)
              */
-            this.addCallback = config.addCallback || this.addCallback  
+            this.addCallback = config.addCallback || this.addCallback
                 || noPersistenceOp;
 
             /**
@@ -3036,7 +3036,7 @@ AFrame.CollectionPluginPersistence = ( function() {
              * @config saveCallback
              * @type function (optional)
              */
-            this.saveCallback = config.saveCallback || this.saveCallback 
+            this.saveCallback = config.saveCallback || this.saveCallback
                 || noPersistenceOp;
 
             /**
@@ -3045,11 +3045,11 @@ AFrame.CollectionPluginPersistence = ( function() {
              * @config loadCallback
              * @type function (optional)
              */
-            this.loadCallback = config.loadCallback || this.loadCallback 
+            this.loadCallback = config.loadCallback || this.loadCallback
                 || noPersistenceOp;
 
             /**
-             * function to call to do delete.  Will be called with two 
+             * function to call to do delete.  Will be called with two
              * parameters, data, and options.
              * @config deleteCallback
              * @type function (optional)
@@ -3069,7 +3069,7 @@ AFrame.CollectionPluginPersistence = ( function() {
 
         /**
          * Add an item to the collection.  The item will be inserted into the
-         * collection once the addCallback is complete.  Because of this, no 
+         * collection once the addCallback is complete.  Because of this, no
          * cid is returned from the add function, but one will be placed into
          * the options item passed to the onComplete callback.
          *
@@ -3091,12 +3091,12 @@ AFrame.CollectionPluginPersistence = ( function() {
          * @param {object} item - item to add
          * @param {object} options - options information.
          * @param {function} options.onComplete (optional) - callback to call
-         * when complete. Will be called with two parameters, the item, and 
+         * when complete. Will be called with two parameters, the item, and
          * options information.
-         * @param {function} options.insertAt (optional) - data to be passed 
+         * @param {function} options.insertAt (optional) - data to be passed
          * as second argument to the collection's insert function.  Useful when
          * using CollectionArrays to specify the index
-         * @param {boolean} options.force (optional) - If set to true, an add 
+         * @param {boolean} options.force (optional) - If set to true, an add
          * will be forced even if onBeforeAdd has its preventDefault called.
          */
         add: function( item, options ) {
@@ -3128,7 +3128,7 @@ AFrame.CollectionPluginPersistence = ( function() {
                     callback && callback( item, options );
 
                     /**
-                    * Triggered on the collection after an item is sent to 
+                    * Triggered on the collection after an item is sent to
                     * persistence and is added to the Collection.
                     * @event onAdd
                     * @param {AFrame.Event} event - event object
@@ -3158,7 +3158,7 @@ AFrame.CollectionPluginPersistence = ( function() {
          * @method load
          * @param {object} options - options information.
          * @param {function} options.onComplete (optional) - the callback will
-         * be called when operation is complete. Callback will be called with 
+         * be called when operation is complete. Callback will be called with
          * two parameters, the items, and options information.
          */
         load: function( options ) {
@@ -3167,7 +3167,7 @@ AFrame.CollectionPluginPersistence = ( function() {
 
             /**
             * Triggered on the collection before a load occurs.  If the listener
-            * calls preventDefault on the event, the load will be cancelled 
+            * calls preventDefault on the event, the load will be cancelled
             * unless the load is forced.
             * @event onBeforeLoad
             * @param {object} event - event information
@@ -3183,7 +3183,7 @@ AFrame.CollectionPluginPersistence = ( function() {
                 * Triggered on the collection whenever a load is starting
                 * @event onLoadStart
                 * @param {object} event - event information
-                * @param {boolean} event.force - whether the load is 
+                * @param {boolean} event.force - whether the load is
                 * being forced.
                 */
                 plugged.triggerEvent( {
@@ -3210,7 +3210,7 @@ AFrame.CollectionPluginPersistence = ( function() {
                 * @param {object} event - event information, has collection and
                 * items fields.
                 * @param {variant} event.items- items loaded inserted
-                * @param {boolean} event.force - whether the load is being 
+                * @param {boolean} event.force - whether the load is being
                 * forced.
                 */
                 plugged.triggerEvent( {
@@ -3245,17 +3245,17 @@ AFrame.CollectionPluginPersistence = ( function() {
 
             if( item ) {
                 /**
-                * Triggered on the collection before a delete is sent to 
+                * Triggered on the collection before a delete is sent to
                 * persistence.  If the event has preventDefault called, the
                 * delete will be cancelled as long as the options.force is not
                 * set to true
                 * @event onBeforeDelete
                 * @param {AFrame.Event} event - event object
                 * @param {variant} event.item - the item being deleted
-                * @param {boolean} event.force - whether the delete is being 
+                * @param {boolean} event.force - whether the delete is being
                 * forced.
                 */
-                var event = plugged.triggerEvent( getEvent( 'onBeforeDelete', 
+                var event = plugged.triggerEvent( getEvent( 'onBeforeDelete',
                             item, options ) );
 
                 if( plugged.shouldDoAction( options, event ) ) {
@@ -3276,7 +3276,7 @@ AFrame.CollectionPluginPersistence = ( function() {
                     * @event onDelete
                     * @param {AFrame.Event} event - event object
                     * @param {variant} event.item - the item being deleted
-                    * @param {boolean} event.force - whether the delete is being 
+                    * @param {boolean} event.force - whether the delete is being
                     * forced.
                     * @param {id} event.cid - item's cid
                     */
@@ -3299,7 +3299,7 @@ AFrame.CollectionPluginPersistence = ( function() {
          * @method save
          * @param {id || index} itemID - id or index of item to save
          * @param {object} options - options information.
-         * @param {function} options.onComplete (optional) - the callback will 
+         * @param {function} options.onComplete (optional) - the callback will
          * be called when operation is complete. Callback will be called with
          * two parameters, the item, and options information.
          */
@@ -3309,17 +3309,17 @@ AFrame.CollectionPluginPersistence = ( function() {
 
             if( item ) {
                 /**
-                * Triggered on the collection before a save is sent to 
+                * Triggered on the collection before a save is sent to
                 * persistence.  If the event has preventDefault called, the save
                 * will be cancelled as long as the options.force is not set to
                 * true
                 * @event onBeforeSave
                 * @param {AFrame.Event} event - event object
                 * @param {variant} event.item - the item being saved
-                * @param {boolean} event.force - whether the save is being 
+                * @param {boolean} event.force - whether the save is being
                 * forced.
                 */
-                var event = plugged.triggerEvent( getEvent( 'onBeforeSave', 
+                var event = plugged.triggerEvent( getEvent( 'onBeforeSave',
                             item, options ) );
                 if( plugged.shouldDoAction( options, event ) ) {
 
@@ -3334,12 +3334,12 @@ AFrame.CollectionPluginPersistence = ( function() {
                     this.saveCallback( item, options );
 
                     /**
-                    * Triggered on the collection after an item is saved to 
+                    * Triggered on the collection after an item is saved to
                     * persistence.
                     * @event onSave
                     * @param {AFrame.Event} event - event object
                     * @param {variant} event.item - the item being saved
-                    * @param {boolean} event.force - whether the save is being 
+                    * @param {boolean} event.force - whether the save is being
                     * forced.
                     * @param {id} event.cid - item's cid
                     */
@@ -3361,7 +3361,7 @@ AFrame.CollectionPluginPersistence = ( function() {
     }
 
     /**
-    * Get an event object.  Used when triggering the 
+    * Get an event object.  Used when triggering the
     * on[Add|Delete|Save|Load]* events
     * @method getEvent
     * @private
@@ -4399,11 +4399,11 @@ AFrame.FieldValidityState.prototype = {
 	}
 };
 /**
-* A decorator on a [Field](AFrame.Field.html) that takes care of displaying placeholder text if the browser does not 
+* A decorator on a [Field](AFrame.Field.html) that takes care of displaying placeholder text if the browser does not
 *   natively support this feature.  This class never needs called directly and will be automatically
 *   attached to the [Field](AFrame.Field.html) if the behavior is needed.  For browsers that do
 *   not support placeholder text natively, the decorator will come into play to add it.  The idea
-*   of placeholder text is if the field has no value displayed, but the element has text in its 
+*   of placeholder text is if the field has no value displayed, but the element has text in its
 *   placeholder attribute, the text will be displayed until either a value is entered or the user
 *   places the mouse into the input.  If the user still has not entered text whenever the element
 *   loses focus, the placeholder text is again displayed.  Any element that has its placeholder text
@@ -4421,7 +4421,7 @@ AFrame.FieldPluginPlaceholder = ( function() {
     var Placeholder = {
         init: function() {
             this.decorators = {};
-            
+
             // All functions are called as if they were on the Field.  We are overriding init, bindEvents,
             // set, display, and save.  These functions pertain to our handling of the placeholder text.
             decorate( 'init', decoratorInit );
@@ -4432,24 +4432,24 @@ AFrame.FieldPluginPlaceholder = ( function() {
             decorate( 'display', decoratorDisplay );
         }
     };
-    
+
     function decorate( name, decorator ) {
         var decorated = AFrame.Field.prototype;
-        
+
         Placeholder[ '_' + name ] = decorated[ name ];
         decorated[ name ] = decorator;
     }
 
     function decoratorInit( config ) {
         Placeholder._init.call( this, config );
-        
+
         // display the placeholder text until the value is set.
         this.display( this.getDisplayed() );
     }
-    
+
     function decoratorBindEvents() {
         var target = this.getTarget();
-        
+
         // we care about the focus and blur evnts.
         this.bindDOMEvent( target, 'focus', onFieldFocus );
         this.bindDOMEvent( target, 'blur', onFieldBlur );
@@ -4465,7 +4465,7 @@ AFrame.FieldPluginPlaceholder = ( function() {
             var undefined;
             val = undefined;
         }
-        
+
         return val;
     }
 
@@ -4476,7 +4476,7 @@ AFrame.FieldPluginPlaceholder = ( function() {
         if( val === placeholder ) {
             val = '';
         }
-        
+
         return val;
     }
 
@@ -4484,40 +4484,40 @@ AFrame.FieldPluginPlaceholder = ( function() {
         Placeholder._display.call( this, val );
         updatePlaceholder.call( this );
     }
-    
+
     function decoratorSave() {
         var placeholder = getPlaceholder.call( this );
-        
+
         var placeHolderDisplayed = this.getDisplayed() == placeholder;
-        
+
         if( placeHolderDisplayed ) {
             this.display( '' );
         }
-        
+
         Placeholder._save.call( this );
 
         if( placeHolderDisplayed ) {
             this.display( placeholder );
         }
     }
-    
+
     function onFieldFocus() {
         this.focused = true;
         updatePlaceholder.call( this );
     }
-    
+
     function onFieldBlur() {
         this.focused = false;
         updatePlaceholder.call( this );
     }
-    
+
     function updatePlaceholder() {
         var placeholder = getPlaceholder.call( this );
         var displayed = Placeholder._getDisplayed.call( this );
 
         var target = this.getTarget();
         AFrame.DOM.removeClass( target, 'empty' );
-        
+
         if( this.focused ) {
             if( placeholder == displayed ) {
                 Placeholder._display.call( this, '' );
@@ -4525,15 +4525,15 @@ AFrame.FieldPluginPlaceholder = ( function() {
         }
         else if( '' === Placeholder._getDisplayed.call( this ) ) {
             AFrame.DOM.addClass( target, 'empty' );
-            
+
             Placeholder._display.call( this, getPlaceholder.call( this ) );
         }
     }
-    
+
     function getPlaceholder() {
         var target = this.getTarget();
         return AFrame.DOM.getAttr( target, 'placeholder' ) || '';
-    }    
+    }
 
     if( typeof( document ) !== 'undefined' ) {
         // we only want to initialize the Placeholder if the browser does not support HTML5
@@ -4548,31 +4548,31 @@ AFrame.FieldPluginPlaceholder = ( function() {
 
 /**
  * A basic data schema, useful for defining a data structure, validating data,
- * and preparing data to be loaded from or saved to a persistence store.  
+ * and preparing data to be loaded from or saved to a persistence store.
  * Schema's define the data structure and can be nested to create complex data
- * structures.  Schemas perform serialization duties in fromSerializedJSON and 
+ * structures.  Schemas perform serialization duties in fromSerializedJSON and
  * toSerializedJSON.  Finally, Schemas define ways to perform data validation.
  *
  * When loading data from persistence, if the data is run through the
  * fromSerializedJSON function, it will make an object with only the fields defined in
- * the schema, and any missing fields will get default values.  If a fixup 
+ * the schema, and any missing fields will get default values.  If a fixup
  * function is defined for that row, the field's value will be run through the
- * fixup function.  When saving data to persistence, running data through the 
+ * fixup function.  When saving data to persistence, running data through the
  * toSerializedJSON will create an object with only the fields specified in the
  * schema.  If a row has 'save: false' defined, the row will not be added to the
  * form data object. If a row has a cleanup function defined, the corresponding
  * data value will be run through the cleanup function.
  *
- * Generic serialization functions can be set for a type using the 
- * AFrame.Schema.addDeserializer and AFrame.Schema.addSerializer.  These are 
- * useful for doing conversions where the data persistence layer saves data in 
+ * Generic serialization functions can be set for a type using the
+ * AFrame.Schema.addDeserializer and AFrame.Schema.addSerializer.  These are
+ * useful for doing conversions where the data persistence layer saves data in
  * a different format than the internal application representation.  A useful
- * example of this is ISO8601 date<->Javascript Date.  Already added types are 
+ * example of this is ISO8601 date<->Javascript Date.  Already added types are
  * 'number', 'integer', and 'iso8601'.
  *
  * If a row in the schema config has the has_many field, the field is made into
- * an array and the fixup/cleanup functions are called on each item in the 
- * array.  The default default item for these fields is an empty array.  If 
+ * an array and the fixup/cleanup functions are called on each item in the
+ * array.  The default default item for these fields is an empty array.  If
  * there is no data for the field in toSerializedJSON, the field is left out
  * of the output.
  *
@@ -4701,12 +4701,12 @@ AFrame.Schema = (function() {
          * Fix a data object for use in the application.  Creates a new object
          * using the specified data as a template for values.  If a value is not
          * specified but a default value is specified in the schema, the default
-         * value is used for that item.  Items are finally run through an 
-         * optionally defined fixup function.  If defined, the fixup function 
-         * should return cleaned data.  If the fixup function does not return 
+         * value is used for that item.  Items are finally run through an
+         * optionally defined fixup function.  If defined, the fixup function
+         * should return cleaned data.  If the fixup function does not return
          * data, the field will be undefined.
          *
-         *     // dbData is data coming from the database, still needs to be 
+         *     // dbData is data coming from the database, still needs to be
          *     // deserialized.
          *     var appData = schema.fromSerializedJSON( dbData );
          *
@@ -4771,8 +4771,8 @@ AFrame.Schema = (function() {
 
         /**
          * Get an object suitable to send to persistence.  This is based roughly
-         * on converting the data to a 
-         * [FormData](https://developer.mozilla.org/en/XMLHttpRequest/FormData) 
+         * on converting the data to a
+         * [FormData](https://developer.mozilla.org/en/XMLHttpRequest/FormData)
          * "like" object - see [MDC](https://developer.mozilla.org/en/XMLHttpRequest/FormData)
          * All items in the schema that do not have save parameter set to false
          * and have values defined in dataToSerialize will have values returned.
@@ -4878,12 +4878,12 @@ AFrame.Schema = (function() {
         *
         * @method validate
         * @param {object} data - data to validate
-        * @param {boolean} ignoreMissing (optional) - if set to true, fields 
+        * @param {boolean} ignoreMissing (optional) - if set to true, fields
         * missing from data are not validated.  Defaults to false. Note, even if
-        * set to true, and a field in data has an undefined value, the field 
+        * set to true, and a field in data has an undefined value, the field
         * will be validated against the the undefined value.
         * @return {variant} true if all fields are valid, an object with each
-        * field in data, for each field there is an 
+        * field in data, for each field there is an
         * [AFrame.FieldValidityState](AFrame.FieldValidityState.html)
         */
         validate: function( data, ignoreMissing ) {
@@ -4895,8 +4895,8 @@ AFrame.Schema = (function() {
                 var criteriaCopy = AFrame.mixin( { type: row.type }, rowCriteria );
                 var field = data[ key ];
 
-                // Check hasOwnProperty so that if a field is defined in data, 
-                // but has an undefined value, even if ignoreMissing is set to 
+                // Check hasOwnProperty so that if a field is defined in data,
+                // but has an undefined value, even if ignoreMissing is set to
                 // true, we validate against it.
                 if( !ignoreMissing || data.hasOwnProperty( key ) ) {
                     var validityState = this.validateData( data[ key ], criteriaCopy );
@@ -4929,9 +4929,9 @@ AFrame.Schema = (function() {
         schemaCache: {},
 
         /**
-         * Add a universal function that fixes data in 
-         * [fromSerializedJSON](#method_fromSerializedJSON). This is used to 
-         * convert data from a version the backend sends to one that is used 
+         * Add a universal function that fixes data in
+         * [fromSerializedJSON](#method_fromSerializedJSON). This is used to
+         * convert data from a version the backend sends to one that is used
          * internally.
          * @method Schema.addDeserializer
          * @param {string} type - type of field.
@@ -4943,7 +4943,7 @@ AFrame.Schema = (function() {
 
         /**
          * Add a universal function that gets data ready to save to persistence.
-         * This is used to convert data from an internal representation of a 
+         * This is used to convert data from an internal representation of a
          * piece of data to a representation the backend is expecting.
          * @method Schema.addSerializer
          * @param {string} type - type of field.
@@ -6377,7 +6377,7 @@ AFrame.DOM = ( function() {
         * @param {selector || element} elementToAppendTo
         */
         appendTo: function( elementToInsert, elementToAppendTo ) {
-            jQuery( elementToInsert ).appendTo( jQuery( elementToAppendTo ) );
+            return jQuery( elementToInsert ).appendTo( jQuery( elementToAppendTo ) );
         },
 
         /**
@@ -6387,7 +6387,7 @@ AFrame.DOM = ( function() {
         * @param {selector || element} elementToInsertBefore
         */
         insertBefore: function( elementToInsert, elementToInsertBefore ) {
-            jQuery( elementToInsert ).insertBefore( elementToInsertBefore );
+            return jQuery( elementToInsert ).insertBefore( elementToInsertBefore );
         },
 
         /**
