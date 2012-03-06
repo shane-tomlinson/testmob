@@ -5,10 +5,16 @@
 
 const socket = require("socket.io"),
       Session = require("connect").middleware.session.Session,
-      parseCookie = require("connect").utils.parseCookie;
+      parseCookie = require("connect").utils.parseCookie,
+      request_start_suite = require("./commands/request_start_suite"),
+      command_relay = require("./command_relay"),
+      commands = require("./commands");
 
 var io,
-    families;
+    families,
+    db,
+    initiators = {};
+
 
 exports.init = function(config) {
   var app = config.app;
@@ -16,17 +22,31 @@ exports.init = function(config) {
     throw "missing config option: app";
   }
 
-  io = socket.listen(app);
-  io.configure(function() {
-    // required for Heroku.
-    // http://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
-    io.set("transports", ["xhr-polling"]);
-    io.set("polling duration", 10);
-
-    io.set("authorization", socket_authorization);
-  });
 
   families = {};
+  db = config.db;
+  command_relay.init({ clients: initiators });
+  commands.init(function() {
+    commands.forEach(function(command) {
+      if(command.init) {
+        command.init({ db: db, clients: initiators });
+      }
+    });
+
+    io = socket.listen(app);
+    io.configure(function() {
+      // required for Heroku.
+      // http://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
+      io.set("transports", ["xhr-polling"]);
+      io.set("polling duration", 10);
+
+      io.set("authorization", socket_authorization);
+      io.set("log level", 2);
+      io.set("browser client gzip", true);
+      io.set("browser client minification", true);
+      io.set("browser client etag", true);
+    });
+  });
 };
 
 exports.start_family = function(family_name) {
@@ -35,10 +55,6 @@ exports.start_family = function(family_name) {
     families[family_name] = true;
   }
 };
-
-var runner_id = 0,
-    socket_id = 0,
-    initiators = {};
 
 function socket_authorization(data, accept) {
   if(data.headers.cookie) {
@@ -60,60 +76,24 @@ function socket_authorization(data, accept) {
   }
 }
 
+function getSocketID() {
+  // XXX combind this with the one in request_start_suite
+  var id = "",
+      alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  for(var i=0; i < 5; i++) id += alpha.charAt(Math.floor(Math.random() * alpha.length));
+
+  return id;
+}
+
 function socket_connection(socket) {
-  var hs = socket.handshake;
+  var socketID = getSocketID();
+  socket.emit("set_client_id", { client_id: socketID });
 
-  socket.set("id", socket_id);
-  socket_id++;
-
-  socket.on('login', function(data, fn) {
-    verifier.verify(data, function(err, resp) {
-      socket.set("email", email);
-      fn(data);
-    });
-  });
-
-  socket.on('request_start_suite', function (data) {
-    socket.get("id", function(err, id) {
-      // XXX this will have to be torn down.
-      initiators[id] = socket;
-
-      socket.get("email", function(err, email) {
-        data.initiator_id = id;
-        data.email = hs.email;
-        socket.broadcast.emit("start_suite", data);
-      });
-    });
-  });
-
-  socket.on("suite_start", function(data) {
-    socket.set("runner_id", runner_id);
-    data.email = hs.email || "";
-    data.runner_id = runner_id;
-    runner_id++;
-
-    var initiator = initiators[data.initiator_id];
-    initiator.emit("suite_start", data);
-  });
-
-  socket.on("test_done", function(data) {
-    socket.get("runner_id", function(err, runner_id) {
-      data.email = hs.email || "";
-      data.runner_id = runner_id;
-
-      var initiator = initiators[data.initiator_id];
-      initiator.emit("test_done", data);
-    });
-  });
-
-  socket.on("suite_complete", function(data) {
-    socket.get("runner_id", function(err, runner_id) {
-      data.email = hs.email || "";
-      data.runner_id = runner_id;
-
-      var initiator = initiators[data.initiator_id];
-      initiator.emit("suite_complete", data);
-    });
+  commands.forEach(function(command) {
+    if(command.bind) {
+      command.bind({ socket: socket });
+    }
   });
 }
 

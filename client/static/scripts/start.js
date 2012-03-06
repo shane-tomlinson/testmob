@@ -10,18 +10,25 @@ $(function() {
       AuthModel = models.Authentication,
       modules = tm.Modules,
       moduleManager = tm.moduleManager,
-      AuthView = modules.Authentication;
+      AuthView = modules.Authentication,
+      Family = modules.Family,
+      Associate = modules.Associate,
+      Boss = modules.Boss,
+      email = $("#email").text(),
+      authModel = AuthModel.create({
+        data: {
+          authenticated: !!email,
+          email: email
+        }
+      });
 
-
-  var email = $("#email").text();
-  var authModel = AuthModel.create({
-    data: {
-      authenticated: !!email,
-      email: email
-    }
-  });
+  moduleManager.register("associate", Associate);
+  moduleManager.register("boss", Boss);
 
   moduleManager.register("authentication", AuthView);
   moduleManager.start("authentication", { model: authModel });
+
+  moduleManager.register("family", Family);
+  moduleManager.start("family", { authModel: authModel });
 });
 

@@ -2,26 +2,34 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-$(function() {
+TestMob.Modules.Family = (function(){
   "use strict";
 
-  // Only start the family related stuff if the user is at the /family URL.
-  if(document.location.href.indexOf("family") == -1) return;
+  var tm = TestMob,
+      moduleManager = tm.moduleManager;
 
-  var family_name = document.location.href.replace("http://testmob.org/family/", "");
-  var socket = io.connect('http://testmob.org/' + family_name);
+  var Module = tm.Module.extend({
+    start: function(config) {
+      // Only start the family related stuff if the user is at the /family URL.
+      if(document.location.href.indexOf("family") == -1) return;
 
-  TestMob.Boss.init({ socket: socket });
-  TestMob.JobRunner.init({ socket: socket });
+      var family_name = document.location.href.replace("http://testmob.org/family/", ""),
+          socket = TestMob.XHREvents.create({});
 
+      socket.start({
+        io: io,
+        url: "http://testmob.org/" + family_name
+      });
 
-  if(!localStorage.last_visit) {
-    $("#family_warning").slideDown();
-  }
+      config.authModel.bindField("email", function(event) {
+        socket.setEmail(event.value);
+      });
 
-  localStorage.last_visit = new Date().getTime();
-  $("#hide_family_warning").click(function(event) {
-    event.preventDefault();
-    $("#family_warning").slideUp();
+      moduleManager.start("associate", { socket: socket });
+      moduleManager.start("boss", { socket: socket });
+    }
   });
-});
+
+  return Module;
+
+}());

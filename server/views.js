@@ -13,6 +13,8 @@ const ROUTES = {
   'GET family/:family_name': family
 };
 
+var db;
+
 function render(req, res, template, data) {
   data = data || {};
   if(req.session.email) {
@@ -27,7 +29,11 @@ function redirect_to_index(req, res) {
 }
 
 function index(req, res) {
-  render(req, res, "index.ejs");
+  db.get("tests_started", function(err, value) {
+    value = value || 0;
+
+    render(req, res, "index.ejs", { tests_started: value });
+  });
 }
 
 function about(req, res) {
@@ -58,6 +64,7 @@ function family(req, res) {
 
 function init(config) {
   var app = config.app;
+  db = config.db;
 
   for(var key in ROUTES) {
     var parts = key.split(" "),
