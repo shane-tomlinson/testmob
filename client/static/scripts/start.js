@@ -10,7 +10,8 @@ $(function() {
       AuthModel = models.Authentication,
       modules = tm.Modules,
       moduleManager = tm.moduleManager,
-      AuthView = modules.Authentication;
+      AuthView = modules.Authentication,
+      Family = modules.Family;
 
 
   var email = $("#email").text();
@@ -23,5 +24,8 @@ $(function() {
 
   moduleManager.register("authentication", AuthView);
   moduleManager.start("authentication", { model: tm.authModel });
+
+  moduleManager.register("family", Family);
+  moduleManager.start("family", { authModel: tm.authModel });
 });
 

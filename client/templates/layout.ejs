@@ -6,9 +6,6 @@
   <meta name="format-detection" content="email=no" />
   <title>TestMob <% if(typeof title !== "undefined") { %> - <%= title %><% } %></title>
 
-  <script src="https://browserid.org/include.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <%- cachify_js("/production/main.min.js") %>
   <%- cachify_css("/production/main.min.css") %>
 </head>
 <body>
@@ -45,6 +42,9 @@
       <a href="http://www.shanetomlinson.com">Shane Tomlinson</a> &copy; 2012
     </footer>
   </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <%- cachify_js("/production/main.min.js") %>
+  <script src="https://browserid.org/include.js"></script>
 </body>
 </html>
 
