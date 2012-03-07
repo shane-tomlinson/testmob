@@ -10,7 +10,6 @@
       Auth = modules.Authentication,
       BrowserID = tm.Mocks.BrowserID,
       Model = tm.Models.Authentication,
-      testHelpers = tm.TestHelpers,
       xhr = tm.Mocks.xhr,
       model,
       view;
@@ -18,12 +17,10 @@
   module("views/authentication", {
     setup: function() {
       model = Model.create({authenticated: false, email: "", browserid: BrowserID});
-      testHelpers.setup();
       $("#authentication").empty();
     },
 
     teardown: function() {
-      testHelpers.teardown();
       if(view) {
         view.destroy();
         view = null;

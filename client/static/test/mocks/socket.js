@@ -9,21 +9,34 @@ TestMob.Mocks.Socket = (function() {
     connect: function(url) {
       this.url = url;
 
-      this.socket = {
-        listeners: {},
-        triggered: {},
-        emit: function(msg, data) {
-          this.triggered[msg] = data;
+      function Sock() {
+        this.on_listeners = {};
+        this.emit_listeners = {};
+        this.emitted = {};
+      }
+      Sock.prototype = {
+        bind: function(msg, cb) {
+          this.emit_listeners[msg] = cb;
         },
+        emit: function(msg, data) {
+          this.emitted[msg] = data;
+
+          if(this.emit_listeners[msg]) {
+            this.emit_listeners[msg](data);
+          }
+        },
+
         on: function(msg, cb) {
-          this.listeners[msg] = cb;
+          this.on_listeners[msg] = cb;
         },
         trigger: function(msg, data) {
-          this.listeners[msg](data);
+          if(!this.on_listeners) throw "no listener registered for: " + msg;
+
+          this.on_listeners[msg](data);
         }
       };
 
-      return this.socket;
+      return new Sock();
     }
   };
 

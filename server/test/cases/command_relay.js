@@ -26,7 +26,7 @@ describe("command_relay", function() {
       done();
     });
 
-    client_socket.trigger("relayed_message", { client_id: "CLIENT", initiator_id: "INITIATOR" });
+    client_socket.trigger("relayed_message", { client_id: "CLIENT", target_id: "INITIATOR" });
   });
 });
 

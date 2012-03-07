@@ -5,7 +5,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 TestMob.Mediator = (function() {
-  var hub = Hub;
+  "use strict";
+
+  var hub = window.Hub;
 
   return {
     subscribe: hub.on.bind(hub),

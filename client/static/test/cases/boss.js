@@ -7,27 +7,31 @@
 
   var tm = TestMob,
       Boss = tm.Modules.Boss,
-      boss,
       Socket = tm.Mocks.Socket,
+      mediator = tm.Mediator,
+      boss,
       socket;
 
   module("boss", {
     setup: function() {
-      socket = new Socket();
-      socket.connect("http://testmob.org");
+      socket = new Socket().connect("http://testmob.org");
+      boss = Boss.create({});
+      boss.start({
+        socket: socket
+      });
     },
 
     teardown: function() {
     }
   });
 
-  test("can create boss", function() {
-    boss = Boss.create({});
-    boss.start({
-      socket: socket.socket
+  asyncTest("stop_suite on the mediator - emit stop_suite on the socket", function() {
+    socket.bind("stop_suite", function(data) {
+      equal(data.test_id, "test_id", "test_id passed correctly");
+      equal(data.target_id, "runner_id", "runner_id converted to target_id correctly");
+      start();
     });
 
-    ok(boss, "boss created");
+    mediator.publish("stop_suite", { test_id: "test_id", runner_id: "runner_id" });
   });
-
 }());

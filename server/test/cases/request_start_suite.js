@@ -22,12 +22,12 @@ describe("request_start_suite", function() {
     command.bind({ socket: socket });
   });
 
-  it('should insert test_id, initiator_id into data, update database', function(done) {
+  it('should insert test_id, target_id into data, update database', function(done) {
     var test_data = {};
     var initiator_data = { id: "initiator" };
 
     socket.broadcast.bind("start_suite", function(data) {
-      assert.equal(data.initiator_id, "initiator", "correct initiator_id");
+      assert.equal(data.target_id, "initiator", "correct target_id");
       assert.ok(data.test_id, "test_id added");
 
       assert.equal(db.tests_started, 2, "db updated");

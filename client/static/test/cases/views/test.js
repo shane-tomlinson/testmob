@@ -9,14 +9,15 @@
       modules = tm.Modules,
       Test = modules.Test,
       Model = tm.Models.Test,
-      testHelpers = tm.TestHelpers,
       xhr = tm.Mocks.xhr,
+      mediator = tm.Mediator,
       model,
       view;
 
   function createModel(id) {
     var model = Model.create({
       data: {
+        client_id: "client_id",
         test_id: id,
         email: "testuser@testuser.com",
         url: "http://testurl.org",
@@ -45,9 +46,11 @@
     }
   });
 
-  asyncTest("model that is incomplete - has incomplete class", function() {
+  asyncTest("model that is incomplete - list item has incomplete class, body has tests class", function() {
+    equal($("body").hasClass("tests"), false, "body does not have tests class");
     createView({ data: model }, function(view) {
       ok(view, "view created");
+      ok($("body").hasClass("tests"), "body has tests class");
       equal($("#test_result").hasClass("incomplete"), true, "incomplete class added to element");
       start();
     });
@@ -81,6 +84,18 @@
     createView({ data: model }, function(view) {
       equal(view.getTarget().find(".failures ul").children().length, 1, "one failure added");
       start();
+    });
+  });
+
+  asyncTest("stopSuite - trigger the stop_suite message", function() {
+    createView({ data: model }, function(view) {
+      mediator.subscribe("stop_suite", function(msg, data) {
+        equal(data.test_id, "test_1", "correct test_id passed");
+        equal(data.client_id, "client_id", "correct client_id passed");
+        start();
+      });
+
+      view.stopSuite();
     });
   });
 }());
