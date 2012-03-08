@@ -1,6 +1,5 @@
 
-var db,
-    clients;
+var db;
 
 function incrementTestCount(cb) {
   db.get("tests_started", function(err, value) {
@@ -24,7 +23,6 @@ function getID() {
 
 exports.init = function(config) {
   db = config.db;
-  clients = config.clients;
 };
 
 
@@ -33,12 +31,11 @@ exports.bind = function(config) {
 
   socket.on('request_start_suite', function (data) {
     var id = data.client_id;
-    clients[id] = socket;
 
     incrementTestCount(function(err, value) {
       if(!err) {
         data.test_id = getID();
-        data.initiator_id = id;
+        data.target_id = id;
 
         socket.broadcast.emit("start_suite", data);
       }

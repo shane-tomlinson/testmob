@@ -8,12 +8,13 @@ const socket = require("socket.io"),
       parseCookie = require("connect").utils.parseCookie,
       request_start_suite = require("./commands/request_start_suite"),
       command_relay = require("./command_relay"),
-      commands = require("./commands");
+      commands = require("./commands"),
+      app_config = require("./config").config;
 
 var io,
     families,
     db,
-    initiators = {};
+    clients = {};
 
 
 exports.init = function(config) {
@@ -25,26 +26,22 @@ exports.init = function(config) {
 
   families = {};
   db = config.db;
-  command_relay.init({ clients: initiators });
+  command_relay.init({ clients: clients });
   commands.init(function() {
     commands.forEach(function(command) {
       if(command.init) {
-        command.init({ db: db, clients: initiators });
+        command.init({ db: db, clients: clients });
       }
     });
 
     io = socket.listen(app);
     io.configure(function() {
-      // required for Heroku.
-      // http://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
-      io.set("transports", ["xhr-polling"]);
-      io.set("polling duration", 10);
-
       io.set("authorization", socket_authorization);
-      io.set("log level", 2);
-      io.set("browser client gzip", true);
-      io.set("browser client minification", true);
-      io.set("browser client etag", true);
+
+      var socketConfig = app_config["socket.io"];
+      for(key in socketConfig) {
+        io.set(key, socketConfig[key]);
+      }
     });
   });
 };
@@ -88,7 +85,9 @@ function getSocketID() {
 
 function socket_connection(socket) {
   var socketID = getSocketID();
+  clients[socketID] = socket;
   socket.emit("set_client_id", { client_id: socketID });
+
 
   commands.forEach(function(command) {
     if(command.bind) {

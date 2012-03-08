@@ -22,7 +22,7 @@ exports.test = function(name) {
       initiator_socket.bind(name, function(data) {
         done();
       });
-      client_socket.trigger(name, { initiator_id: "initiator" });
+      client_socket.trigger(name, { target_id: "initiator" });
     });
   });
 };

@@ -12,12 +12,12 @@ exports.command_relay = function(socket, message) {
   socket.on(message, function(data) {
     data.runner_id = data.client_id;
 
-    // We use the initiator_id instead of passing the initiator's socket
+    // We use the target_id instead of passing the target's socket
     // directly because each client could be running tests from
-    // multiple initiators.
-    var initiator = clients[data.initiator_id];
-    if(initiator) {
-      initiator.emit(message, data);
+    // multiple targets.
+    var target = clients[data.target_id];
+    if(target) {
+      target.emit(message, data);
     }
   });
 };

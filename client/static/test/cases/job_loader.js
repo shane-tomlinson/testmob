@@ -31,4 +31,14 @@
     });
   });
 
+  asyncTest("load then remove - remove the iframe", function() {
+    JobLoader.load({
+      url: "/test/long_job.html"
+    }, function(err, data) {
+      JobLoader.remove();
+      equal($(".test_frame").length, 0, "no test frames remaining after remove");
+      start();
+    });
+  });
+
 }());
