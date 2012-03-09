@@ -10,13 +10,13 @@ TestMob.Modules.Associate = (function() {
       ViewsFactory = tm.ViewsFactory,
       JobLoader = tm.JobLoader,
       last_send,
-      socket,
+      xhrEvents,
       models,
       list,
       model,
       view;
 
-  function start_suite(data) {
+  function start_suite(msg, data) {
     models = ModelsFactory.create({ constructor: tm.Models.AssociateTest });
     list = ViewsFactory.create({
       list_template: "test_results",
@@ -33,7 +33,7 @@ TestMob.Modules.Associate = (function() {
     model = models.get(cid);
 
     last_send = null;
-    socket.emit("suite_start", model.toObject());
+    xhrEvents.publish("suite_start", model.toObject());
 
     JobLoader.load(data, loader_result);
   }
@@ -56,7 +56,7 @@ TestMob.Modules.Associate = (function() {
     }
 
     if(shouldUpdate(msg, now)) {
-      socket.emit(msg, model.toObject());
+      xhrEvents.publish(msg, model.toObject());
       last_send = now;
     }
   }
@@ -65,22 +65,22 @@ TestMob.Modules.Associate = (function() {
     return (msg === "suite_complete" || !last_send || ((now - last_send) > 2500));
   }
 
-  function stop_suite(data) {
+  function stop_suite(msg, data) {
     JobLoader.remove();
 
     model.set("force_stopped", true);
     model.set("complete", true);
     model.triggerEvent("set_complete");
 
-    socket.emit("suite_stopped");
+    xhrEvents.publish("suite_stopped");
   }
 
   var Module = tm.Module.extend({
     start: function(config) {
       model = undefined;
-      socket = config.socket;
-      socket.on('start_suite', start_suite);
-      socket.on('stop_suite', stop_suite);
+      xhrEvents = config.xhrEvents;
+      xhrEvents.subscribe('start_suite', start_suite);
+      xhrEvents.subscribe('stop_suite', stop_suite);
     },
 
     getModel: function() {

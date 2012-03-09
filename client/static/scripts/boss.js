@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 TestMob.Modules.Boss = (function() {
-  var socket,
+  var xhrEvents,
       tm = TestMob,
       mediator = tm.Mediator,
       models,
@@ -37,12 +37,12 @@ TestMob.Modules.Boss = (function() {
         });
 
         localStorage.url = url;
-        socket.emit('request_start_suite', { url: url });
+        xhrEvents.publish('request_start_suite', { url: url });
       }
     },
 
     start: function(config) {
-      socket = config.socket;
+      xhrEvents = config.xhrEvents;
 
       $("#url").val(localStorage.url || "");
       $("form").bind("submit", this.startTest.bind(this));
@@ -55,22 +55,22 @@ TestMob.Modules.Boss = (function() {
           model.triggerEvent("set_complete");
         }
         var emit_data = { test_id: data.test_id, target_id: data.runner_id };
-        socket.emit("stop_suite", emit_data);
+        xhrEvents.publish("stop_suite", emit_data);
       });
 
-      socket.on("suite_start", function(data) {
+      xhrEvents.subscribe("suite_start", function(msg, data) {
         data.cid = data.id = modelID(data);
         var cid = models.insert(data);
       });
 
-      socket.on("test_done", function(data) {
+      xhrEvents.subscribe("test_done", function(msg, data) {
         var model = getModel(data);
         if(model) {
           model.set(data);
         }
       });
 
-      socket.on("suite_complete", function(data) {
+      xhrEvents.subscribe("suite_complete", function(msg, data) {
         data.complete = true;
         var model = getModel(data);
         if(model) {

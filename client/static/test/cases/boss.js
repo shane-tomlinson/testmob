@@ -8,16 +8,22 @@
   var tm = TestMob,
       Boss = tm.Modules.Boss,
       Socket = tm.Mocks.Socket,
+      XHREvents = tm.XHREvents,
       mediator = tm.Mediator,
       boss,
-      socket;
+      xhrEvents;
 
   module("boss", {
     setup: function() {
-      socket = new Socket().connect("http://testmob.org");
+      xhrEvents = XHREvents.create({});
+      xhrEvents.start({
+        io: Socket,
+        url: "http://testmob.org"
+      });
+
       boss = Boss.create({});
       boss.start({
-        socket: socket
+        xhrEvents: xhrEvents
       });
     },
 
@@ -26,7 +32,7 @@
   });
 
   asyncTest("stop_suite on the mediator - emit stop_suite on the socket", function() {
-    socket.bind("stop_suite", function(data) {
+    xhrEvents.subscribe("stop_suite", function(msg, data) {
       equal(data.test_id, "test_id", "test_id passed correctly");
       equal(data.target_id, "runner_id", "runner_id converted to target_id correctly");
       start();
