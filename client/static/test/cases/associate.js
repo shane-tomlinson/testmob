@@ -9,15 +9,20 @@
       Associate = tm.Modules.Associate,
       associate,
       Socket = tm.Mocks.Socket,
-      socket;
+      XHREvents = tm.XHREvents,
+      xhrEvents;
 
   module("associate", {
     setup: function() {
-      var sock = new Socket();
-      socket = sock.connect("http://testmob.org");
+      xhrEvents = XHREvents.create({});
+      xhrEvents.start({
+        io: Socket,
+        url: "http://testmob.org"
+      });
+
       associate = Associate.create({});
       associate.start({
-        socket: socket
+        xhrEvents: xhrEvents
       });
 
     },
@@ -27,17 +32,17 @@
   });
 
   asyncTest("start_suite - start a set of tests", function() {
-    // test_job triggers a suite_complete message.
-    socket.bind("suite_complete", function(data) {
+    // test_job publishs a suite_complete message.
+    xhrEvents.subscribe("suite_complete", function(msg, data) {
       ok(true, "test has completed");
       start();
     });
 
-    socket.trigger("start_suite", { url: "/test/test_job.html" });
+    xhrEvents.publish("start_suite", { url: "/test/test_job.html" });
   });
 
   asyncTest("getModel - get the current model", function() {
-    socket.bind("suite_complete", function(data) {
+    xhrEvents.subscribe("suite_complete", function(msg, data) {
       var model = associate.getModel();
       ok(model, "A model is created once a suite has been started");
       start();
@@ -45,18 +50,18 @@
 
     var model = associate.getModel();
     equal(typeof model, "undefined", "A model is not created until a suite has been started");
-    socket.trigger("start_suite", { url: "/test/test_job.html" });
+    xhrEvents.publish("start_suite", { url: "/test/test_job.html" });
   });
 
   asyncTest("stop_suite - stop a set of tests", function() {
-    socket.bind("suite_stopped", function() {
+    xhrEvents.subscribe("suite_stopped", function() {
       ok(true, "suite has been stopped");
       var model = associate.getModel();
       equal(model.get("force_stopped"), true, "model.stopped set to true");
       start();
     });
 
-    socket.trigger("start_suite", { url: "/test/long_job.html" });
-    socket.trigger("stop_suite");
+    xhrEvents.publish("start_suite", { url: "/test/long_job.html" });
+    xhrEvents.publish("stop_suite");
   });
 }());

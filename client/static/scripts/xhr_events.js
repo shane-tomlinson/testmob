@@ -20,11 +20,13 @@ TestMob.XHREvents = (function() {
       });
     },
 
-    on: function(msg, cb) {
-      this.socket.on(msg, cb);
+    subscribe: function(msg, cb) {
+      this.socket.on(msg, function(data) {
+        cb(msg, data);
+      });
     },
 
-    emit: function(msg, data) {
+    publish: function(msg, data) {
       var self=this,
           eventData = AFrame.mixin({}, data, { client_id: self.client_id, email: self.email || "" });
 
@@ -33,6 +35,10 @@ TestMob.XHREvents = (function() {
 
     setEmail: function(email) {
       this.email = email;
+    },
+
+    getSocket: function() {
+      return this.socket;
     }
   });
 
