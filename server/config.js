@@ -21,6 +21,7 @@ function extend(toExtend) {
       }
     }
   }
+  return toExtend;
 }
 
 configs.local = {
@@ -55,4 +56,5 @@ var environment = env['NODE_ENV'] || "local";
 exports.config = configs[environment];
 
 console.log("using environment: " + environment);
+console.log(exports.config);
 
