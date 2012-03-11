@@ -7,6 +7,7 @@ TestMob.Modules.Test = (function() {
 
   var tm = TestMob,
       dom = tm.DOM,
+      mediator = tm.Mediator,
       complete = tm.Helpers.complete,
       sc;
 
@@ -21,6 +22,9 @@ TestMob.Modules.Test = (function() {
     addClassIfTrue.call(self, !data.complete, "incomplete");
     addClassIfTrue.call(self, data.complete && !data.failed, "passed");
     addClassIfTrue.call(self, data.failed, "failed");
+    addClassIfTrue.call(self, data.force_stopped, "force_stopped");
+
+    dom.addClass("body", "tests");
 
     var target = dom.getElements(".failures ul", self.getTarget());
     dom.setInner(target, "");
@@ -28,6 +32,10 @@ TestMob.Modules.Test = (function() {
       var el = dom.createElement("li", failure);
       dom.appendTo(el, target);
     }
+  }
+
+  function stopSuite() {
+    mediator.publish("stop_suite", this.dataContainer.toObject());
   }
 
   var Module = AFrame.DataForm.extend({
@@ -39,8 +47,12 @@ TestMob.Modules.Test = (function() {
       updateDisplay.call(self);
       self.dataContainer.bindEvent("set_complete", updateDisplay, self);
 
+      self.bindClick(".stop", stopSuite);
+
       complete(callback, self);
-    }
+   },
+
+    stopSuite: stopSuite
   });
 
   sc = Module.sc;

@@ -8,18 +8,15 @@
   var tm = TestMob,
       Auth = tm.Models.Authentication,
       BrowserID = tm.Mocks.BrowserID,
-      testHelpers = tm.TestHelpers,
       ajax = tm.Ajax,
       xhr = tm.Mocks.xhr,
       model;
 
   module("models/authentication", {
     setup: function() {
-      testHelpers.setup();
     },
 
     teardown: function() {
-      testHelpers.teardown();
       BrowserID.reset();
       if(model) {
         model.teardown();

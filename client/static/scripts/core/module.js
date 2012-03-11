@@ -10,9 +10,9 @@ TestMob.Module = (function() {
 "use strict";
 
   var ANIMATION_TIME = 250,
-      ts = TestMob,
-      dom = ts.DOM,
-      mediator = ts.Mediator;
+      tm = TestMob,
+      dom = tm.DOM,
+      mediator = tm.Mediator;
 
    function onSubmit(event) {
      event.stopPropagation();

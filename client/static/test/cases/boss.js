@@ -7,27 +7,37 @@
 
   var tm = TestMob,
       Boss = tm.Modules.Boss,
-      boss,
       Socket = tm.Mocks.Socket,
-      socket;
+      XHREvents = tm.XHREvents,
+      mediator = tm.Mediator,
+      boss,
+      xhrEvents;
 
   module("boss", {
     setup: function() {
-      socket = new Socket();
-      socket.connect("http://testmob.org");
+      xhrEvents = XHREvents.create({});
+      xhrEvents.start({
+        io: Socket,
+        url: "http://testmob.org"
+      });
+
+      boss = Boss.create({});
+      boss.start({
+        xhrEvents: xhrEvents
+      });
     },
 
     teardown: function() {
     }
   });
 
-  test("can create boss", function() {
-    boss = Boss.create({});
-    boss.start({
-      socket: socket.socket
+  asyncTest("stop_suite on the mediator - emit stop_suite on the socket", function() {
+    xhrEvents.subscribe("stop_suite", function(msg, data) {
+      equal(data.test_id, "test_id", "test_id passed correctly");
+      equal(data.target_id, "runner_id", "runner_id converted to target_id correctly");
+      start();
     });
 
-    ok(boss, "boss created");
+    mediator.publish("stop_suite", { test_id: "test_id", runner_id: "runner_id" });
   });
-
 }());

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test IFRAME</title>
+</head>
+<body>
+  <script>
+    setTimeout(function() {
+      var message = {
+        msg: "test_done",
+        data: {}
+      };
+      window.parent.postMessage(JSON.stringify(message), "*");
+    }, 100);
+  </script>
+</body>
+</html>
+

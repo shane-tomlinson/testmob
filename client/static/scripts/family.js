@@ -6,6 +6,7 @@ TestMob.Modules.Family = (function(){
   "use strict";
 
   var tm = TestMob,
+      XHREvents = tm.XHREvents,
       moduleManager = tm.moduleManager;
 
   var Module = tm.Module.extend({
@@ -14,19 +15,19 @@ TestMob.Modules.Family = (function(){
       if(document.location.href.indexOf("family") == -1) return;
 
       var family_name = document.location.href.replace("http://testmob.org/family/", ""),
-          socket = TestMob.XHREvents.create({});
+          xhrEvents = XHREvents.create({});
 
-      socket.start({
+      xhrEvents.start({
         io: io,
         url: "http://testmob.org/" + family_name
       });
 
       config.authModel.bindField("email", function(event) {
-        socket.setEmail(event.value);
+        xhrEvents.setEmail(event.value);
       });
 
-      moduleManager.start("associate", { socket: socket });
-      moduleManager.start("boss", { socket: socket });
+      moduleManager.start("associate", { xhrEvents: xhrEvents });
+      moduleManager.start("boss", { xhrEvents: xhrEvents });
     }
   });
 

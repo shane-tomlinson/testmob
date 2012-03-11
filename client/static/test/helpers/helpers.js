@@ -7,15 +7,20 @@ TestMob.TestHelpers = (function() {
 
   var tm = TestMob,
       xhr = TestMob.Mocks.xhr,
-      ajax = TestMob.Ajax;
+      ajax = TestMob.Ajax,
+      mediator = TestMob.Mediator;
 
   function setup() {
     xhr.useResult("success");
     ajax.init({xhr: xhr});
+    mediator.reset();
+    $("body").removeClass("tests");
   }
 
   function teardown() {
     ajax.reset();
+    mediator.reset();
+    $("body").removeClass("tests");
   }
 
   var Helpers = {

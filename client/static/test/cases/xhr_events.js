@@ -7,16 +7,13 @@
 
   var tm = TestMob,
       XHREvents = tm.XHREvents,
-      Socket = tm.Mocks.Socket,
-      socketMock;
+      Socket = tm.Mocks.Socket;
 
   module("xhr_events", {
     setup: function() {
-      socketMock = new Socket();
-
       this.events = XHREvents.create();
       this.events.start({
-        io: socketMock,
+        io: Socket,
         url: "http://testurl.org/endpoint"
       });
 
@@ -28,36 +25,37 @@
   });
 
   test("create/start - connects to endpoint", function() {
-    equal(socketMock.url, "http://testurl.org/endpoint", "connection established to endpoint");
+    equal(this.events.getSocket().url, "http://testurl.org/endpoint", "connection established to endpoint");
   });
 
-  asyncTest("on - register a handler", function() {
-    this.events.on("message", function() {
-      ok(true, "handler correctly registered");
+  asyncTest("subscribe - register a handler", function() {
+    this.events.subscribe("message", function(msg, data) {
+      equal(msg, "message", "correct message passed");
+      equal(data.key, "value", "correct value passed");
       start();
     });
 
-    this.events.socket.trigger("message");
+    this.events.getSocket().emit("message", { key: "value" });
   });
 
-  test("emit - emit a message", function() {
-    this.events.emit("message", { key: "value" });
+  test("publish - publish a message", function() {
+    this.events.publish("message", { key: "value" });
 
-    equal(this.events.socket.triggered.message.key, "value", "message triggered with correct data");
+    equal(this.events.getSocket().emitted.message.key, "value", "message emitted with correct data");
   });
 
-  test("emit after set_client_id triggered - emit a message with client_id", function() {
-    this.events.socket.trigger("set_client_id", { client_id: "id" });
-    this.events.emit("message", { key: "value" });
+  test("publish after set_client_id emitted - publish a message with client_id", function() {
+    this.events.getSocket().emit("set_client_id", { client_id: "id" });
+    this.events.publish("message", { key: "value" });
 
-    equal(this.events.socket.triggered.message.client_id, "id", "message triggered with correct client_id");
+    equal(this.events.getSocket().emitted.message.client_id, "id", "message emitted with correct client_id");
   });
 
-  test("emit after setEmail - emit a message with an email", function() {
+  test("publish after setEmail - publish a message with an email", function() {
     this.events.setEmail("client@client.com");
-    this.events.emit("message", { key: "value" });
+    this.events.publish("message", { key: "value" });
 
-    equal(this.events.socket.triggered.message.email, "client@client.com", "message triggered with correct email");
+    equal(this.events.getSocket().emitted.message.email, "client@client.com", "message emitted with correct email");
   });
 
 }());

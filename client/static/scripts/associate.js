@@ -6,16 +6,19 @@ TestMob.Modules.Associate = (function() {
   "use strict";
 
   var tm = TestMob,
+      ModelsFactory = tm.ModelsFactory,
+      ViewsFactory = tm.ViewsFactory,
+      JobLoader = tm.JobLoader,
       last_send,
-      socket,
+      xhrEvents,
       models,
       list,
       model,
       view;
 
-  function start_suite(data, fn) {
-    models = tm.ModelsFactory.create({ constructor: TestMob.Models.AssociateTest });
-    list = tm.ViewsFactory.create({
+  function start_suite(msg, data) {
+    models = ModelsFactory.create({ constructor: tm.Models.AssociateTest });
+    list = ViewsFactory.create({
       list_template: "test_results",
       result_template: "associate_result",
       models: models,
@@ -30,9 +33,9 @@ TestMob.Modules.Associate = (function() {
     model = models.get(cid);
 
     last_send = null;
-    socket.emit("suite_start", model.toObject());
+    xhrEvents.publish("suite_start", model.toObject());
 
-    TestMob.JobLoader.load(data, loader_result);
+    JobLoader.load(data, loader_result);
   }
 
   function loader_result(err, info) {
@@ -53,7 +56,7 @@ TestMob.Modules.Associate = (function() {
     }
 
     if(shouldUpdate(msg, now)) {
-      socket.emit(msg, model.toObject());
+      xhrEvents.publish(msg, model.toObject());
       last_send = now;
     }
   }
@@ -62,11 +65,26 @@ TestMob.Modules.Associate = (function() {
     return (msg === "suite_complete" || !last_send || ((now - last_send) > 2500));
   }
 
+  function stop_suite(msg, data) {
+    JobLoader.remove();
+
+    model.set("force_stopped", true);
+    model.set("complete", true);
+    model.triggerEvent("set_complete");
+
+    xhrEvents.publish("suite_stopped");
+  }
+
   var Module = tm.Module.extend({
     start: function(config) {
-      socket = config.socket;
-      socket.on('start_suite', start_suite);
+      model = undefined;
+      xhrEvents = config.xhrEvents;
+      xhrEvents.subscribe('start_suite', start_suite);
+      xhrEvents.subscribe('stop_suite', stop_suite);
+    },
 
+    getModel: function() {
+      return model;
     }
   });
 

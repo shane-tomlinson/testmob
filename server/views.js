@@ -10,7 +10,9 @@ const ROUTES = {
   'GET about': about,
   'GET use': use,
   'POST join_family': join_family,
-  'GET family/:family_name': family
+  'GET family/:family_name': family,
+  'GET test': test,
+  'GET test/index.html': test,
 };
 
 var db;
@@ -61,6 +63,11 @@ function family(req, res) {
   sockets.start_family(family_name);
   render(req, res, "family.ejs", { title: "Family: " + family_name, family: family_name });
 }
+
+function test(req, res) {
+  render(req, res, "test.ejs", { title: "Unit Tests", layout: false });
+}
+
 
 function init(config) {
   var app = config.app;

@@ -6,37 +6,7 @@
 	<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
 	<script src="qunit/qunit.js"></script>
 
-  <script src="/scripts/core/test_mob.js"></script>
-
-  <script src="/lib/jquery.min.js"></script>
-  <script src="/lib/aframe-current-jquery.js"></script>
-  <script src="/lib/extensions.js"></script>
-  <script src="/lib/ejs.js"></script>
-
-  <script src="/scripts/core/helpers.js"></script>
-
-  <script src="/scripts/core/dom.js"></script>
-  <script src="/scripts/core/ajax.js"></script>
-  <script src="/scripts/core/class.js"></script>
-  <script src="/scripts/core/module.js"></script>
-  <script src="/scripts/core/model.js"></script>
-  <script src="/scripts/core/templates.js"></script>
-  <script src="/scripts/core/renderer.js"></script>
-
-  <script src="/scripts/job_loader.js"></script>
-  <script src="/scripts/xhr_events.js"></script>
-  <script src="/scripts/family.js"></script>
-  <script src="/scripts/associate.js"></script>
-  <script src="/scripts/boss.js"></script>
-
-  <script src="/scripts/models/authentication.js"></script>
-  <script src="/scripts/models/test.js"></script>
-  <script src="/scripts/models/associate_test.js"></script>
-  <script src="/scripts/models/models_factory.js"></script>
-
-  <script src="/scripts/views/authentication.js"></script>
-  <script src="/scripts/views/test.js"></script>
-  <script src="/scripts/views/views_factory.js"></script>
+  <%- cachify_js("/production/main.min.js") %>
 
   <script src="mocks/mocks.js"></script>
   <script src="mocks/browserid.js"></script>
@@ -60,6 +30,8 @@
 	<script src="cases/family.js"></script>
 	<script src="cases/associate.js"></script>
 	<script src="cases/boss.js"></script>
+
+  <script src="setup.js"></script>
 
 	<script src="/include.js"></script>
 

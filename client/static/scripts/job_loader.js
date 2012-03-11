@@ -27,6 +27,12 @@ TestMob.JobLoader = (function() {
     document.body.appendChild(iframe);
   }
 
+  function remove() {
+    if(iframe) {
+      iframe.parentNode.removeChild(iframe);
+    }
+  }
+
   $(window).bind("message", function(event) {
     if(!(loadData && event.originalEvent.origin === extractOrigin(loadData.url))) {
       return;
@@ -35,7 +41,7 @@ TestMob.JobLoader = (function() {
     try {
       var data = JSON.parse(event.originalEvent.data);
       if(data.msg === "suite_complete") {
-        iframe.parentNode.removeChild(iframe);
+        remove();
       }
       cb(null, data);
     } catch(e) {
@@ -44,7 +50,8 @@ TestMob.JobLoader = (function() {
   });
 
   return {
-    load: load
+    load: load,
+    remove: remove
   };
 
 

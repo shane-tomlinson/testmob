@@ -4,28 +4,28 @@
 TestMob.Mocks.Socket = (function() {
   "use strict";
 
-  function Socket() {}
+  function Socket(url) {
+    this.url = url;
+    this.listeners = {};
+    this.emitted = {};
+  }
   Socket.prototype = {
-    connect: function(url) {
-      this.url = url;
+    emit: function(msg, data) {
+      this.emitted[msg] = data;
 
-      this.socket = {
-        listeners: {},
-        triggered: {},
-        emit: function(msg, data) {
-          this.triggered[msg] = data;
-        },
-        on: function(msg, cb) {
-          this.listeners[msg] = cb;
-        },
-        trigger: function(msg, data) {
-          this.listeners[msg](data);
-        }
-      };
+      if(this.listeners[msg]) {
+        this.listeners[msg](data);
+      }
+    },
 
-      return this.socket;
+    on: function(msg, cb) {
+      this.listeners[msg] = cb;
     }
   };
 
-  return Socket;
+  return {
+    connect: function(url) {
+      return new Socket(url);
+    }
+  };
 }());
