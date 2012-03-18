@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Chunkfive';
+  src: url('../fonts/Chunkfive-webfont.eot'); /* IE 5-8 */
+  src: local('☺'),             /* sneakily trick IE */
+        url('../fonts/Chunkfive-webfont.woff') format('woff'),    /* FF 3.6, Chrome 5, IE9 */
+        url('../fonts/Chunkfive-webfont.ttf') format('truetype'), /* Opera, Safari */
+        url('../fonts/Chunkfive-webfont.svg#font') format('svg'); /* iOS */
+}
+
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -46,6 +55,8 @@ hgroup {
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
+  font-weight: normal;
+  font-family: "Chunkfive"
 }
 
 h1 {
@@ -174,7 +185,11 @@ code {
   background-image: url("/img/sign_in_blue.png");
 }
 
-#menu > li {
+nav > ul {
+  font-family: "Chunkfive"
+}
+
+nav > ul > li {
   display: inline-block;
   margin-right: 20px;
 }
