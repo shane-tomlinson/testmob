@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Chunkfive';
+  src: url('../fonts/Chunkfive-webfont.eot'); /* IE 5-8 */
+  src: local('☺'),             /* sneakily trick IE */
+        url('../fonts/Chunkfive-webfont.woff') format('woff'),    /* FF 3.6, Chrome 5, IE9 */
+        url('../fonts/Chunkfive-webfont.ttf') format('truetype'), /* Opera, Safari */
+        url('../fonts/Chunkfive-webfont.svg#font') format('svg'); /* iOS */
+}
+
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -7,8 +16,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  line-height: 1.5;
-  font: 15px/1.5 Helvetica,Arial,"Liberation Sans",FreeSans,sans-serif;
+  font: 100%/150% Helvetica,Arial,"Liberation Sans",FreeSans,sans-serif;
 }
 
 body {
@@ -38,24 +46,19 @@ a {
   text-decoration: none;
 }
 
-hgroup {
-  line-height: 22px;
-  text-align: baseline;
-}
-
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
-}
-
-h1 {
-  font-size: 1.5em;
+  font-weight: normal;
+  font-family: "Chunkfive"
 }
 
 h1 > a {
   text-decoration: none;
   color: #ff8200;
-  font-size: 2.2em
+  display: block;
+  font-size: 1.5em;
+  line-height: 100%;
 }
 
 h2 {
@@ -174,7 +177,11 @@ code {
   background-image: url("/img/sign_in_blue.png");
 }
 
-#menu > li {
+nav > ul {
+  font-family: "Chunkfive"
+}
+
+nav > ul > li {
   display: inline-block;
   margin-right: 20px;
 }
@@ -307,5 +314,33 @@ li.incomplete .stop {
   border-radius: 3px;
   display: block;
 }
+
+
+#error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #ffffff;
+  background-color: rgba(255,255,255,.5);
+}
+
+#error > article {
+  width: 50%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2em;
+  top: 25%;
+  position: relative;
+  border: 2px solid #ff0000;
+  background-color: #ffe4d5;
+  border-radius: 5px;
+}
+
+#error h2 {
+  color: #ff0000;
+}
+
 
 

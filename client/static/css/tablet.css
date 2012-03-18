@@ -12,7 +12,7 @@
     margin-right: 10px;
   }
 
-  #menu {
+  nav > ul {
     font-size: medium;
   }
 }

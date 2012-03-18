@@ -3,6 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 @media screen and (max-width: 640px) {
+  hgroup {
+    clear: right;
+    margin-bottom: 1em;
+    border-bottom: 1px solid #ccc;
+  }
+
+  hgroup h2 {
+    font-size: 100%;
+  }
+
   label {
     display: block;
   }
@@ -16,12 +26,38 @@
     margin-top: 10px;
   }
 
-  #menu {
+  nav > ul {
     font-size: medium;
-    text-align: center;
+  }
+
+  nav > ul:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+  }
+
+  nav > ul > li {
+    float: left;
+    clear: right;
+  }
+
+  nav > ul > li.even {
+    float: right;
   }
 
   #steps > li > a > img {
     width: 100%;
+  }
+
+  #error {
+    padding: 10%;
+  }
+
+  #error > article {
+    width: 100%;
+    top: 0;
   }
 }
