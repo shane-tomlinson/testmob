@@ -16,8 +16,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  line-height: 1.5;
-  font: 15px/1.5 Helvetica,Arial,"Liberation Sans",FreeSans,sans-serif;
+  font: 100%/150% Helvetica,Arial,"Liberation Sans",FreeSans,sans-serif;
 }
 
 body {
@@ -47,11 +46,6 @@ a {
   text-decoration: none;
 }
 
-hgroup {
-  line-height: 22px;
-  text-align: baseline;
-}
-
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
@@ -59,14 +53,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Chunkfive"
 }
 
-h1 {
-  font-size: 1.5em;
-}
-
 h1 > a {
   text-decoration: none;
   color: #ff8200;
-  font-size: 2.2em
+  display: block;
+  font-size: 1.5em;
+  line-height: 100%;
 }
 
 h2 {

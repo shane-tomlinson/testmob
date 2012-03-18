@@ -4,8 +4,13 @@
 
 @media screen and (max-width: 640px) {
   hgroup {
-    line-height: inherit;
     clear: right;
+    margin-bottom: 1em;
+    border-bottom: 1px solid #ccc;
+  }
+
+  hgroup h2 {
+    font-size: 100%;
   }
 
   label {
@@ -23,11 +28,24 @@
 
   nav > ul {
     font-size: medium;
-    text-align: center;
+  }
+
+  nav > ul:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
   }
 
   nav > ul > li {
-    display: block;
+    float: left;
+    clear: right;
+  }
+
+  nav > ul > li.even {
+    float: right;
   }
 
   #steps > li > a > img {
