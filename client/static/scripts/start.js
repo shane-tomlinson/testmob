@@ -13,6 +13,7 @@ $(function() {
       AuthView = modules.Authentication,
       Family = modules.Family,
       Associate = modules.Associate,
+      CookieCheck = modules.CookieCheck,
       Boss = modules.Boss,
       email = $("#email").text(),
       authModel = AuthModel.create({
@@ -29,6 +30,8 @@ $(function() {
   moduleManager.start("authentication", { model: authModel });
 
   moduleManager.register("family", Family);
+  moduleManager.register("cookie_check", CookieCheck);
+
   moduleManager.start("family", { authModel: authModel });
 });
 

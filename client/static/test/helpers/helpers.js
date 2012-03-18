@@ -15,12 +15,14 @@ TestMob.TestHelpers = (function() {
     ajax.init({xhr: xhr});
     mediator.reset();
     $("body").removeClass("tests");
+    $("#error").remove();
   }
 
   function teardown() {
     ajax.reset();
     mediator.reset();
     $("body").removeClass("tests");
+    $("#error").remove();
   }
 
   var Helpers = {

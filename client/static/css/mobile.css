@@ -51,4 +51,13 @@
   #steps > li > a > img {
     width: 100%;
   }
+
+  #error {
+    padding: 10%;
+  }
+
+  #error > article {
+    width: 100%;
+    top: 0;
+  }
 }

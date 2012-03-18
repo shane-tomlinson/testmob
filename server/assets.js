@@ -40,6 +40,7 @@ var assets = {
     "/scripts/associate.js",
     "/scripts/boss.js",
     "/scripts/family.js",
+    "/scripts/cookie_check.js",
 
     "/scripts/start.js"
   ],

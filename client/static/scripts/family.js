@@ -14,20 +14,24 @@ TestMob.Modules.Family = (function(){
       // Only start the family related stuff if the user is at the /family URL.
       if(document.location.href.indexOf("family") == -1) return;
 
-      var family_name = document.location.href.replace("http://testmob.org/family/", ""),
-          xhrEvents = XHREvents.create({});
+      moduleManager.start("cookie_check", { ready: function(cookiesEnabled) {
+        if(!cookiesEnabled) return;
 
-      xhrEvents.start({
-        io: io,
-        url: "http://testmob.org/" + family_name
-      });
+        var family_name = document.location.href.replace("http://testmob.org/family/", ""),
+            xhrEvents = XHREvents.create({});
 
-      config.authModel.bindField("email", function(event) {
-        xhrEvents.setEmail(event.value);
-      });
+        xhrEvents.start({
+          io: io,
+          url: "http://testmob.org/" + family_name
+        });
 
-      moduleManager.start("associate", { xhrEvents: xhrEvents });
-      moduleManager.start("boss", { xhrEvents: xhrEvents });
+        config.authModel.bindField("email", function(event) {
+          xhrEvents.setEmail(event.value);
+        });
+
+        moduleManager.start("associate", { xhrEvents: xhrEvents });
+        moduleManager.start("boss", { xhrEvents: xhrEvents });
+      } });
     }
   });
 
