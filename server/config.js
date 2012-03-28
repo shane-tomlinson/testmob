@@ -13,7 +13,7 @@ function extend(toExtend) {
     for(var key in mixin) {
       var type = Object.prototype.toString.call(mixin[key]);
       if(type === "[object Object]") {
-        toExtend[key] = {};
+        toExtend[key] = toExtend[key] || {};
         extend(toExtend[key], mixin[key]);
       }
       else {
@@ -50,7 +50,6 @@ configs.production = extend({}, configs.local, {
     "browser client etag": true
   }
 });
-
 
 var environment = env['NODE_ENV'] || "local";
 exports.config = configs[environment];

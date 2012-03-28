@@ -14,8 +14,8 @@ TestMob.Modules.Family = (function(){
       // Only start the family related stuff if the user is at the /family URL.
       if(document.location.href.indexOf("family") == -1) return;
 
-      moduleManager.start("cookie_check", { ready: function(cookiesEnabled) {
-        if(!cookiesEnabled) return;
+      moduleManager.start("cookie_check", { ready: function(err, cookiesEnabled) {
+        if(err || !cookiesEnabled) return;
 
         var family_name = document.location.href.replace("http://testmob.org/family/", ""),
             xhrEvents = XHREvents.create({});
