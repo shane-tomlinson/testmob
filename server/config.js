@@ -25,16 +25,18 @@ function extend(toExtend) {
 }
 
 configs.local = {
-  ip_address: env['IP_ADDRESS'] || "0.0.0.0",
-  port: env['PORT'] || 5000,
+  ip_address: env['IP_ADDRESS'] || "127.0.0.1",
+  https: false,
+  port: env['PORT'] || 3000,
   use_minified_resources: false,
-  redis_url: "http://" + (env['IP_ADDRESS'] || "0.0.0.0") + ":6379",
+  redis_url: "http://" + (env['IP_ADDRESS'] || "127.0.0.1") + ":6379",
   "socket.io": {
+    "log level": 3/*,
     // required for Heroku.
     // http://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
     "transports": ["xhr-polling"],
-    "polling duration": 10,
-    "log level": 3
+    "polling duration": 10
+    */
   }
 };
 configs.local.url = configs.local.ip_address + ":" + configs.local.port;
@@ -43,15 +45,16 @@ configs.production = extend({}, configs.local, {
   url: "testmob.org",
   use_minified_resources: true,
   redis_url: env['REDISTOGO_URL'],
+  https: true,
   "socket.io": {
-    "log level": 2,
+    "log level": 3,
     "browser client gzip": true,
     "browser client minification": true,
     "browser client etag": true
   }
 });
 
-var environment = env['NODE_ENV'] || "local";
+var environment = env['NODE_ENV'] || "production";
 exports.config = configs[environment];
 
 console.log("using environment: " + environment);

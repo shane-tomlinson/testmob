@@ -21,6 +21,7 @@ const express = require("express")
 const IP_ADDRESS=config.ip_address;
 const PORT=config.port;
 const URL = config.url;
+const FULL_URL = ( config.https ? "https://" : "http://" ) + URL;
 const REDIS_URL = config.redis_url;
 
 const root = __dirname + '/../client/';
@@ -34,9 +35,9 @@ app.configure(function(){
   app.use(express.bodyParser());
 
   if(URL != "testmob.org") {
-    var regExp = new RegExp("testmob.org", "g");
+    var regExp = new RegExp("https:\/\/testmob.org", "g");
     app.use(postprocess.middleware(function(req, buffer) {
-      return buffer.toString().replace(regExp, URL);
+      return buffer.toString().replace(regExp, FULL_URL);
     }));
   }
 
@@ -56,7 +57,7 @@ for(var key in redis) {
 var db = redis.createClient(REDIS_URL);
 
 views.init({ app: app, db: db });
-wsapi.init({ app: app, verifier: verifier, audience: "http://" + URL});
+wsapi.init({ app: app, verifier: verifier, audience: ( config.https ? "https://" : "http://" ) + URL});
 sockets.init({ app: app, sessionStore: sessionStore, db: db });
 
 

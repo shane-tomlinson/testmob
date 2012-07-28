@@ -11,7 +11,7 @@
 
     try {
       if(window.parent !== window) {
-        window.parent.postMessage(JSON.stringify(packet), "http://testmob.org");
+        window.parent.postMessage(JSON.stringify(packet), "https://testmob.org");
       }
     } catch(e) {}
   }

@@ -17,12 +17,12 @@ TestMob.Modules.Family = (function(){
       moduleManager.start("cookie_check", { ready: function(err, cookiesEnabled) {
         if(err || !cookiesEnabled) return;
 
-        var family_name = document.location.href.replace("http://testmob.org/family/", ""),
+        var family_name = document.location.href.replace("https://testmob.org/family/", ""),
             xhrEvents = XHREvents.create({});
 
         xhrEvents.start({
           io: io,
-          url: "http://testmob.org/" + family_name
+          url: "https://testmob.org/" + family_name
         });
 
         config.authModel.bindField("email", function(event) {
