@@ -28,11 +28,14 @@ TestMob is a distributed unit test system loosely based on [John Resig's] (http:
 * AFrameJS (http://aframejs.com)
 * Socket.io (http://socket.io)
 * BrowserID (http://browserid.org)
+* awsbox (https://github.com/lloyd/awsbox)
 
 ## Author:
 * Shane Tomlinson
+* shane@shanetomlinson.com
+* stomlinson@mozilla.com
 * set117@yahoo.com
-* http://www.shanetomlinson.com
+* https://shanetomlinson.com
 * http://github.com/stomlinson
 * http://github.com/shane-tomlinson
 * @shane_tomlinson
