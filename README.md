@@ -5,11 +5,11 @@ TestMob is a distributed unit test system loosely based on [John Resig's] (http:
 ## Use in your site
 * Include the following snippet in your unit tests after all of your included unit tests:
 ```
-  <script src="http://testmob.org/include.js"></script>
+  <script src="https://testmob.org/include.js"></script>
 ```
-* Open up a browser which will act as the "boss". The boss does not run tests but initiates a job and collects results. Open http://testmob.org and start a family.
+* Open up a browser which will act as the "boss". The boss does not run tests but initiates a job and collects results. Open https://testmob.org and start a family.
 * Open up a second browser which will act as an "associate".  Associates do jobs.
-* Open http://testmob.org. Join the same family as the boss.
+* Open https://testmob.org. Join the same family as the boss.
 * Return to the boss. Enter the "Job Address" (unit test address) .  Start the job.
 * Watch the results flow in.
 
