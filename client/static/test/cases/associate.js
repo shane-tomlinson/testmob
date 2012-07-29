@@ -17,7 +17,7 @@
       xhrEvents = XHREvents.create({});
       xhrEvents.start({
         io: Socket,
-        url: "http://testmob.org"
+        url: "https://testmob.org"
       });
 
       associate = Associate.create({});

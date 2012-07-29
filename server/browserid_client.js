@@ -14,7 +14,7 @@ exports.verify = function (obj, cb) {
   if (typeof cb !== 'function') return cb("missing required callback argument");
   if (!obj.assertion) return cb("'assertion' missing from arguments object");
   if (!obj.audience) return cb("'audience' missing from arguments object");
-  if (!obj.verifier_url) obj.verifier_url = 'https://browserid.org/';
+  if (!obj.verifier_url) obj.verifier_url = 'https://login.persona.org';
 
   var host = urlparse(obj.verifier_url).validate().originOnly();
   var meth = (host.scheme === 'https' ? https : http);
@@ -30,6 +30,7 @@ exports.verify = function (obj, cb) {
         .on('end', function() {
           try {
             var verifierResp = JSON.parse(body);
+            console.log(verifierResp);
             if (!verifierResp || !verifierResp.status === "okay") {
               throw "unhappy response from verifier";
             }

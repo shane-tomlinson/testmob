@@ -62,7 +62,7 @@ TestMob.Modules.Authentication = (function() {
 
       sc.start.call(self, options);
       updateDisplay.call(self);
-
+      self.model.bindEvent("onSet-email", updateDisplay, self);
       complete(callback, self);
     }
 

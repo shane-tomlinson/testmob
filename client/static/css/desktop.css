@@ -3,15 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 @media screen and (min-width: 840px) {
-  h1, h2, h3, h4, h5, h6 {
-    display: inline-block;
-  }
-
-  header > hgroup > h2:before {
-    content: "-";
-    margin-right: 3px;
-  }
-
   #wrapper {
     margin-top: 50px;
     width: 840px;

@@ -13,7 +13,10 @@ TestMob.Models.Authentication = (function() {
 
   function authenticate(assertion, callback) {
     var self=this;
-    ajax.post("/wsapi/login", { assertion: assertion }, function(err, resp) {
+    ajax.post("/wsapi/login", {
+      assertion: assertion,
+      audience: document.location.hostname
+    }, function(err, resp) {
       if(err) {
         // XXX handle error;
       }
@@ -27,13 +30,8 @@ TestMob.Models.Authentication = (function() {
 
   function signin(callback) {
     var self=this;
-    browserid.get(function(assertion) {
-      if(assertion) {
-        authenticate.call(self, assertion, callback);
-      }
-      else {
-        // XXX handle error;
-      }
+    browserid.request({
+      siteName: "TestMob"
     });
   }
 
@@ -44,10 +42,26 @@ TestMob.Models.Authentication = (function() {
         // XXX handle error;
       }
       else {
-        browserid.logout(function() {
-          self.set("authenticated", !resp.success);
-          complete(callback, null, resp.success);
-        });
+        browserid.logout();
+      }
+    });
+  }
+
+  function watch() {
+    var self=this;
+    browserid.watch({
+      loggedInEmail: window.authenticated_email || null,
+      onlogin: function(assertion) {
+        if(assertion) {
+          authenticate.call(self, assertion);
+        }
+        else {
+          // XXX handle error;
+        }
+      },
+      onlogout: function() {
+        self.set("authenticated", false);
+        self.set("email", null);
       }
     });
   }
@@ -59,7 +73,7 @@ TestMob.Models.Authentication = (function() {
     },
     init: function(config) {
       browserid = config.browserid || navigator.id;
-
+      watch.call(this);
       sc.init.call(this, config);
     },
 
