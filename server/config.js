@@ -31,12 +31,11 @@ configs.local = {
   use_minified_resources: false,
   redis_url: "http://" + (env['IP_ADDRESS'] || "127.0.0.1") + ":6379",
   "socket.io": {
-    "log level": 3/*,
+    "log level": 3,
     // required for Heroku.
     // http://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
     "transports": ["xhr-polling"],
     "polling duration": 10
-    */
   }
 };
 configs.local.url = configs.local.ip_address + ":" + configs.local.port;
