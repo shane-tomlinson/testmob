@@ -13,7 +13,9 @@ TestMob.XHREvents = (function() {
       self.checkRequired(config, "io", "url");
 
       self.io = config.io;
-      self.socket = self.io.connect(config.url);
+
+      var secure = config.url.indexOf("https://") > -1;
+      self.socket = self.io.connect(config.url, { secure: secure });
 
       self.socket.on("set_client_id", function(data) {
         self.client_id = data.client_id;
