@@ -67,7 +67,7 @@
         start();
       });
 
-      BrowserID.complete("assertion");
+      BrowserID.completeLogin("assertion");
     });
   });
 
@@ -81,7 +81,7 @@
         start();
       });
 
-      BrowserID.complete("assertion");
+      BrowserID.completeLogout("assertion");
     });
   });
 
