@@ -31,7 +31,7 @@
   }
 
   function createView(options, complete) {
-    options = $.extend(options || {}, { target: "#test_result"});
+    options = $.extend(options || {}, { target: options.target || "#test_result"});
     var view = Test.create(options, complete);
     return view;
   }
@@ -84,6 +84,20 @@
     createView({ data: model }, function(view) {
       equal(view.getTarget().find(".failures ul").children().length, 1, "one failure added");
       start();
+    });
+  });
+
+  asyncTest("multiple views with failed_tests - only update correct view", function() {
+    createView({ data: model }, function(view) {
+      createView({ data: createModel("test2"), target: "#unaffected_test" }, function(unaffectedView) {
+        model.set("failed", 1);
+        model.set("failed_tests", ["failed test name"]);
+        model.triggerEvent("set_complete");
+
+        equal(view.getTarget().find(".failures ul").children().length, 1, "one failure added");
+        equal(unaffectedView.getTarget().find(".failures ul").children().length, 0, "no failures added to the unaffected view");
+        start();
+      });
     });
   });
 

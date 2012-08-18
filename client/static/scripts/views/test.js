@@ -26,12 +26,16 @@ TestMob.Modules.Test = (function() {
 
     dom.addClass("body", "tests");
 
-    var target = dom.getElements(".failures ul", self.getTarget());
-    dom.setInner(target, "");
-    for(var failure, index = 0; failure = data.failed_tests[index]; index++) {
-      var el = dom.createElement("li", failure);
+    var target = dom.getDescendentElements(".failures ul", self.getTarget());
+
+    // Only add new failures to the list.
+    var failureCount = data.failed_tests.length;
+    for(var index = self.failureStartIndex; index < failureCount; index++) {
+      var failure = data.failed_tests[index],
+          el = dom.createElement("li", failure);
       dom.appendTo(el, target);
     }
+    self.failureStartIndex = failureCount;
   }
 
   function stopSuite() {
@@ -44,6 +48,7 @@ TestMob.Modules.Test = (function() {
 
       sc.init.call(self, options);
 
+      self.failureStartIndex = 0;
       updateDisplay.call(self);
       self.dataContainer.bindEvent("set_complete", updateDisplay, self);
 
