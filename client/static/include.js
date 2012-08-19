@@ -50,14 +50,16 @@
 
   for(var i = 0, len = funcNames.length; i < len; i++) {
     var funcName = funcNames[i];
-    decorated[funcName] = console[funcName].bind(console);
-    console[funcName] = consoleDecorator.bind(console, funcName);
+    decorated[funcName] = console[funcName];
+    console[funcName] = consoleDecorator(funcName);
   }
 
-  function consoleDecorator(funcName, msg) {
-    messages[funcName] = messages[funcName] || [];
-    messages[funcName].push(msg);
-    /*if(decorated[funcName]) decorated[funcName](msg);*/
+  function consoleDecorator(funcName) {
+    return function(msg) {
+      messages[funcName] = messages[funcName] || [];
+      messages[funcName].push(msg);
+      if(decorated[funcName]) decorated[funcName].call(console, msg);
+    };
   }
 }());
 
