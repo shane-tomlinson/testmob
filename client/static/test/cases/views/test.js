@@ -101,6 +101,20 @@
     });
   });
 
+  asyncTest("model with console logs, warnings, errors - print console logs, wranings and errors", function() {
+    model.set("log", [{test_name: "test_name", msg: "console log"}]);
+    model.set("warn", [{test_name: "test_name", msg: "console warn"}]);
+    model.set("error", [{test_name: "test_name", msg: "console error"}]);
+
+    createView({ data: model }, function(view) {
+      equal(view.getTarget().find(".logs ul").children().length, 1, "one log message added");
+      equal(view.getTarget().find(".warnings ul").children().length, 1, "one warning message added");
+      equal(view.getTarget().find(".errors ul").children().length, 1, "one error message added");
+      start();
+    });
+  });
+
+
   asyncTest("stopSuite - trigger the stop_suite message", function() {
     createView({ data: model }, function(view) {
       mediator.subscribe("stop_suite", function(msg, data) {

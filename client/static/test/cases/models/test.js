@@ -29,7 +29,6 @@
     var diff = now - startTime;
 
     ok(diff <= 5, "start_time is within 5 ms of now: " + diff);
-
   });
 
   asyncTest("complete - sets the complete flag and triggers set_complete",

@@ -1,3 +1,4 @@
+/*global QUnit: true */
 (function() {
   "use strict";
   var results,
@@ -18,24 +19,45 @@
 
   var moduleName;
 
-  var origModuleStart = QUnit.moduleStart;
+  var __moduleStart = QUnit.moduleStart;
   QUnit.moduleStart = function(info) {
     moduleName = info.name;
-    if(origModuleStart) origModuleStart(info);
+    if(__moduleStart) __moduleStart.call(QUnit, info);
   };
 
-  var origTestDone = QUnit.testDone;
+  var messages = {};
+  var __testDone = QUnit.testDone;
   QUnit.testDone = function(info) {
     info.name = moduleName + ": " + info.name;
+    for(var key in messages) {
+      info[key] = messages[key];
+    }
+    messages = {};
     sendMessage("test_done", info);
-    if(origTestDone) origTestDone(info);
+    if(__testDone) __testDone.call(QUnit, info);
   };
 
-  var origDone = QUnit.done;
+  var __done = QUnit.done;
   QUnit.done = function(info) {
     sendMessage("suite_complete", info);
-    if(origDone) origDone(info);
+    if(__done) __done.call(QUnit, info);
   };
 
+  window.console = window.console || {};
+
+  var funcNames = ["log", "warn", "error"];
+  var decorated = {};
+
+  for(var i = 0, len = funcNames.length; i < len; i++) {
+    var funcName = funcNames[i];
+    decorated[funcName] = console[funcName].bind(console);
+    console[funcName] = consoleDecorator.bind(console, funcName);
+  }
+
+  function consoleDecorator(funcName, msg) {
+    messages[funcName] = messages[funcName] || [];
+    messages[funcName].push(msg);
+    /*if(decorated[funcName]) decorated[funcName](msg);*/
+  }
 }());
 
