@@ -7,13 +7,20 @@ TestMob.Modules.Family = (function(){
 
   var tm = TestMob,
       XHREvents = tm.XHREvents,
+      dom = tm.DOM,
       moduleManager = tm.moduleManager;
+
+  function updateShowConsole(name) {
+    var checked = $("#" + name).is(":checked");
+    dom[checked ? "addClass" : "removeClass"]("body", name);
+  }
 
   var Module = tm.Module.extend({
     start: function(config) {
       // Only start the family related stuff if the user is at the /family URL.
       if(document.location.href.indexOf("family") == -1) return;
 
+      var self=this;
       moduleManager.start("cookie_check", { ready: function(err, cookiesEnabled) {
         if(err || !cookiesEnabled) return;
 
@@ -31,6 +38,11 @@ TestMob.Modules.Family = (function(){
 
         moduleManager.start("associate", { xhrEvents: xhrEvents });
         moduleManager.start("boss", { xhrEvents: xhrEvents });
+
+        ["show_logs", "show_warnings", "show_errors"].forEach(function(name) {
+          self.bind("#" + name, "click", updateShowConsole.curry(name));
+          updateShowConsole(name);
+        });
       } });
     }
   });

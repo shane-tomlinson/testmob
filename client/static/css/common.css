@@ -294,9 +294,9 @@ li.incomplete .stop {
 }
 
 #results > ol > li.failed > .failures,
-#results > ol > li.has_logs > .logs,
-#results > ol > li.has_warnings > .warnings,
-#results > ol > li.has_errors > .errors {
+.show_logs #results > ol > li.has_logs > .logs,
+.show_warnings #results > ol > li.has_warnings > .warnings,
+.show_errors #results > ol > li.has_errors > .errors {
   display: block;
 }
 
