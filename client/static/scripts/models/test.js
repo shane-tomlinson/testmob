@@ -21,7 +21,10 @@ TestMob.Models.Test = (function() {
       start_time:   { type: "integer", def: 0 },
       msg:          { type: "string", def: undefined },
       url:          { type: "string", def: undefined },
-      user_agent:   { type: "string", def: navigator.userAgent }
+      user_agent:   { type: "string", def: navigator.userAgent },
+      log:         { has_many: true },
+      warn:        { has_many: true },
+      error:       { has_many: true },
     },
 
     init: function(config) {

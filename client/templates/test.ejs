@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
 	<script src="qunit/qunit.js"></script>
 
+  <script src="https://login.persona.org/include.js"></script>
   <%- cachify_js("/production/main.min.js") %>
 
   <script src="mocks/mocks.js"></script>
@@ -47,6 +48,20 @@
     <div id="authentication"></div>
     <ul id="results"></ul>
     <div id="test_result">
+        <aside class="failures">
+          <ul></ul>
+        </aside>
+        <aside class="logs">
+          <ul></ul>
+        </aside>
+        <aside class="warnings">
+          <ul></ul>
+        </aside>
+        <aside class="errors">
+          <ul></ul>
+        </aside>
+    </div>
+    <div id="unaffected_test">
         <aside class="failures">
           <ul></ul>
         </aside>

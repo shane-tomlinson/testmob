@@ -31,7 +31,7 @@
   }
 
   function createView(options, complete) {
-    options = $.extend(options || {}, { target: "#test_result"});
+    options = $.extend(options || {}, { target: options.target || "#test_result"});
     var view = Test.create(options, complete);
     return view;
   }
@@ -86,6 +86,34 @@
       start();
     });
   });
+
+  asyncTest("multiple views with failed_tests - only update correct view", function() {
+    createView({ data: model }, function(view) {
+      createView({ data: createModel("test2"), target: "#unaffected_test" }, function(unaffectedView) {
+        model.set("failed", 1);
+        model.set("failed_tests", ["failed test name"]);
+        model.triggerEvent("set_complete");
+
+        equal(view.getTarget().find(".failures ul").children().length, 1, "one failure added");
+        equal(unaffectedView.getTarget().find(".failures ul").children().length, 0, "no failures added to the unaffected view");
+        start();
+      });
+    });
+  });
+
+  asyncTest("model with console logs, warnings, errors - print console logs, wranings and errors", function() {
+    model.set("log", [{test_name: "test_name", msg: "console log"}]);
+    model.set("warn", [{test_name: "test_name", msg: "console warn"}]);
+    model.set("error", [{test_name: "test_name", msg: "console error"}]);
+
+    createView({ data: model }, function(view) {
+      equal(view.getTarget().find(".logs ul").children().length, 1, "one log message added");
+      equal(view.getTarget().find(".warnings ul").children().length, 1, "one warning message added");
+      equal(view.getTarget().find(".errors ul").children().length, 1, "one error message added");
+      start();
+    });
+  });
+
 
   asyncTest("stopSuite - trigger the stop_suite message", function() {
     createView({ data: model }, function(view) {

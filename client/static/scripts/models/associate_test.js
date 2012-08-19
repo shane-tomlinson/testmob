@@ -35,9 +35,20 @@ TestMob.Models.AssociateTest = (function() {
       self.set("runtime", new Date().getTime() - self.get("start_time"));
       if(data.failed) {
         var failed_tests = self.get("failed_tests");
-        failed_tests.push(data.name);
+        failed_tests.push({ test_name: data.name });
         self.set("failed_tests", failed_tests);
       }
+
+      ['log', 'warn', 'error'].forEach(function(key, index) {
+        if(data[key]) {
+          var messages = self.get(key);
+          data[key].forEach(function(msg, index) {
+            messages.push({ test_name: data.name, msg: msg });
+          });
+          self.set(key, messages);
+        }
+      });
+
       self.triggerEvent("set_complete");
     }
   });

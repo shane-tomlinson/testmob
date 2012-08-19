@@ -279,7 +279,10 @@ li.incomplete .stop {
   display: inline-block;
 }
 
-#results > ol > li > .failures {
+#results > ol > li > .failures,
+#results > ol > li > .logs,
+#results > ol > li > .warnings,
+#results > ol > li > .errors {
   background: #ccc;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -290,7 +293,10 @@ li.incomplete .stop {
   padding: 1em;
 }
 
-#results > ol > li.failed > .failures {
+#results > ol > li.failed > .failures,
+#results > ol > li.has_logs > .logs,
+#results > ol > li.has_warnings > .warnings,
+#results > ol > li.has_errors > .errors {
   display: block;
 }
 

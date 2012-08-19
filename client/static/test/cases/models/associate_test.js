@@ -36,15 +36,20 @@
   asyncTest("update - adds to total, passed and failed, update runtime", function() {
     model = AssociateTest.create({});
 
-    model.set({ total: 1, passed: 1, failed: 1 });
+    model.set({ total: 1, passed: 1, failed: 1, log: ["initial log"],
+      warn: ["initial warning"], error: ["initial error"]});
 
     setTimeout(function() {
-      model.update({ total: 2, passed: 3, failed: 4, name: "Failing Test Name" });
+      model.update({ total: 2, passed: 3, failed: 4, name: "Failing Test Name", log: ["second log message"], warn: ["second warning"], error: ["second error"] });
 
       equal(model.get("total"), 3, "total updated");
       equal(model.get("passed"), 4, "passed updated");
       equal(model.get("failed"), 5, "failed updated");
-      equal(model.get("failed_tests")[0], "Failing Test Name", "failing test name added to list");
+      equal(model.get("failed_tests")[0].test_name, "Failing Test Name", "failing test name added to list");
+      equal(model.get("log")[1].test_name, "Failing Test Name", "logs added");
+      equal(model.get("log")[1].msg, "second log message", "logs added");
+      equal(model.get("warn")[1].msg, "second warning", "warnings added");
+      equal(model.get("error")[1].msg, "second error", "errors added");
 
       ok(model.get("runtime") > 0, "runtime set");
       start();

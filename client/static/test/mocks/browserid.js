@@ -14,16 +14,25 @@ TestMob.Mocks.BrowserID = (function() {
 
     },
 
-    get: function(callback, options) {
-      this.callback = callback;
+    watch: function(options) {
+      this.onlogin = options.onlogin;
+      this.onlogout = options.onlogout;
+    },
+
+    request: function(options) {
+
     },
 
     logout: function(callback) {
-      this.callback = callback;
+      this.onlogout();
     },
 
-    complete: function(status) {
-      this.callback(status);
+    completeLogin: function(status) {
+      this.onlogin(status);
+    },
+
+    completeLogout: function(status) {
+      this.onlogout(status);
     }
   };
 
