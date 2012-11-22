@@ -7,6 +7,9 @@
 */
 
 var assets = {
+  '/lib/html5shim.js': [
+    '/lib/html5shim.js'
+  ],
   "/production/main.min.js": [
     "/lib/jquery.min.js",
     "/lib/ejs.js",

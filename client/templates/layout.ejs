@@ -5,6 +5,9 @@
   <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
   <meta name="format-detection" content="email=no" />
   <title>TestMob <% if(typeof title !== "undefined") { %> - <%= title %><% } %></title>
+  <!--[if lt IE 9]>
+    <%- cachify_js('/lib/html5shim.js') %>
+  <![endif]-->
 
   <%- cachify_css("/production/main.min.css") %>
   <% if (typeof email !== "undefined") { %>
