@@ -1,6 +1,6 @@
 {
     "processes": [ "./server/start.js" ],
     "hooks": {
-      "postdeploy": "scripts/compress.js"
+      "postdeploy": "node scripts/compress.js"
     }
 }

@@ -48,6 +48,7 @@ var assets = {
     "/scripts/start.js"
   ],
   "/production/main.min.css": [
+    "/en/chunkfive/fonts.css",
     "/css/common.css",
     "/css/mobile.css",
     "/css/tablet.css",

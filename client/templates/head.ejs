@@ -9,7 +9,6 @@
     <%- cachify_js('/lib/html5shim.js') %>
   <![endif]-->
 
-  <link type="text/css" rel="stylesheet" href="/en/chunkfive/fonts.css" />
   <%- cachify_css("/production/main.min.css") %>
   <% if (typeof email !== "undefined") { %>
     <script>
@@ -47,15 +46,4 @@
       <h2><%= title %></h2>
     <% } %>
 
-    <%- body %>
-
-    <footer>
-      <a href="https://shanetomlinson.com">Shane Tomlinson</a> &copy; 2012
-    </footer>
-  </div>
-  <script src="/socket.io/socket.io.js"></script>
-  <%- cachify_js("/production/main.min.js") %>
-  <script src="https://login.persona.org/include.js"></script>
-</body>
-</html>
 
