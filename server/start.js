@@ -16,7 +16,9 @@ const express = require("express")
       sockets = require("./sockets"),
       assets = require("./assets").assets,
       config = require("./config").config,
-      redis =  require('redis-url');
+      redis =  require('redis-url'),
+      connect_fonts = require('connect-fonts'),
+      chunkfive = require('connect-fonts-chunkfive');
 
 const IP_ADDRESS=config.ip_address;
 const PORT=config.port;
@@ -40,6 +42,11 @@ app.configure(function(){
       return buffer.toString().replace(regExp, FULL_URL);
     }));
   }
+
+  app.use(connect_fonts.setup({
+    fonts: [ chunkfive ],
+    allow_origin: FULL_URL
+  }));
 
   app.use(cachify.setup(assets, {
       root: root + "static/",

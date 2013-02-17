@@ -15,6 +15,8 @@
     , "redis-url": "0.0.1"
     , "mocha": "0.13.0"
     , "redis": "0.7.2"
+    , "connect-fonts": "0.0.9-alpha6"
+    , "connect-fonts-chunkfive": "0.0.1-alpha1"
    }
   , "scripts": {
         "start": "./server/start.js"

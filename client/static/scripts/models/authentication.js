@@ -35,8 +35,8 @@ TestMob.Models.Authentication = (function() {
     var self=this;
     self.onlogin = callback;
     browserid.request({
-      siteName: "TestMob",
-      siteLogo: "/img/logo_small.png"
+      siteName: "TestMob"/*,
+      siteLogo: "/img/logo_small.png"*/
     });
   }
 
