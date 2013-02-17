@@ -1,27 +1,31 @@
 {
     "name": "testmob"
-  , "version": "0.0.1"
+  , "version": "0.0.2"
   , "private": true
   , "dependencies": {
-      "ejs": "0.4.3"
-    , "connect": "1.8.5"
-    , "express": "2.5.0"
-    , "socket.io": "0.9.8"
+      "ejs": "0.8.3"
+    , "connect": "2.7.2"
+    , "express": "3.1.0"
+    , "socket.io": "0.9.13"
     , "urlparse": "0.0.1"
-    , "postprocess": "0.0.3"
-    , "connect-cachify": "0.0.3"
+    , "connect-cachify": "0.0.13"
     , "uglify-js": "1.2.5"
     , "uglifycss": "0.0.5"
     , "redis-url": "0.0.1"
     , "mocha": "0.13.0"
     , "redis": "0.7.2"
+    , "connect-fonts": "0.0.9-alpha7"
+    , "connect-fonts-chunkfive": "0.0.1-alpha1"
+    , "mkdirp": "0.3.4"
+    , "connect-substitute": "0.0.1-alpha2"
+    , "session.socket.io": "https://shanetomlinson.com/static/session.socket.io-0.1.5.tgz"
    }
   , "scripts": {
         "start": "./server/start.js"
       , "test":  "./node_modules/.bin/mocha -G server/test/cases/*"
   },
   "engines": {
-    "node": ">= 0.4.7"
+    "node": ">= 0.8.12"
   },
   "devDependencies": {
     "awsbox": "0.2.14"
